@@ -16,32 +16,32 @@ public class CarrinhoItemController {
     }
 
     @PostMapping
-    public CarrinhoItem criar(@RequestBody CarrinhoItem item) {
+    public CarrinhoItem save(@RequestBody CarrinhoItem item) {
         return carrinhoItemService.save(item);
     }
 
     @GetMapping
-    public List<CarrinhoItem> listarTodos() {
+    public List<CarrinhoItem> findAll() {
         return carrinhoItemService.findAll();
     }
 
     @GetMapping("/{id}")
-    public CarrinhoItem buscarPorId(@PathVariable Long id) {
+    public CarrinhoItem findById(@PathVariable Long id) {
         return carrinhoItemService.findById(id).orElse(null);
     }
 
     @GetMapping("/carrinho/{carrinhoId}")
-    public List<CarrinhoItem> buscarPorCarrinho(@PathVariable Long carrinhoId) {
+    public List<CarrinhoItem> findByCarrinhoId(@PathVariable Long carrinhoId) {
         return carrinhoItemService.findByCarrinhoId(carrinhoId);
     }
 
     @PutMapping("/{id}")
-    public CarrinhoItem atualizar(@PathVariable Long id, @RequestBody CarrinhoItem item) {
+    public CarrinhoItem update(@PathVariable Long id, @RequestBody CarrinhoItem item) {
         return carrinhoItemService.update(id, item);
     }
 
     @DeleteMapping("/{id}")
-    public void deletar(@PathVariable Long id) {
+    public void delete(@PathVariable Long id) {
         carrinhoItemService.delete(id);
     }
 

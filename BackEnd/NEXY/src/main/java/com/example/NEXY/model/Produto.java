@@ -1,9 +1,6 @@
 package com.example.NEXY.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -24,11 +21,14 @@ public class Produto {
     private Double largura;
     private String imagemUrl;
 
+    @ManyToOne
+    @JoinColumn(name = "categoria_id")
+    private Categoria categoria;
+
     public Produto() {
     }
 
-    public Produto(Double largura, Long id, String nome, String descricao, Integer estoque, Double preco, Double peso, Double altura, String imagemUrl) {
-        this.largura = largura;
+    public Produto(Long id, String nome, String descricao, Integer estoque, Double preco, Double peso, Double altura, Double largura, String imagemUrl, Categoria categoria) {
         this.id = id;
         this.nome = nome;
         this.descricao = descricao;
@@ -36,7 +36,9 @@ public class Produto {
         this.preco = preco;
         this.peso = peso;
         this.altura = altura;
+        this.largura = largura;
         this.imagemUrl = imagemUrl;
+        this.categoria = categoria;
     }
 
     public Long getId() {
@@ -109,5 +111,13 @@ public class Produto {
 
     public void setImagemUrl(String imagemUrl) {
         this.imagemUrl = imagemUrl;
+    }
+
+    public Categoria getCategoria() {
+        return categoria;
+    }
+
+    public void setCategoria(Categoria categoria) {
+        this.categoria = categoria;
     }
 }

@@ -20,7 +20,7 @@ public class CarrinhoService {
         this.produtoRepository = produtoRepository;
     }
 
-    public Carrinho criar(Carrinho carrinho) {
+    public Carrinho save(Carrinho carrinho) {
         return carrinhoRepository.save(carrinho);
     }
 
