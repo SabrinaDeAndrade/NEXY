@@ -15,27 +15,35 @@ import java.util.List;
 @Service
 public class ProdutoService {
     private final ProdutoRepository produtoRepository;
+    private final CategoriaService categoriaService;
 
-    @Autowired
-    public ProdutoService(ProdutoRepository produtoRepository) {
+    public ProdutoService(ProdutoRepository produtoRepository, CategoriaService categoriaService) {
         this.produtoRepository = produtoRepository;
+        this.categoriaService = categoriaService;
     }
 
-    public Produto salvar(Produto produto) {
+
+    public Produto save(Produto produto) {
+
+        if (produto.getCategoria() != null && produto.getCategoria().getId() != null) {
+            produto.setCategoria(
+                    categoriaService.findById(produto.getCategoria().getId())
+            );
+        }
         return produtoRepository.save(produto);
     }
 
-    public Produto buscarPorId(Long id) {
+    public Produto findById(Long id) {
         return produtoRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Produto não encontrado!"));
     }
 
-    public List<Produto> listarTodos() {
+    public List<Produto> findAll() {
         return produtoRepository.findAll();
     }
 
-    public Produto atualizar(Long id, Produto produtoAtualizado) {
-        Produto produto = buscarPorId(id);
+    public Produto update(Long id, Produto produtoAtualizado) {
+        Produto produto = findById(id);
         produto.setNome(produtoAtualizado.getNome());
         produto.setDescricao(produtoAtualizado.getDescricao());
         produto.setPreco(produtoAtualizado.getPreco());
@@ -43,15 +51,21 @@ public class ProdutoService {
         produto.setPeso(produtoAtualizado.getPeso());
         produto.setAltura(produtoAtualizado.getAltura());
         produto.setLargura(produtoAtualizado.getLargura());
+
+        if (produtoAtualizado.getCategoria() != null && produtoAtualizado.getCategoria().getId() != null) {
+            produto.setCategoria(
+                    categoriaService.findById(produtoAtualizado.getCategoria().getId())
+            );
+        }
         return produtoRepository.save(produto);
     }
 
-    public void deletar(Long id) {
+    public void delete(Long id) {
         produtoRepository.deleteById(id);
     }
 
     public String salvarImagem(Long id, MultipartFile imagem) throws IOException {
-        Produto produto = buscarPorId(id);
+        Produto produto = findById(id);
 
         if (imagem.isEmpty()) {
             throw new RuntimeException("Arquivo não enviado!");

@@ -1,17 +1,13 @@
 package com.example.NEXY.controller;
 
 import com.example.NEXY.model.Produto;
+import com.example.NEXY.service.CategoriaService;
 import com.example.NEXY.service.ProdutoService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.List;
 @RestController
 @RequestMapping("/produtos")
@@ -19,33 +15,33 @@ public class ProdutoController {
 
         private final ProdutoService produtoService;
 
-        public ProdutoController(ProdutoService produtoService) {
-            this.produtoService = produtoService;
-        }
+    public ProdutoController(ProdutoService produtoService, CategoriaService categoriaService) {
+        this.produtoService = produtoService;
+    }
 
-        @PostMapping
-        public Produto criar(@RequestBody Produto produto) {
-            return produtoService.salvar(produto);
+    @PostMapping
+        public Produto save(@RequestBody Produto produto) {
+            return produtoService.save(produto);
         }
 
         @GetMapping
-        public List<Produto> listarTodos() {
-            return produtoService.listarTodos();
+        public List<Produto> findAll() {
+            return produtoService.findAll();
         }
 
         @GetMapping("/{id}")
-        public Produto buscarPorId(@PathVariable Long id) {
-            return produtoService.buscarPorId(id);
+        public Produto findById(@PathVariable Long id) {
+            return produtoService.findById(id);
         }
 
         @PutMapping("/{id}")
-        public Produto atualizar(@PathVariable Long id, @RequestBody Produto produto) {
-            return produtoService.atualizar(id, produto);
+        public Produto update(@PathVariable Long id, @RequestBody Produto produto) {
+            return produtoService.update(id, produto);
         }
 
         @DeleteMapping("/{id}")
-        public void deletar(@PathVariable Long id) {
-            produtoService.deletar(id);
+        public void delete(@PathVariable Long id) {
+            produtoService.delete(id);
         }
 
     @PostMapping("/{id}/upload-imagem")

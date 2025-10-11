@@ -18,32 +18,32 @@ public class PedidoController {
     }
 
     @PostMapping
-    public Pedido criar(@RequestBody Pedido pedido) {
+    public Pedido save(@RequestBody Pedido pedido) {
         return pedidoService.save(pedido);
     }
 
     @GetMapping
-    public List<Pedido> listarTodos() {
+    public List<Pedido> findAll() {
         return pedidoService.findAll();
     }
 
     @GetMapping("/{id}")
-    public Pedido buscarPorId(@PathVariable Long id) {
+    public Pedido findById(@PathVariable Long id) {
         return pedidoService.findById(id).orElse(null);
     }
 
     @GetMapping("/cliente/{clienteId}")
-    public List<Pedido> buscarPorCliente(@PathVariable Long clienteId) {
+    public List<Pedido> findByClienteId(@PathVariable Long clienteId) {
         return pedidoService.findByClienteId(clienteId);
     }
 
     @PutMapping("/{id}")
-    public Pedido atualizar(@PathVariable Long id, @RequestBody Pedido pedido) {
+    public Pedido update(@PathVariable Long id, @RequestBody Pedido pedido) {
         return pedidoService.update(id, pedido);
     }
 
     @DeleteMapping("/{id}")
-    public void deletar(@PathVariable Long id) {
+    public void delete(@PathVariable Long id) {
         pedidoService.delete(id);
     }
 
