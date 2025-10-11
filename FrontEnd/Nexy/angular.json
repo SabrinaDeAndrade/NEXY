@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "Nexy": {
+    "loja-vendas": {
       "projectType": "application",
       "schematics": {},
       "root": "",
@@ -25,8 +25,14 @@
               }
             ],
             "styles": [
-              "src/styles.css"
-            ]
+  "node_modules/bootstrap/dist/css/bootstrap.min.css",
+  "src/styles.css"
+],
+"scripts": [
+  "./node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"
+]
+
+
           },
           "configurations": {
             "production": {
@@ -56,10 +62,10 @@
           "builder": "@angular/build:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "Nexy:build:production"
+              "buildTarget": "loja-vendas:build:production"
             },
             "development": {
-              "buildTarget": "Nexy:build:development"
+              "buildTarget": "loja-vendas:build:development"
             }
           },
           "defaultConfiguration": "development"

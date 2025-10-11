@@ -16,24 +16,24 @@ public class CarrinhoController {
     }
 
     @GetMapping("/cliente/{clienteId}")
-    public Carrinho buscarPorCliente(@PathVariable Long clienteId) {
+    public Carrinho findByClienteId(@PathVariable Long clienteId) {
         return carrinhoService.findByClienteId(clienteId).orElse(null);
     }
 
     @PutMapping("/{id}")
-    public Carrinho atualizar(@PathVariable Long id, @RequestBody Carrinho carrinho) {
+    public Carrinho update(@PathVariable Long id, @RequestBody Carrinho carrinho) {
         return carrinhoService.update(id, carrinho);
     }
 
 
     @PostMapping
-    public Carrinho criar(@RequestBody Carrinho carrinho) {
-        return carrinhoService.criar(carrinho);
+    public Carrinho save(@RequestBody Carrinho carrinho) {
+        return carrinhoService.save(carrinho);
     }
 
 
     @DeleteMapping("/{id}")
-    public void deletar(@PathVariable Long id) {
+    public void delete(@PathVariable Long id) {
         carrinhoService.remover(id);
     }
 

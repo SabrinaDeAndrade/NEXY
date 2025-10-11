@@ -18,32 +18,32 @@ public class ClienteCartaoController {
     }
 
     @PostMapping
-    public ClienteCartao criar(@RequestBody ClienteCartao cartao) {
+    public ClienteCartao save(@RequestBody ClienteCartao cartao) {
         return clienteCartaoService.save(cartao);
     }
 
     @GetMapping
-    public List<ClienteCartao> listarTodos() {
+    public List<ClienteCartao> findAll() {
         return clienteCartaoService.findAll();
     }
 
     @GetMapping("/{id}")
-    public ClienteCartao buscarPorId(@PathVariable Long id) {
+    public ClienteCartao findById(@PathVariable Long id) {
         return clienteCartaoService.findById(id).orElse(null);
     }
 
     @GetMapping("/cliente/{clienteId}")
-    public List<ClienteCartao> buscarPorCliente(@PathVariable Long clienteId) {
+    public List<ClienteCartao> findByClienteId(@PathVariable Long clienteId) {
         return clienteCartaoService.findByClienteId(clienteId);
     }
 
     @PutMapping("/{id}")
-    public ClienteCartao atualizar(@PathVariable Long id, @RequestBody ClienteCartao cartao) {
+    public ClienteCartao update(@PathVariable Long id, @RequestBody ClienteCartao cartao) {
         return clienteCartaoService.update(id, cartao);
     }
 
     @DeleteMapping("/{id}")
-    public void deletar(@PathVariable Long id) {
+    public void delete(@PathVariable Long id) {
         clienteCartaoService.delete(id);
     }
 }
