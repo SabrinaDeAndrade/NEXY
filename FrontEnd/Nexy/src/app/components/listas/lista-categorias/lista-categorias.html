@@ -1,0 +1,9 @@
+<div class="list-group">
+  <h4>Categorias</h4>
+  <a *ngFor="let categoria of categorias"
+     class="list-group-item list-group-item-action"
+     (click)="selectCategory(categoria.id)"
+     [class.active]="categoria.id === CategoriaPorId">
+    {{ categoria.nome }}
+  </a>
+</div>

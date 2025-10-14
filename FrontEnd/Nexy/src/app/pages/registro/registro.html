@@ -1,0 +1,32 @@
+<div class="auth-container">
+  <form class="auth-form" [formGroup]="registroForm" (ngSubmit)="onSubmit()">
+    <h2>Crie sua Conta</h2>
+    
+    <div class="form-group">
+      <label for="nome">Nome Completo</label>
+      <input id="nome" type="text" formControlName="nome">
+    </div>
+    <div class="form-group">
+      <label for="email">Email</label>
+      <input id="email" type="email" formControlName="email">
+    </div>
+    <div class="form-group">
+      <label for="senha">Senha</label>
+      <input id="senha" type="password" formControlName="senha">
+    </div>
+    <div class="form-group">
+      <label for="cpf">CPF</label>
+      <input id="cpf" type="text" formControlName="cpf">
+    </div>
+    <div class="form-group">
+      <label for="telefone">Telefone</label>
+      <input id="telefone" type="text" formControlName="telefone">
+    </div>
+    
+    <button type="submit" [disabled]="registroForm.invalid">Cadastrar</button>
+
+    <div class="form-link">
+      <p>Já tem uma conta? <a routerLink="/login">Faça o login</a></p>
+    </div>
+  </form>
+</div>

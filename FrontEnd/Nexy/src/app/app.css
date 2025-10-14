@@ -1,0 +1,17 @@
+
+.fundo-total {
+  width: 100%;
+  background-color: black;
+  padding: 20px 0; 
+}
+
+.container-conteudo {
+  max-width: 1500px; 
+  margin: 0 auto;   
+  padding: 0 20px;   
+}
+.corpo{
+    min-height: 70vh;
+    margin: 0px;
+    padding: 0px;
+}

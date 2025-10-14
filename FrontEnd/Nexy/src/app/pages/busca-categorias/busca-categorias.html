@@ -1,0 +1,11 @@
+<div class="busca-categorias-container">
+  <div class="categorias">
+    <app-lista-categorias [categorias]="todasCategorias" [CategoriaPorId]="categoriaSelecionadaId"
+      (categorySelected)="onCategorySelected($event)">
+    </app-lista-categorias>
+  </div>
+
+  <div class="produtos">
+    <app-lista-produtos [produtos]="produtosParaExibir"></app-lista-produtos>
+  </div>
+</div>

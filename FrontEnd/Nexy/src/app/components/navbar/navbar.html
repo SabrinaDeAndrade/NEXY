@@ -1,23 +1,17 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm">
+<nav class="navbar">
   <div class="container">
-    <a class="navbar-brand text-primary fw-bold" routerLink="/">Loja Vendas</a>
-
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-
-    <div class="collapse navbar-collapse" id="navbarNav">
-      <ul class="navbar-nav ms-auto">
-        <li class="nav-item"><a class="nav-link text-dark" routerLink="/">Home</a></li>
-        <li class="nav-item"><a class="nav-link text-dark" routerLink="/categorias">Categorias</a></li>
-        <li class="nav-item"><a class="nav-link text-dark" routerLink="/sobre">Sobre</a></li>
-        <li class="nav-item"><a class="nav-link text-dark" routerLink="/login">Login</a></li>
-        <li class="nav-item">
-          <a class="nav-link text-dark" routerLink="/carrinho">
-            🛒 Carrinho
-          </a>
-        </li>
-      </ul>
-    </div>
+  <a class="logo" routerLink="/">
+  <img src="/img/sem-imagem.png" alt="Logo da Loja Nexy" width="120" height="auto">
+</a>
+    <ul class="nav-links navbar-nav ms-auto">
+      <li><a routerLink="/home">Home</a></li>
+      <li><a routerLink="/categorias">Categorias</a></li>
+      <li><a routerLink="/sobre">Sobre</a></li>
+      <li><a routerLink="/login">Login</a></li>
+      <li><a routerLink="/cadastroProduto">Cadastro de Produtos</a></li>
+      <div>
+        <li><a routerLink="/carrinho">🛒 Carrinho</a></li>
+      </div>
+    </ul>
   </div>
 </nav>

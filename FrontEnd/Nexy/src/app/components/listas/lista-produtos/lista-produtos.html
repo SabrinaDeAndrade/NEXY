@@ -1,0 +1,7 @@
+<div class="product-grid">
+  <app-cards *ngFor="let p of produtos" [produto]="p"></app-cards>
+</div>
+
+<div *ngIf="produtos.length === 0" class="no-products">
+  <p>Selecione uma categoria para ver os produtos.</p>
+</div>

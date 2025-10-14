@@ -9,5 +9,5 @@ export interface CarrinhoItem {
   quantidade: number;
   precoUnitario: number;
   produto: Produto;
-  carrinho: Carrinho;
+  carrinho: Partial<Carrinho>;
 }
