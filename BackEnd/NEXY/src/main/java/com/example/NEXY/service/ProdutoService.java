@@ -2,6 +2,7 @@ package com.example.NEXY.service;
 
 import com.example.NEXY.model.Produto;
 import com.example.NEXY.repository.ProdutoRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -12,10 +13,15 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
+
 @Service
 public class ProdutoService {
     private final ProdutoRepository produtoRepository;
     private final CategoriaService categoriaService;
+
+    private static final String UPLOAD_DIR = "uploads/";
 
     public ProdutoService(ProdutoRepository produtoRepository, CategoriaService categoriaService) {
         this.produtoRepository = produtoRepository;
@@ -23,73 +29,84 @@ public class ProdutoService {
     }
 
 
+    @Transactional
     public Produto save(Produto produto) {
+        if (produto.getId() == null || produto.getId() == 0) {
+            // Produto novo
+            return produtoRepository.save(produto);
+        } else {
+            // Atualização de produto existente
+            Optional<Produto> produtoExistenteOpt = produtoRepository.findById(produto.getId());
+            if (produtoExistenteOpt.isEmpty()) {
+                throw new RuntimeException("Produto não encontrado com id " + produto.getId());
+            }
 
-        if (produto.getCategoria() != null && produto.getCategoria().getId() != null) {
-            produto.setCategoria(
-                    categoriaService.findById(produto.getCategoria().getId())
-            );
+            Produto produtoExistente = produtoExistenteOpt.get();
+            produtoExistente.setNome(produto.getNome());
+            produtoExistente.setDescricao(produto.getDescricao());
+            produtoExistente.setPreco(produto.getPreco());
+            produtoExistente.setEstoque(produto.getEstoque());
+            produtoExistente.setPeso(produto.getPeso());
+            produtoExistente.setAltura(produto.getAltura());
+            produtoExistente.setLargura(produto.getLargura());
+            produtoExistente.setCategoria(produto.getCategoria());
+            produtoExistente.setImagemUrl(produto.getImagemUrl());
+
+            return produtoRepository.save(produtoExistente);
         }
-        return produtoRepository.save(produto);
     }
 
+    @Transactional
     public Produto findById(Long id) {
         return produtoRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Produto não encontrado!"));
+                .orElseThrow(() -> new RuntimeException("Produto não encontrado com id " + id));
     }
+
 
     public List<Produto> findAll() {
         return produtoRepository.findAll();
     }
 
-    public Produto update(Long id, Produto produtoAtualizado) {
-        Produto produto = findById(id);
-        produto.setNome(produtoAtualizado.getNome());
-        produto.setDescricao(produtoAtualizado.getDescricao());
-        produto.setPreco(produtoAtualizado.getPreco());
-        produto.setEstoque(produtoAtualizado.getEstoque());
-        produto.setPeso(produtoAtualizado.getPeso());
-        produto.setAltura(produtoAtualizado.getAltura());
-        produto.setLargura(produtoAtualizado.getLargura());
 
-        if (produtoAtualizado.getCategoria() != null && produtoAtualizado.getCategoria().getId() != null) {
-            produto.setCategoria(
-                    categoriaService.findById(produtoAtualizado.getCategoria().getId())
-            );
-        }
-        return produtoRepository.save(produto);
-    }
 
     public void delete(Long id) {
         produtoRepository.deleteById(id);
     }
 
+    @Transactional
     public String salvarImagem(Long id, MultipartFile imagem) throws IOException {
-        Produto produto = findById(id);
+        Produto produto = produtoRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Produto não encontrado com ID: " + id));
 
-        if (imagem.isEmpty()) {
-            throw new RuntimeException("Arquivo não enviado!");
+        try {
+            // Cria pasta se não existir
+            File diretorio = new File(UPLOAD_DIR);
+            if (!diretorio.exists()) {
+                diretorio.mkdirs();
+            }
+
+            // Gera nome único para a imagem
+            String nomeArquivo = UUID.randomUUID() + "_" + imagem.getOriginalFilename();
+
+            // Caminho completo para salvar
+            Path caminhoArquivo = Paths.get(UPLOAD_DIR + nomeArquivo);
+
+            // Salva o arquivo fisicamente
+            Files.write(caminhoArquivo, imagem.getBytes());
+
+            // Atualiza o produto com a URL da imagem (pode ser um caminho relativo)
+            produto.setImagemUrl("/uploads/" + nomeArquivo);
+            produtoRepository.save(produto);
+
+            return produto.getImagemUrl();
+
+        } catch (IOException e) {
+            throw new RuntimeException("Erro ao salvar imagem: " + e.getMessage());
         }
+    }
 
-        // Diretório de upload
-        String pastaUpload = "uploads/";
-        File diretorio = new File(pastaUpload);
-        if (!diretorio.exists()) {
-            diretorio.mkdirs();
-        }
+    public List<Produto> getProductsByCategoryId(Long categoriaId) {
+        return produtoRepository.findByCategoriaId(categoriaId);
 
-        // Gera nome único
-        String nomeArquivo = System.currentTimeMillis() + "_" + imagem.getOriginalFilename();
-        Path caminhoArquivo = Paths.get(pastaUpload + nomeArquivo);
-
-        // Salva arquivo
-        Files.write(caminhoArquivo, imagem.getBytes());
-
-        // Atualiza URL no produto
-        String urlImagem = "http://localhost:8080/uploads/" + nomeArquivo;
-        produto.setImagemUrl(urlImagem);
-        produtoRepository.save(produto);
-
-        return urlImagem;
     }
 }

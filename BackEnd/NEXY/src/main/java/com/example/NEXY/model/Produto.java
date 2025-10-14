@@ -25,6 +25,9 @@ public class Produto {
     @JoinColumn(name = "categoria_id")
     private Categoria categoria;
 
+    @Version
+    private Long version;
+
     public Produto() {
     }
 

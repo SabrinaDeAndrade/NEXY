@@ -16,16 +16,6 @@ public class ClienteController {
         this.clienteService = clienteService;
     }
 
-    @PostMapping
-    public Cliente save(@RequestBody Cliente cliente) {
-        return clienteService.save(cliente);
-    }
-
-    @PostMapping("/login")
-    public Cliente login(@RequestBody Cliente cliente) {
-        return clienteService.login(cliente.getEmail(), cliente.getSenha())
-                .orElse(null);
-    }
 
     @GetMapping
     public List<Cliente> findAll() {
