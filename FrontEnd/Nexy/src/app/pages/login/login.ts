@@ -15,7 +15,7 @@ import { Cliente } from '../../interfaces/Cliente';
   styleUrl: './login.css'
 })
 export class Login {
-loginForm: FormGroup;
+  loginForm: FormGroup;
 
   constructor(
     private fb: FormBuilder,
@@ -32,14 +32,12 @@ loginForm: FormGroup;
   onSubmit(): void {
     if (this.loginForm.valid) {
       this.authService.login(this.loginForm.value).subscribe({
-        // CORRIGIDO: Adiciona o tipo do parâmetro
-        next: (clienteLogado: Cliente) => {
-          console.log('Login bem-sucedido!', clienteLogado);
+        next: (resposta: LoginResponseDTO) => {
+          console.log('Login bem-sucedido!', resposta);
           alert('Login realizado com sucesso!');
-          this.carrinhoStateService.sincronizarCarrinhoAoLogar(clienteLogado.id);
+          this.carrinhoStateService.sincronizarCarrinhoAoLogar(resposta.clienteId);
           this.router.navigate(['/']);
         },
-        // CORRIGIDO: Adiciona o tipo do erro
         error: (err: HttpErrorResponse) => {
           console.error('Erro no login:', err);
           alert('Erro: Email ou senha inválidos.');

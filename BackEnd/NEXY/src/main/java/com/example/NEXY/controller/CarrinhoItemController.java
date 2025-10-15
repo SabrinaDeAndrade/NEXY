@@ -2,9 +2,12 @@ package com.example.NEXY.controller;
 
 import com.example.NEXY.model.CarrinhoItem;
 import com.example.NEXY.service.CarrinhoItemService;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/carrinho-itens")
@@ -16,9 +19,15 @@ public class CarrinhoItemController {
     }
 
     @PostMapping
-    public CarrinhoItem save(@RequestBody CarrinhoItem item) {
-        return carrinhoItemService.save(item);
+    public ResponseEntity<CarrinhoItem> criarItem(@RequestBody CarrinhoItem item) {
+        CarrinhoItem itemSalvo = carrinhoItemService.criar(item);
+        return ResponseEntity.status(HttpStatus.CREATED).body(itemSalvo);
     }
+
+//    @PostMapping
+//    public CarrinhoItem save(@RequestBody CarrinhoItem item) {
+//        return carrinhoItemService.save(item);
+//    }
 
     @GetMapping
     public List<CarrinhoItem> findAll() {
@@ -36,13 +45,23 @@ public class CarrinhoItemController {
     }
 
     @PutMapping("/{id}")
-    public CarrinhoItem update(@PathVariable Long id, @RequestBody CarrinhoItem item) {
-        return carrinhoItemService.update(id, item);
+    public ResponseEntity<CarrinhoItem> atualizarQuantidade(
+            @PathVariable Long id,
+            @RequestBody Map<String, Integer> payload) {
+
+        Integer novaQuantidade = payload.get("quantidade");
+        if (novaQuantidade == null || novaQuantidade < 0) {
+            return ResponseEntity.badRequest().build();
+        }
+
+        CarrinhoItem itemAtualizado = carrinhoItemService.atualizarQuantidade(id, novaQuantidade);
+        return ResponseEntity.ok(itemAtualizado);
     }
 
     @DeleteMapping("/{id}")
-    public void delete(@PathVariable Long id) {
+    public ResponseEntity<Void> deletarItem(@PathVariable Long id) {
         carrinhoItemService.delete(id);
+        return ResponseEntity.noContent().build();
     }
 
 }

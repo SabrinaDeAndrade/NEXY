@@ -1,7 +1,9 @@
 package com.example.NEXY.service;
 
 import com.example.NEXY.model.Carrinho;
+import com.example.NEXY.model.Cliente;
 import com.example.NEXY.repository.CarrinhoRepository;
+import com.example.NEXY.repository.ClienteRepository;
 import com.example.NEXY.repository.ProdutoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,21 +14,44 @@ import java.util.Optional;
 public class CarrinhoService {
 
     private final CarrinhoRepository carrinhoRepository;
+    private final ClienteRepository clienteRepository;
     private final ProdutoRepository produtoRepository;
 
     @Autowired
-    public CarrinhoService(CarrinhoRepository carrinhoRepository, ProdutoRepository produtoRepository) {
+    public CarrinhoService(CarrinhoRepository carrinhoRepository, ProdutoRepository produtoRepository, ClienteRepository clienteRepository) {
         this.carrinhoRepository = carrinhoRepository;
         this.produtoRepository = produtoRepository;
+        this.clienteRepository = clienteRepository;
+    }
+
+    public Optional<Carrinho> buscarPorCliente(Long clienteId) {
+        return carrinhoRepository.findByClienteId(clienteId);
+    }
+
+    public Carrinho criarParaCliente(Long clienteId) {
+        // Verifica se o carrinho já não existe
+        if (carrinhoRepository.findByClienteId(clienteId).isPresent()) {
+            throw new RuntimeException("Cliente já possui um carrinho.");
+        }
+
+        Cliente cliente = clienteRepository.findById(clienteId)
+                .orElseThrow(() -> new RuntimeException("Cliente não encontrado."));
+
+        Carrinho novoCarrinho = new Carrinho();
+        novoCarrinho.setCliente(cliente);
+
+        return carrinhoRepository.save(novoCarrinho);
+    }
+
+
+    public Optional<Carrinho> findByClienteId(Long clienteId) {
+        return carrinhoRepository.findByClienteId(clienteId);
     }
 
     public Carrinho save(Carrinho carrinho) {
         return carrinhoRepository.save(carrinho);
     }
 
-    public Optional<Carrinho> findByClienteId(Long clienteId) {
-        return carrinhoRepository.findByClienteId(clienteId);
-    }
 
     public Carrinho update(Long id, Carrinho carrinhoAtualizado) {
         return carrinhoRepository.findById(id).map(carrinho -> {

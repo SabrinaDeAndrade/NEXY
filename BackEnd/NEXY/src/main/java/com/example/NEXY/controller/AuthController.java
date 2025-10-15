@@ -9,7 +9,11 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Map;
+
 record LoginDTO(String email, String senha) {}
+record LoginResponseDTO(Long clienteId, String nomeCliente, String mensagem, String token) {}
+
 
 @RestController
 @RequestMapping("/auth")
@@ -22,7 +26,7 @@ public class AuthController {
         this.authenticationManager = authenticationManager;
     }
 
-    @PostMapping("/register") // Mudado de 'registrar' para o padrão 'register'
+    @PostMapping("/register")
     public ResponseEntity<?> registrar(@RequestBody Cliente cliente) {
         try {
             Cliente novoCliente = clienteService.registrar(cliente);
@@ -35,20 +39,22 @@ public class AuthController {
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody LoginDTO loginDTO) {
         try {
-            // Cria o objeto de autenticação que o Spring Security espera
             var usernamePassword = new UsernamePasswordAuthenticationToken(loginDTO.email(), loginDTO.senha());
-
-            // O AuthenticationManager processa a tentativa de login.
-            // Ele usará o PasswordEncoder e buscará o usuário no banco (via UserDetailsService, que implementaremos a seguir se necessário)
             Authentication auth = this.authenticationManager.authenticate(usernamePassword);
 
-            // Se a autenticação for bem-sucedida, o código continua.
-            // Futuramente, aqui você gerará um token JWT.
-            return ResponseEntity.ok("Login bem-sucedido! O usuário " + auth.getName() + " está autenticado.");
+            // Busca o cliente completo para obter o ID e o nome
+            Cliente cliente = (Cliente) clienteService.findByEmail(auth.getName())
+                    .orElseThrow(() -> new RuntimeException("Cliente não encontrado após autenticação"));
+
+            // Futuramente, você vai gerar o token aqui
+            String tokenJwt = "TOKEN_JWT_AQUI";
+
+            var response = new LoginResponseDTO(cliente.getId(), cliente.getNome(), "Login bem-sucedido!", tokenJwt);
+            return ResponseEntity.ok(response);
 
         } catch (Exception e) {
-            // Se as credenciais estiverem erradas, ele lança uma exceção
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Credenciais inválidas.");
+            // Retorna um objeto JSON também no erro
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of("erro", "Credenciais inválidas."));
         }
     }
 }

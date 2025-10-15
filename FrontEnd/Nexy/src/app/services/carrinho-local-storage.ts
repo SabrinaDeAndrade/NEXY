@@ -6,7 +6,7 @@ import { Produto } from '../interfaces/Produto';
   providedIn: 'root'
 })
 export class CarrinhoLocalStorageService {
-  private storageKey = 'carrinho_anonimo';
+   private storageKey = 'carrinho_anonimo';
 
   constructor() { }
 
@@ -31,16 +31,30 @@ export class CarrinhoLocalStorageService {
         produto: produto,
         quantidade: quantidade,
         precoUnitario: produto.preco,
-        carrinho: null! // Não pertence a um carrinho do banco de dados
+        carrinho: null!
       };
       itens.push(novoItem);
     }
     this.salvar(itens);
   }
 
+  public removerItem(itemId: number): void {
+    let itens = this.getItens();
+    itens = itens.filter(item => item.id !== itemId);
+    this.salvar(itens);
+  }
+
+  public atualizarQuantidade(itemId: number, quantidade: number): void {
+    const itens = this.getItens();
+    const itemParaAtualizar = itens.find(item => item.id === itemId);
+
+    if (itemParaAtualizar) {
+      itemParaAtualizar.quantidade = quantidade;
+      this.salvar(itens);
+    }
+  }
+
   public limparCarrinho(): void {
     localStorage.removeItem(this.storageKey);
   }
-
-  
 }

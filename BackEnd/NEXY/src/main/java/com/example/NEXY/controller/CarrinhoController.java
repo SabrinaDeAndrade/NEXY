@@ -3,6 +3,8 @@ package com.example.NEXY.controller;
 import com.example.NEXY.model.Carrinho;
 import com.example.NEXY.service.CarrinhoService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -15,9 +17,17 @@ public class CarrinhoController {
         this.carrinhoService = carrinhoService;
     }
 
+    @PostMapping
+    public ResponseEntity<Carrinho> criarCarrinho(@RequestBody Carrinho carrinho) {
+        Carrinho novoCarrinho = carrinhoService.criarParaCliente(carrinho.getCliente().getId());
+        return ResponseEntity.status(HttpStatus.CREATED).body(novoCarrinho);
+    }
+
     @GetMapping("/cliente/{clienteId}")
-    public Carrinho findByClienteId(@PathVariable Long clienteId) {
-        return carrinhoService.findByClienteId(clienteId).orElse(null);
+    public ResponseEntity<Carrinho> buscarPorCliente(@PathVariable Long clienteId) {
+        return carrinhoService.buscarPorCliente(clienteId)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
     }
 
     @PutMapping("/{id}")
@@ -26,10 +36,10 @@ public class CarrinhoController {
     }
 
 
-    @PostMapping
-    public Carrinho save(@RequestBody Carrinho carrinho) {
-        return carrinhoService.save(carrinho);
-    }
+//    @PostMapping
+//    public Carrinho save(@RequestBody Carrinho carrinho) {
+//        return carrinhoService.save(carrinho);
+//    }
 
 
     @DeleteMapping("/{id}")

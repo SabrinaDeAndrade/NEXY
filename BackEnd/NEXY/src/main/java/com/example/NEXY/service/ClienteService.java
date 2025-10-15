@@ -30,6 +30,10 @@ public class ClienteService {
         return clienteRepository.save(cliente);
     }
 
+    public Optional<Cliente> findByEmail(String email) {
+        return clienteRepository.findByEmail(email);
+    }
+
     // LOGIN do cliente
     public Cliente login(String email, String senha) {
         Cliente cliente = clienteRepository.findByEmail(email)

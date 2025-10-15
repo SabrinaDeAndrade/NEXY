@@ -1,4 +1,56 @@
-<div class="container my-5 text-center">
-  <h2 class="text-primary">Carrinho de Compras</h2>
-  <p>Seus produtos aparecerão aqui.</p>
+<div class="carrinho-container">
+  <h2>Meu Carrinho</h2>
+
+  <div *ngIf="(itens$ | async)?.length === 0; else carrinhoCheio" class="carrinho-vazio">
+    <p>Seu carrinho está vazio.</p>
+    <a routerLink="/categorias" class="btn-continuar">Continuar Comprando</a>
+  </div>
+
+  <ng-template #carrinhoCheio>
+    <table class="tabela-carrinho">
+      <thead>
+        <tr>
+          <th colspan="2">Produto</th>
+          <th>Preço Unitário</th>
+          <th>Quantidade</th>
+          <th>Subtotal</th>
+          <th>Ação</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of (itens$ | async)">
+          <td class="coluna-imagem">
+            <img [src]="item.produto.imagemUrl" [alt]="item.produto.nome">
+          </td>
+          <td class="coluna-nome">
+            {{ item.produto.nome }}
+          </td>
+          <td>{{ item.precoUnitario | currency:'BRL' }}</td>
+          <td>
+            <input 
+              type="number" 
+              [value]="item.quantidade" 
+              (change)="atualizarQuantidade(item.id, $event)"
+              min="1"
+              class="input-quantidade">
+          </td>
+          <td>
+            {{ (item.precoUnitario * item.quantidade) | currency:'BRL' }}
+          </td>
+          <td>
+            <button (click)="removerItem(item.id)" class="btn-remover">Remover</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="carrinho-resumo">
+      <h3>Resumo do Pedido</h3>
+      <div class="total">
+        <span>Total:</span>
+        <strong>{{ valorTotal$ | async | currency:'BRL' }}</strong>
+      </div>
+      <button class="btn-finalizar">Finalizar Compra</button>
+    </div>
+  </ng-template>
 </div>

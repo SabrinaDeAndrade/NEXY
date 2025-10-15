@@ -1,5 +1,6 @@
 package com.example.NEXY.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -20,9 +21,18 @@ public class CarrinhoItem {
     @ManyToOne
     private Produto produto;
 
+    @JsonBackReference
     @ManyToOne
     @JoinColumn(name = "carrinho_id")
     private Carrinho carrinho;
+
+    @PreRemove
+    public void removerDoCarrinho() {
+        if (this.carrinho != null) {
+            this.carrinho.getItens().remove(this);
+            this.carrinho = null;
+        }
+    }
 
     public CarrinhoItem() {
     }
