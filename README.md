@@ -1,91 +1,85 @@
-# LojaVendas
+# LojaNexy — THE LIMIT IS THE SKY 🚀
 
-Este projeto foi desenvolvido utilizando o **Angular CLI — versão 20.3.4**.
+### Projeto final de Angular do programa +Devs2Blu
 
-## Servidor de Desenvolvimento
+## 🌐 Sobre a NEXY
 
-Para iniciar o servidor local de desenvolvimento, execute:
-
-```bash
-ng serve
-```
-
-Após a execução, acesse em seu navegador http://localhost:4200/ 
-
-A aplicação será recarregada automaticamente sempre que houver modificações nos arquivos de origem.
-
-## Geração de Código
-
-O Angular CLI oferece ferramentas robustas de scaffolding para gerar componentes, diretivas e pipes de forma ágil.
-
-Para gerar um novo componente, utilize:
-
-```bash
-ng generate component nome-do-componente
-```
-
-Para visualizar todas as opções disponíveis (como components, directives ou pipes), utilize:
-
-```bash
-ng generate --help
-```
-
-## Build do Projeto
-
-Para compilar e gerar os artefatos de build, execute:
-
-```bash
-ng build
-```
-
-Os arquivos gerados serão armazenados na pasta dist/. Por padrão, o build de produção realiza otimizações para melhorar o desempenho e a velocidade da aplicação.
-
-## Testes Unitários
-
-Para executar testes unitários com o [Karma](https://karma-runner.github.io) utilize o seguinte comando:
-
-```bash
-ng test
-```
-
-## Testes de Ponta a Ponta (E2E)
-
-Para executar testes de ponta a ponta (end-to-end):
-
-```bash
-ng e2e
-```
-
-O Angular CLI não inclui um framework de E2E por padrão. É necessário integrar uma ferramenta de testes de sua escolha.
-
-## Recursos Adicionais
-
-Para mais informações sobre o Angular CLI e sua documentação completa de comandos, acesse: [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli).
+Somos o **NEXY**, um e-commerce que nasce com o propósito de **redefinir o futuro da tecnologia**.  
+Nossa missão é **desenvolver e oferecer produtos tecnológicos inovadores** — como **computadores, notebooks, celulares e tablets** — que promovam **inclusão digital**, respeitem o **meio ambiente** e inspirem **autenticidade**.  
+A NEXY existe para tornar a tecnologia **acessível, sustentável e significativa** para todos.
+🔗 Visite-nos: [Nexy url]()
 
 ---
 
-# Progresso do Projeto
+## 🛠️ Tecnologias Utilizadas
 
-## 1ª Semana
+| Camada       | Tecnologia         |
+|--------------|--------------------|
+| Front-end    | Angular v20.3.4    |
+| Back-end     | Spring             |
+| Banco de Dados | PostgreSQL       |
+| Hospedagem   | *(a definir)*      |
 
-* Organização inicial do projeto no Trello com apoio da Ruthe.
-  
-* Planejamento do visual e da estrutura geral do sistema.
+---
 
-* Definição do logotipo, nome da marca, cores principais e slogan.
+## ✨ Funcionalidades do Projeto
 
-* Mapeamento das rotas e definição da forma como as páginas se conectam.
-  
-* Pesquisa de referências visuais e modelos para definir o estilo final do projeto.
+*(Inserir imagens e descrições das principais funcionalidades do sistema aqui)*
 
-## 2ª Semana
+---
 
-* Sabrina e Maria desenvolveram a estrutura principal de todas as páginas.
+## 👥 Integrantes da Equipe
 
-* Maria também participou da configuração das rotas.
-  
-* Jaine ficou responsável por integrar o front-end com o back-end, implementando a lógica em Java e conectando ao banco de dados.
-  
-* Ruthe e Ana Clara trabalharam no design, na criação dos produtos e na organização das tarefas no Trello e no README.
+- **Ana Clara** — Design, criação de imagens, conteúdo  
+- **Jaine** — Back-end  
+- **Maria** — Front-end  
+- **Ruthe** — Organização, testes e documentação  
+- **Sabrina** — Front-end  
 
+---
 
+## 📅 Sprints do Projeto
+
+### 🟢 Semana 1
+- Organização inicial no Trello (Ruthe)
+- Planejamento visual e estrutural do sistema
+- Definição de logotipo, nome, cores e slogan
+- Estruturação das rotas e conexão entre páginas
+- Pesquisa de referências visuais para o estilo do projeto
+
+### 🟡 Semana 2
+- Estrutura principal das páginas (Sabrina e Maria)
+- Configuração das rotas (Maria)
+- Integração front-end e back-end com Java e banco de dados (Jaine)
+- Design dos produtos e organização de tarefas (Ruthe e Ana Clara)
+
+### 🔵 Semana 3
+*(Adicionar atividades realizadas nesta semana)*
+
+### 🟣 Semana 4
+*(Adicionar atividades realizadas nesta semana)*
+
+---
+
+## 📊 Gráfico de Gantt
+
+*(Inserir ou linkar o gráfico de Gantt com o cronograma do projeto)*
+
+---
+
+## 📁 Informações Técnicas
+
+Este projeto foi gerado com o [Angular CLI](https://github.com/angular/angular-cli) versão 20.3.4.
+
+### 🔧 Servidor de Desenvolvimento
+
+Para iniciar o servidor local, execute:
+
+```bash
+ng serve
+
+```
+
+### 📚 Recursos Adicionais
+
+Para mais informações sobre o Angular CLI e seus comandos, acesse a [documentação oficial do Angular CLI](https://angular.dev/tools/cli).
