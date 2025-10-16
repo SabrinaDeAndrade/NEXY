@@ -1,59 +1,91 @@
 # LojaVendas
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 20.3.4.
+Este projeto foi desenvolvido utilizando o **Angular CLI — versão 20.3.4**.
 
-## Development server
+## Servidor de Desenvolvimento
 
-To start a local development server, run:
+Para iniciar o servidor local de desenvolvimento, execute:
 
 ```bash
 ng serve
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+Após a execução, acesse em seu navegador http://localhost:4200/ 
 
-## Code scaffolding
+A aplicação será recarregada automaticamente sempre que houver modificações nos arquivos de origem.
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+## Geração de Código
+
+O Angular CLI oferece ferramentas robustas de scaffolding para gerar componentes, diretivas e pipes de forma ágil.
+
+Para gerar um novo componente, utilize:
 
 ```bash
-ng generate component component-name
+ng generate component nome-do-componente
 ```
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+Para visualizar todas as opções disponíveis (como components, directives ou pipes), utilize:
 
 ```bash
 ng generate --help
 ```
 
-## Building
+## Build do Projeto
 
-To build the project run:
+Para compilar e gerar os artefatos de build, execute:
 
 ```bash
 ng build
 ```
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+Os arquivos gerados serão armazenados na pasta dist/. Por padrão, o build de produção realiza otimizações para melhorar o desempenho e a velocidade da aplicação.
 
-## Running unit tests
+## Testes Unitários
 
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
+Para executar testes unitários com o [Karma](https://karma-runner.github.io) utilize o seguinte comando:
 
 ```bash
 ng test
 ```
 
-## Running end-to-end tests
+## Testes de Ponta a Ponta (E2E)
 
-For end-to-end (e2e) testing, run:
+Para executar testes de ponta a ponta (end-to-end):
 
 ```bash
 ng e2e
 ```
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+O Angular CLI não inclui um framework de E2E por padrão. É necessário integrar uma ferramenta de testes de sua escolha.
 
-## Additional Resources
+## Recursos Adicionais
 
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+Para mais informações sobre o Angular CLI e sua documentação completa de comandos, acesse: [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli).
+
+---
+
+# Progresso do Projeto
+
+## 1ª Semana
+
+* Organização inicial do projeto no Trello com apoio da Ruthe.
+  
+* Planejamento do visual e da estrutura geral do sistema.
+
+* Definição do logotipo, nome da marca, cores principais e slogan.
+
+* Mapeamento das rotas e definição da forma como as páginas se conectam.
+  
+* Pesquisa de referências visuais e modelos para definir o estilo final do projeto.
+
+## 2ª Semana
+
+* Sabrina e Maria desenvolveram a estrutura principal de todas as páginas.
+
+* Maria também participou da configuração das rotas.
+  
+* Jaine ficou responsável por integrar o front-end com o back-end, implementando a lógica em Java e conectando ao banco de dados.
+  
+* Ruthe e Ana Clara trabalharam no design, na criação dos produtos e na organização das tarefas no Trello e no README.
+
+
