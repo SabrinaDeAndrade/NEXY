@@ -3,44 +3,50 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, tap } from 'rxjs';
 import { Cliente } from '../interfaces/Cliente';
 
+export interface LoginResponseDTO {
+  clienteId: number;
+  nomeCliente: string;
+  mensagem: string;
+  token: string;
+}
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
    private baseUrl = 'http://localhost:8080/auth';
-  private tokenKey = 'auth_token_nexy';
+  private sessionKey = 'nexy_user_session';
 
-  // Mantém os BehaviorSubjects como privados (boa prática)
+  // BehaviorSubjects privados para controlar o estado internamente
   private loggedIn = new BehaviorSubject<boolean>(false);
   private clienteId = new BehaviorSubject<number | null>(null);
 
-  // Expõe os Observables como públicos para que outros possam se inscrever
+  // Observables públicos para que outros componentes possam reagir às mudanças
   public isLoggedIn$ = this.loggedIn.asObservable();
-  public clienteId$ = this.clienteId.asObservable();
 
-  constructor(private http: HttpClient) { 
-    this.carregarEstadoDoToken();
+  constructor(private http: HttpClient) {
+    // Ao iniciar o serviço, tenta carregar a sessão salva
+    this.carregarEstadoDaSessao();
   }
 
-  
-private carregarEstadoDoToken(): void {
-    const token = localStorage.getItem(this.tokenKey);
-    if (token) {
+  /**
+   * Lê os dados da sessão do LocalStorage, valida e restaura o estado de login.
+   */
+  private carregarEstadoDaSessao(): void {
+    const sessaoSalva = localStorage.getItem(this.sessionKey);
+    if (sessaoSalva) {
       try {
-        // Decodifica o token para extrair os dados.
-        // ATENÇÃO: btoa/atob funciona para tokens simulados. Para JWT real, use uma biblioteca.
-        const dadosLogin: LoginResponseDTO = JSON.parse(atob(token));
-
+        const dadosLogin: LoginResponseDTO = JSON.parse(sessaoSalva);
         if (dadosLogin && dadosLogin.clienteId) {
+          // Se os dados são válidos, atualiza o estado da aplicação
           this.loggedIn.next(true);
           this.clienteId.next(dadosLogin.clienteId);
+          console.log(`Sessão restaurada para o cliente ID: ${dadosLogin.clienteId}`);
         } else {
-          // Se o token for inválido, limpa tudo
-          this.logout();
+          this.logout(); // Limpa se os dados estiverem corrompidos
         }
       } catch (e) {
-        console.error("Token salvo é inválido, deslogando.", e);
+        console.error("Dados de sessão inválidos, deslogando.", e);
         this.logout();
       }
     }
@@ -53,10 +59,10 @@ private carregarEstadoDoToken(): void {
   login(credenciais: { email: string, senha: string }): Observable<LoginResponseDTO> {
     return this.http.post<LoginResponseDTO>(`${this.baseUrl}/login`, credenciais).pipe(
       tap(response => {
-        // Salva a resposta completa (ou o token JWT) no LocalStorage
-        const tokenParaSalvar = btoa(JSON.stringify(response));
-        localStorage.setItem(this.tokenKey, tokenParaSalvar);
+        // Salva a resposta completa do login no LocalStorage
+        localStorage.setItem(this.sessionKey, JSON.stringify(response));
         
+        // Atualiza o estado em tempo real
         this.loggedIn.next(true);
         this.clienteId.next(response.clienteId);
       })
@@ -64,11 +70,12 @@ private carregarEstadoDoToken(): void {
   }
 
   logout(): void {
-    localStorage.removeItem(this.tokenKey);
+    localStorage.removeItem(this.sessionKey);
     this.loggedIn.next(false);
     this.clienteId.next(null);
   }
   
+  // Métodos públicos para obter os valores atuais de forma segura
   public getClienteId(): number | null {
     return this.clienteId.getValue();
   }

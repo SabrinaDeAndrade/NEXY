@@ -7,11 +7,21 @@
       <li><a routerLink="/home">Home</a></li>
       <li><a routerLink="/categorias">Categorias</a></li>
       <li><a routerLink="/sobre">Sobre</a></li>
-      <li><a routerLink="/login">Login</a></li>
       <li><a routerLink="/cadastroProduto">Cadastro de Produtos</a></li>
-      <div>
-        <li><a routerLink="/carrinho">🛒 Carrinho</a></li>
-      </div>
+          <li *ngIf="isLoggedIn$ | async" class="nav-item">
+        <a class="nav-link" routerLink="/meus-pedidos">Meus Pedidos</a>
+      </li>
+        <li class="nav-item">
+        <a class="nav-link" routerLink="/carrinho">
+          🛒 Carrinho
+        </a>
+      </li>
+      <li *ngIf="!(isLoggedIn$ | async)" class="nav-item">
+        <a class="nav-link" routerLink="/login">Login</a>
+      </li>
+       <li *ngIf="isLoggedIn$ | async" class="nav-item">
+        <a class="nav-link" style="cursor: pointer;" (click)="logout()">Logout</a>
+      </li>
     </ul>
   </div>
 </nav>

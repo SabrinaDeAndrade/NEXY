@@ -1,5 +1,6 @@
 package com.example.NEXY.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -18,6 +19,7 @@ public class ClienteCartao {
     private String cpfTitular;
     private String dataVenc;
 
+    @JsonBackReference("cliente-cartoes")
     @ManyToOne
     @JoinColumn(name = "cliente_id")
     private Cliente cliente;

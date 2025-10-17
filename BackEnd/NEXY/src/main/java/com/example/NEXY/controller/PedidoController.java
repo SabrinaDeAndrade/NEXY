@@ -3,9 +3,12 @@ package com.example.NEXY.controller;
 import com.example.NEXY.model.Pedido;
 import com.example.NEXY.service.PedidoService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+
+record CheckoutRequestDTO(Long clienteId, Long enderecoId, String cartaoToken) {}
 
 @RestController
 @RequestMapping("/pedidos")
@@ -15,6 +18,17 @@ public class PedidoController {
     @Autowired
     public PedidoController(PedidoService pedidoService) {
         this.pedidoService = pedidoService;
+    }
+
+
+    @PostMapping("/finalizar")
+    public ResponseEntity<Pedido> finalizarCompra(@RequestBody CheckoutRequestDTO checkoutRequest) {
+        Pedido pedido = pedidoService.finalizarCompra(
+                checkoutRequest.clienteId(),
+                checkoutRequest.enderecoId(),
+                checkoutRequest.cartaoToken()
+        );
+        return ResponseEntity.ok(pedido);
     }
 
     @PostMapping

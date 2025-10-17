@@ -5,6 +5,8 @@ export interface Endereco {
   rua: string;
   bairro: string;
   estado: string;
+  cep: string;
+  cidade: string;
   numero: number;
   complemento: string;
   cliente: Cliente;

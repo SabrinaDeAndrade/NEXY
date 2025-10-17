@@ -1,7 +1,9 @@
 package com.example.NEXY.service;
 
+import com.example.NEXY.model.Cliente;
 import com.example.NEXY.model.ClienteCartao;
 import com.example.NEXY.repository.ClienteCartaoRepository;
+import com.example.NEXY.repository.ClienteRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -11,9 +13,11 @@ import java.util.Optional;
 public class ClienteCartaoService {
 
     private final ClienteCartaoRepository clienteCartaoRepository;
+    private final ClienteRepository clienteRepository;
 
-    public ClienteCartaoService(ClienteCartaoRepository clienteCartaoRepository) {
+    public ClienteCartaoService(ClienteCartaoRepository clienteCartaoRepository, ClienteRepository clienteRepository) {
         this.clienteCartaoRepository = clienteCartaoRepository;
+        this.clienteRepository = clienteRepository;
     }
 
     public List<ClienteCartao> findAll() {
@@ -28,7 +32,11 @@ public class ClienteCartaoService {
         return clienteCartaoRepository.findByClienteId(clienteId);
     }
 
-    public ClienteCartao save(ClienteCartao cartao) {
+    public ClienteCartao save(Long clienteId, ClienteCartao cartao) {
+        Cliente cliente = clienteRepository.findById(clienteId)
+                .orElseThrow(() -> new RuntimeException("Cliente não encontrado com ID: " + clienteId));
+
+        cartao.setCliente(cliente);
         return clienteCartaoRepository.save(cartao);
     }
 

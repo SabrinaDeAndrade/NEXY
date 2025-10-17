@@ -1,0 +1,103 @@
+.meus-pedidos-container {
+  max-width: 900px;
+  margin: 40px auto;
+  padding: 20px;
+  color: #fff;
+}
+.meus-pedidos-container h2 {
+  font-size: 2rem;
+  margin-bottom: 20px;
+  border-bottom: 2px solid #007bff;
+  padding-bottom: 10px;
+  display: inline-block;
+}
+
+.lista-pedidos {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.pedido-card {
+  background-color: #1c1c1c;
+  border: 1px solid #444;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #2b2b2b;
+  padding: 15px 20px;
+}
+.card-header h4 {
+  margin: 0;
+  font-size: 1.2rem;
+}
+.card-header p {
+  margin: 0;
+  color: #ccc;
+  font-size: 0.9rem;
+}
+
+.status {
+  padding: 5px 12px;
+  border-radius: 20px;
+  font-weight: bold;
+  font-size: 0.8rem;
+  text-transform: capitalize;
+}
+.status.PAGAMENTO_APROVADO {
+  background-color: #28a745;
+  color: #fff;
+}
+
+.status.ENVIADO { background-color: #17a2b8; color: #fff; }
+.status.CANCELADO { background-color: #dc3545; color: #fff; }
+
+.card-body {
+  padding: 20px;
+}
+.card-body p {
+  margin: 5px 0;
+}
+
+.card-footer {
+  padding: 15px 20px;
+  background-color: #2b2b2b;
+  text-align: right;
+}
+
+.btn-detalhes {
+  background-color: #007bff;
+  color: #fff;
+  text-decoration: none;
+  padding: 8px 15px;
+  border-radius: 5px;
+  transition: background-color 0.2s;
+}
+.btn-detalhes:hover {
+  background-color: #0056b3;
+}
+
+.feedback-box {
+  text-align: center;
+  padding: 50px;
+  background-color: #1c1c1c;
+  border-radius: 8px;
+  margin-top: 20px;
+}
+.feedback-box.erro {
+    color: #dc3545;
+}
+.btn-principal {
+  display: inline-block;
+  margin-top: 20px;
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: #fff;
+  text-decoration: none;
+  border-radius: 4px;
+}

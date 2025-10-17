@@ -1,5 +1,6 @@
 package com.example.NEXY.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -15,6 +16,7 @@ public class PedidoItem {
     private Integer quantidade;
     private Double precoUnitario;
 
+    @JsonBackReference("pedido-itens")
     @ManyToOne
     @JoinColumn(name = "pedido_id")
     private Pedido pedido;

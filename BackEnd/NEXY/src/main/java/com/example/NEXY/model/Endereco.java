@@ -1,5 +1,6 @@
 package com.example.NEXY.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -12,26 +13,31 @@ public class Endereco {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    private String cep;
     private String rua;
     private String bairro;
+    private String cidade;
     private String estado;
     private Integer numero;
     private String complemento;
 
-    @ManyToOne
+    @JsonBackReference("cliente-enderecos")
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "cliente_id")
     private Cliente cliente;
 
     public Endereco() {
     }
 
-    public Endereco(String complemento, Long id, String rua, String bairro, String estado, Integer numero, Cliente cliente) {
-        this.complemento = complemento;
+    public Endereco(Long id, String cep, String rua, String bairro, String cidade, String estado, Integer numero, String complemento, Cliente cliente) {
         this.id = id;
+        this.cep = cep;
         this.rua = rua;
         this.bairro = bairro;
+        this.cidade = cidade;
         this.estado = estado;
         this.numero = numero;
+        this.complemento = complemento;
         this.cliente = cliente;
     }
 
@@ -41,6 +47,14 @@ public class Endereco {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getCep() {
+        return cep;
+    }
+
+    public void setCep(String cep) {
+        this.cep = cep;
     }
 
     public String getRua() {
@@ -57,6 +71,14 @@ public class Endereco {
 
     public void setBairro(String bairro) {
         this.bairro = bairro;
+    }
+
+    public String getCidade() {
+        return cidade;
+    }
+
+    public void setCidade(String cidade) {
+        this.cidade = cidade;
     }
 
     public String getEstado() {

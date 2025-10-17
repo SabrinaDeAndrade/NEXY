@@ -3,6 +3,7 @@ package com.example.NEXY.controller;
 import com.example.NEXY.model.Endereco;
 import com.example.NEXY.service.EnderecoService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -10,15 +11,16 @@ import java.util.List;
 @RestController
 @RequestMapping("/enderecos")
 public class EnderecoController {
+
     private final EnderecoService enderecoService;
     @Autowired
     public EnderecoController(EnderecoService enderecoService) {
         this.enderecoService = enderecoService;
     }
 
-    @PostMapping
-    public Endereco save(@RequestBody Endereco endereco) {
-        return enderecoService.save(endereco);
+    @PostMapping("/cliente/{clienteId}")
+    public Endereco save(@PathVariable Long clienteId, @RequestBody Endereco endereco) {
+        return enderecoService.save(clienteId, endereco);
     }
 
     @GetMapping
@@ -32,8 +34,8 @@ public class EnderecoController {
     }
 
     @GetMapping("/cliente/{clienteId}")
-    public List<Endereco> findByClienteId(@PathVariable Long clienteId) {
-        return enderecoService.findByClienteId(clienteId);
+    public ResponseEntity<List<Endereco>> getEnderecosPorCliente(@PathVariable Long clienteId) {
+        return ResponseEntity.ok(enderecoService.findByClienteId(clienteId));
     }
 
     @PutMapping("/{id}")

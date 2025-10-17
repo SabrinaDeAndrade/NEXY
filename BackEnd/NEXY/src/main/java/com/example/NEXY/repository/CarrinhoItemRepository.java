@@ -11,7 +11,7 @@ import java.util.Optional;
 public interface CarrinhoItemRepository extends JpaRepository <CarrinhoItem, Long> {
 
     List<CarrinhoItem> findByCarrinhoId(Long carrinhoId);
-
+    void deleteAllByCarrinhoId(Long carrinhoId);
     Optional<CarrinhoItem> findByCarrinhoIdAndProdutoId(Long carrinhoId, Long produtoId);
 
 }

@@ -50,7 +50,7 @@
         <span>Total:</span>
         <strong>{{ valorTotal$ | async | currency:'BRL' }}</strong>
       </div>
-      <button class="btn-finalizar">Finalizar Compra</button>
+      <button class="btn-finalizar" (click)="irParaCheckout()">Finalizar Compra</button>
     </div>
   </ng-template>
 </div>

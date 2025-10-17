@@ -2,9 +2,11 @@ package com.example.NEXY.service;
 
 import com.example.NEXY.model.Carrinho;
 import com.example.NEXY.model.Cliente;
+import com.example.NEXY.repository.CarrinhoItemRepository;
 import com.example.NEXY.repository.CarrinhoRepository;
 import com.example.NEXY.repository.ClienteRepository;
 import com.example.NEXY.repository.ProdutoRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,13 +17,16 @@ public class CarrinhoService {
 
     private final CarrinhoRepository carrinhoRepository;
     private final ClienteRepository clienteRepository;
-    private final ProdutoRepository produtoRepository;
+    private final CarrinhoItemRepository carrinhoItemRepository;
 
     @Autowired
-    public CarrinhoService(CarrinhoRepository carrinhoRepository, ProdutoRepository produtoRepository, ClienteRepository clienteRepository) {
+    public CarrinhoService(
+            CarrinhoRepository carrinhoRepository,
+            ClienteRepository clienteRepository,
+            CarrinhoItemRepository carrinhoItemRepository) { // Adicione ao construtor
         this.carrinhoRepository = carrinhoRepository;
-        this.produtoRepository = produtoRepository;
         this.clienteRepository = clienteRepository;
+        this.carrinhoItemRepository = carrinhoItemRepository;
     }
 
     public Optional<Carrinho> buscarPorCliente(Long clienteId) {
@@ -65,4 +70,21 @@ public class CarrinhoService {
     public void remover(Long carrinhoId) {
         carrinhoRepository.deleteById(carrinhoId);
     }
+
+    @Transactional
+    public void limparCarrinho(Long carrinhoId) {
+        // 1. Busca o carrinho para garantir que ele existe
+        Carrinho carrinho = carrinhoRepository.findById(carrinhoId)
+                .orElseThrow(() -> new RuntimeException("Carrinho não encontrado para limpar."));
+
+        // 2. Deleta todos os itens associados a este carrinho de uma só vez
+        carrinhoItemRepository.deleteAllByCarrinhoId(carrinhoId);
+
+        // 3. Zera o valor total do carrinho
+        carrinho.setValorTotal(0.0);
+        carrinhoRepository.save(carrinho);
+
+        System.out.println("Carrinho ID " + carrinhoId + " foi limpo com sucesso.");
+    }
 }
+

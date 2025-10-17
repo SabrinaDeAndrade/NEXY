@@ -1,6 +1,8 @@
 package com.example.NEXY.service;
 
+import com.example.NEXY.model.Cliente;
 import com.example.NEXY.model.Endereco;
+import com.example.NEXY.repository.ClienteRepository;
 import com.example.NEXY.repository.EnderecoRepository;
 import org.springframework.stereotype.Service;
 
@@ -11,9 +13,11 @@ import java.util.Optional;
 public class EnderecoService {
 
     private final EnderecoRepository enderecoRepository;
+    private final ClienteRepository clienteRepository;
 
-    public EnderecoService(EnderecoRepository enderecoRepository) {
+    public EnderecoService(EnderecoRepository enderecoRepository, ClienteRepository clienteRepository) {
         this.enderecoRepository = enderecoRepository;
+        this.clienteRepository = clienteRepository;
     }
 
     public List<Endereco> findAll() {
@@ -28,7 +32,11 @@ public class EnderecoService {
         return enderecoRepository.findByClienteId(clienteId);
     }
 
-    public Endereco save(Endereco endereco) {
+    public Endereco save(Long clienteId, Endereco endereco) {
+        Cliente cliente = clienteRepository.findById(clienteId)
+                .orElseThrow(() -> new RuntimeException("Cliente não encontrado com ID: " + clienteId));
+
+        endereco.setCliente(cliente);
         return enderecoRepository.save(endereco);
     }
 
@@ -38,6 +46,8 @@ public class EnderecoService {
             endereco.setBairro(enderecoAtualizado.getBairro());
             endereco.setEstado(enderecoAtualizado.getEstado());
             endereco.setNumero(enderecoAtualizado.getNumero());
+            endereco.setCep(enderecoAtualizado.getCep());
+            endereco.setCidade(enderecoAtualizado.getCidade());
             endereco.setComplemento(enderecoAtualizado.getComplemento());
             endereco.setCliente(enderecoAtualizado.getCliente());
             return enderecoRepository.save(endereco);
