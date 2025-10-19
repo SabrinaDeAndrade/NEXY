@@ -1,10 +1,7 @@
 package com.example.NEXY.service;
 
 import com.example.NEXY.model.*;
-import com.example.NEXY.repository.CarrinhoRepository;
-import com.example.NEXY.repository.ClienteRepository;
-import com.example.NEXY.repository.EnderecoRepository;
-import com.example.NEXY.repository.PedidoRepository;
+import com.example.NEXY.repository.*;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
@@ -20,16 +17,18 @@ public class PedidoService {
     private final CarrinhoRepository carrinhoRepository;
     private final ClienteRepository clienteRepository;
     private final EnderecoRepository enderecoRepository;
+    private final ProdutoRepository produtoRepository;
 
-    public PedidoService(PedidoRepository pedidoRepository, CarrinhoRepository carrinhoRepository, ClienteRepository clienteRepository, EnderecoRepository enderecoRepository) {
+    public PedidoService(PedidoRepository pedidoRepository, CarrinhoRepository carrinhoRepository, ClienteRepository clienteRepository, EnderecoRepository enderecoRepository, ProdutoRepository produtoRepository) {
         this.pedidoRepository = pedidoRepository;
         this.carrinhoRepository = carrinhoRepository;
         this.clienteRepository = clienteRepository;
         this.enderecoRepository = enderecoRepository;
+        this.produtoRepository = produtoRepository;
     }
+
     @Transactional
     public Pedido finalizarCompra(Long clienteId, Long enderecoId, String cartaoToken) {
-        // 1. Validar e buscar as entidades principais
         Cliente cliente = clienteRepository.findById(clienteId)
                 .orElseThrow(() -> new RuntimeException("Cliente não encontrado."));
 
@@ -49,7 +48,6 @@ public class PedidoService {
         //     throw new RuntimeException("Pagamento recusado.");
         // }
 
-        // 3. Criar o Pedido
         Pedido novoPedido = new Pedido();
         novoPedido.setCliente(cliente);
         novoPedido.setEndereco(endereco);
@@ -57,9 +55,18 @@ public class PedidoService {
         novoPedido.setStatus("PAGAMENTO_APROVADO");
         novoPedido.setValorTotal(carrinho.getValorTotal());
 
-        // 4. Converter Itens do Carrinho em Itens do Pedido
+
         List<PedidoItem> itensDoPedido = new ArrayList<>();
         for (CarrinhoItem itemCarrinho : carrinho.getItens()) {
+            Produto produto = itemCarrinho.getProduto();
+
+            if (produto.getEstoque() < itemCarrinho.getQuantidade()) {
+                throw new RuntimeException("Estoque insuficiente para o produto: " + produto.getNome());
+            }
+            produto.setEstoque(produto.getEstoque() - itemCarrinho.getQuantidade());
+
+            produtoRepository.save(produto);
+
             PedidoItem itemPedido = new PedidoItem();
             itemPedido.setPedido(novoPedido);
             itemPedido.setProduto(itemCarrinho.getProduto());
@@ -69,11 +76,11 @@ public class PedidoService {
         }
         novoPedido.setItens(itensDoPedido);
 
-        // 5. Salvar o Pedido (os itens serão salvos em cascata)
         Pedido pedidoSalvo = pedidoRepository.save(novoPedido);
 
-        // 6. Limpar o carrinho (implemente este método)
-        // carrinhoService.limparCarrinho(carrinho.getId());
+        carrinho.getItens().clear();
+        carrinho.setValorTotal(0.0);
+        carrinhoRepository.save(carrinho);
 
         return pedidoSalvo;
     }

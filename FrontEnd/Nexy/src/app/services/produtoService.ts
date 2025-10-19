@@ -36,12 +36,10 @@ export class ProdutoService {
    uploadImagens(id: number, arquivos: File[]): Observable<HttpEvent<any>> {
     const formData: FormData = new FormData();
 
-    // Adiciona cada arquivo ao FormData
     for (let i = 0; i < arquivos.length; i++) {
         formData.append('imagens', arquivos[i]);
     }
 
-    // Cria a requisição com o FormData contendo múltiplos arquivos
     const req = new HttpRequest('POST', `${this.baseUrl}/${id}/upload-imagens`, formData, {
       reportProgress: true,
       responseType: 'json'

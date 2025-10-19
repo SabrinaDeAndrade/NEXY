@@ -29,11 +29,12 @@ export class Carrinho {
       map(itens =>
         itens.reduce((total, item) => total + (item.precoUnitario * item.quantidade), 0)
       )
-    );}
+    );
+  }
 
 
-    removerItem(itemId: number): void {
-      if(confirm('Tem certeza que deseja remover este item do carrinho?')) {
+  removerItem(itemId: number): void {
+    if (confirm('Tem certeza que deseja remover este item do carrinho?')) {
       this.carrinhoStateService.removerItem(itemId);
     }
   }
@@ -43,16 +44,22 @@ export class Carrinho {
     this.carrinhoStateService.atualizarQuantidade(itemId, novaQuantidade);
   }
 
-   irParaCheckout(): void {
-    // Verifica se o usuário está logado usando o serviço de autenticação
+ irParaCheckout(): void {
+  this.itens$.subscribe(itens => {
+    const itemComEstoqueInsuficiente = itens.find(item => item.quantidade < item.quantidade);
+
+    if (itemComEstoqueInsuficiente) {
+      alert(`Estoque insuficiente para o produto: ${itemComEstoqueInsuficiente.produto.nome}`);
+      return; 
+    }
+
     if (this.authService.isLoggedIn()) {
-      // Se estiver logado, navega para a página de checkout
       this.router.navigate(['/checkout']);
     } else {
-      // Se não estiver logado, exibe um alerta e navega para a página de login
       alert('Você precisa fazer login para finalizar a compra.');
       this.router.navigate(['/login']);
     }
-  }
+  });
+}
 
 }

@@ -138,6 +138,8 @@ export class CarrinhoStateService {
     }
   }
 
+  
+
   // O método de sincronização também deve estar aqui
   public sincronizarCarrinhoAoLogar(clienteId: number): void {
     const itensLocais = this.carrinhoLocalStorage.getItens();
@@ -176,5 +178,9 @@ export class CarrinhoStateService {
             error: (err) => console.error("Falha ao sincronizar itens do carrinho:", err)
         });
     }, 500); 
+  }
+
+  limparCarrinho() {
+    this.itensSubject.next([]);
   }
 }

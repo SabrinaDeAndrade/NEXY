@@ -71,20 +71,5 @@ public class CarrinhoService {
         carrinhoRepository.deleteById(carrinhoId);
     }
 
-    @Transactional
-    public void limparCarrinho(Long carrinhoId) {
-        // 1. Busca o carrinho para garantir que ele existe
-        Carrinho carrinho = carrinhoRepository.findById(carrinhoId)
-                .orElseThrow(() -> new RuntimeException("Carrinho não encontrado para limpar."));
-
-        // 2. Deleta todos os itens associados a este carrinho de uma só vez
-        carrinhoItemRepository.deleteAllByCarrinhoId(carrinhoId);
-
-        // 3. Zera o valor total do carrinho
-        carrinho.setValorTotal(0.0);
-        carrinhoRepository.save(carrinho);
-
-        System.out.println("Carrinho ID " + carrinhoId + " foi limpo com sucesso.");
-    }
 }
 

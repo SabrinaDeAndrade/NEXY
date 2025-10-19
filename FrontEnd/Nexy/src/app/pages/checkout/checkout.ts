@@ -7,6 +7,7 @@ import { HttpClient } from '@angular/common/http';
 import { CheckoutService } from '../../services/checkout-service';
 import { AuthService } from '../../services/auth-service';
 import { Router } from '@angular/router';
+import { CarrinhoStateService } from '../../services/carrinho-state-service';
 
 @Component({
   selector: 'app-checkout',
@@ -36,6 +37,7 @@ etapa: 'endereco' | 'pagamento' | 'carregando' = 'carregando';
     private http: HttpClient,
     private checkoutService: CheckoutService,
     private authService: AuthService,
+    private carrinhoStateService: CarrinhoStateService,
     private router: Router
   ) {
     // Formulário de Endereço
@@ -159,7 +161,8 @@ etapa: 'endereco' | 'pagamento' | 'carregando' = 'carregando';
     this.checkoutService.finalizarPedido(payload).subscribe(pedido => {
       console.log("Pedido finalizado com sucesso!", pedido);
       alert(`Pedido #${pedido.id} realizado com sucesso!`);
-      this.router.navigate(['/pedido-sucesso', pedido.id]); // Navega para uma página de sucesso
+      this.carrinhoStateService.limparCarrinho();
+      this.router.navigate(['/pedido-sucesso', pedido.id]); 
     });
   }
 

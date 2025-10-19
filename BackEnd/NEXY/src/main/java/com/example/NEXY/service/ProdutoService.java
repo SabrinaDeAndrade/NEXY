@@ -147,7 +147,6 @@ public class ProdutoService {
 
         Produto produto = imagem.getProduto();
         if (produto != null && produto.getImagens() != null) {
-            // Isso atualiza a relação antes de deletar, evitando erros do JPA
             produto.getImagens().remove(imagem);
         }
 
