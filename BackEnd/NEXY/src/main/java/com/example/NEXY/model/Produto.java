@@ -1,9 +1,12 @@
 package com.example.NEXY.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.List;
 
 @Entity
 @Data
@@ -19,19 +22,22 @@ public class Produto {
     private Double peso;
     private Double altura;
     private Double largura;
-    private String imagemUrl;
+
+    @JsonManagedReference
+    @OneToMany(mappedBy = "produto", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ImagemProduto> imagens;
 
     @ManyToOne
     @JoinColumn(name = "categoria_id")
     private Categoria categoria;
 
     @Version
-    private Long version;
+    private Integer version;
 
     public Produto() {
     }
 
-    public Produto(Long id, String nome, String descricao, Integer estoque, Double preco, Double peso, Double altura, Double largura, String imagemUrl, Categoria categoria) {
+    public Produto(Long id, String nome, String descricao, Integer estoque, Double preco, Double peso, Double altura, Double largura, List<ImagemProduto> imagens, Categoria categoria, Integer version) {
         this.id = id;
         this.nome = nome;
         this.descricao = descricao;
@@ -40,8 +46,9 @@ public class Produto {
         this.peso = peso;
         this.altura = altura;
         this.largura = largura;
-        this.imagemUrl = imagemUrl;
+        this.imagens = imagens;
         this.categoria = categoria;
+        this.version = version;
     }
 
     public Long getId() {
@@ -108,12 +115,12 @@ public class Produto {
         this.largura = largura;
     }
 
-    public String getImagemUrl() {
-        return imagemUrl;
+    public List<ImagemProduto> getImagens() {
+        return imagens;
     }
 
-    public void setImagemUrl(String imagemUrl) {
-        this.imagemUrl = imagemUrl;
+    public void setImagens(List<ImagemProduto> imagens) {
+        this.imagens = imagens;
     }
 
     public Categoria getCategoria() {
@@ -122,5 +129,13 @@ public class Produto {
 
     public void setCategoria(Categoria categoria) {
         this.categoria = categoria;
+    }
+
+    public Integer getVersion() {
+        return version;
+    }
+
+    public void setVersion(Integer version) {
+        this.version = version;
     }
 }

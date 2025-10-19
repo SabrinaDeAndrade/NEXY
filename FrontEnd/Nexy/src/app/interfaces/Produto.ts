@@ -1,4 +1,5 @@
 import { Categoria } from "./Categorias";
+import { ImagemProduto } from "./ImagemProduto";
 
 export interface Produto {
   id: number;
@@ -9,6 +10,6 @@ export interface Produto {
   peso: number;
   altura: number;
   largura: number;
-  imagemUrl: string;
+  imagens: ImagemProduto[]; 
   categoria: Categoria
 }

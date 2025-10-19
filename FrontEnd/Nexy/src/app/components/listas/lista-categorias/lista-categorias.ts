@@ -1,6 +1,8 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Categoria } from '../../../interfaces/Categorias';
+import { Router, RouterLink, RouterLinkActive } from '@angular/router';
+import { CategoriaService } from '../../../services/categoriaService';
 
 
 
@@ -8,19 +10,22 @@ import { Categoria } from '../../../interfaces/Categorias';
 @Component({
   selector: 'app-lista-categorias',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, RouterLink, RouterLinkActive],
   templateUrl: './lista-categorias.html',
   styleUrl: './lista-categorias.css'
 })
-export class ListaCategorias {
-  @Input() categorias: Categoria[] = [];
-  @Input() CategoriaPorId: number | null = null;
+export class ListaCategorias  implements OnInit{
+  
+  
+  categorias: Categoria[] = [];
 
-  // @Output() avisa o componente pai sobre um evento
-  @Output() categorySelected = new EventEmitter<number>();
+  // Injete o CategoriaService
+  constructor(private categoriaService: CategoriaService) { }
 
-  selectCategory(categoryId: number) {
-
-    this.categorySelected.emit(categoryId);
+  ngOnInit(): void {
+    // Carregue suas categorias aqui
+    this.categoriaService.listarTodas().subscribe(dados => {
+      this.categorias = dados;
+    });
   }
 }

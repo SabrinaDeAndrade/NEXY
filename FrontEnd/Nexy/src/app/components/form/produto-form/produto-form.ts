@@ -6,6 +6,8 @@ import { ProdutoService } from '../../../services/produtoService';
 import { CategoriaService } from '../../../services/categoriaService';
 import { Produto } from '../../../interfaces/Produto';
 import { HttpEventType } from '@angular/common/http';
+import { ActivatedRoute, Router } from '@angular/router';
+import { ImagemProduto } from '../../../interfaces/ImagemProduto';
 
 
 
@@ -20,17 +22,25 @@ export class ProdutoForm implements OnInit {
 
   produtoForm!: FormGroup;
   categorias: Categoria[] = [];
-  imagemSelecionada: File | null = null;
+
+  imagensSelecionadas: File[] = [];
+  previewUrls: string[] = [];
+  imagensExistentes: ImagemProduto[] = [];
+
+  modoEdicao = false;
+  produtoId: number | null = null;
   uploadProgresso = 0;
+
+  mostrarModalCategoria = false;
+  novaCategoriaForm: FormGroup;
 
   constructor(
     private fb: FormBuilder,
     private produtoService: ProdutoService,
-    private categoriaService: CategoriaService
-  ) { }
-
-  ngOnInit(): void {
-
+    private categoriaService: CategoriaService,
+    private route: ActivatedRoute,
+    private router: Router
+  ) {
     this.produtoForm = this.fb.group({
       nome: ['', Validators.required],
       descricao: ['', Validators.required],
@@ -41,96 +51,180 @@ export class ProdutoForm implements OnInit {
       largura: [0, [Validators.required, Validators.min(0)]],
       categoriaId: ['', Validators.required]
     });
-    this.carregarCategorias();
+
+    this.novaCategoriaForm = this.fb.group({
+      nome: ['', Validators.required]
+    });
   }
+
+  ngOnInit(): void {
+    this.carregarCategorias();
+    this.verificarModoEdicao();
+  }
+
+  verificarModoEdicao(): void {
+    const idParam = this.route.snapshot.paramMap.get('id');
+    if (idParam) {
+      this.modoEdicao = true;
+      this.produtoId = Number(idParam);
+      this.carregarDadosProduto(this.produtoId);
+    }
+  }
+
+  carregarDadosProduto(id: number): void {
+    this.produtoService.buscarPorId(id).subscribe(produto => {
+      this.produtoForm.patchValue({
+        nome: produto.nome,
+        descricao: produto.descricao,
+        estoque: produto.estoque,
+        preco: produto.preco,
+        peso: produto.peso,
+        altura: produto.altura,
+        largura: produto.largura,
+        categoriaId: produto.categoria.id
+      });
+      this.imagensExistentes = produto.imagens || [];
+    });
+  }
+
   carregarCategorias(): void {
     this.categoriaService.listarTodas().subscribe({
-      next: (dados) => {
-        this.categorias = dados;
-      },
-      error: (erro) => {
-        console.error('Erro ao carregar categorias:', erro);
-      }
+      next: (dados) => { this.categorias = dados; },
+      error: (erro) => { console.error('Erro ao carregar categorias:', erro); }
     });
   }
 
   onFileSelected(event: any): void {
-    const file: File = event.target.files[0];
-    if (file) {
-      this.imagemSelecionada = file;
-    }
+    const novosArquivos: File[] = Array.from(event.target.files);
+
+    // Adiciona os novos arquivos à lista existente
+    this.imagensSelecionadas.push(...novosArquivos);
+
+    // Gera pré-visualizações para os novos arquivos
+    novosArquivos.forEach((file: File) => {
+      const reader = new FileReader();
+      reader.onload = () => {
+        this.previewUrls.push(reader.result as string);
+      };
+      reader.readAsDataURL(file);
+    });
+  }
+
+  removerImagemExistente(imagemId: number): void {
+  if (confirm('Deseja realmente excluir esta imagem?')) {
+    this.produtoService.deletarImagem(imagemId).subscribe({
+      next: () => {
+        this.imagensExistentes = this.imagensExistentes.filter(img => img.id !== imagemId);
+        alert('Imagem removida com sucesso!');
+      },
+      error: (erro) => {
+        console.error('Erro ao remover imagem:', erro);
+        alert('Não foi possível remover a imagem.');
+      }
+    });
+  }
+}
+  removerImagemPreview(index: number): void {
+    this.imagensSelecionadas.splice(index, 1);
+    this.previewUrls.splice(index, 1);
   }
 
   onSubmit(): void {
-    if (this.produtoForm.valid) {
-      const formValue = this.produtoForm.value;
+    if (!this.produtoForm.valid) {
+      alert('Preencha todos os campos obrigatórios corretamente.');
+      return;
+    }
 
-        const novoProduto: Partial<Produto> = {
-        nome: formValue.nome,
-        descricao: formValue.descricao,
-        estoque: formValue.estoque,
-        preco: formValue.preco,
-        peso: formValue.peso,
-        altura: formValue.altura,
-        largura: formValue.largura,
-        categoria: { id: formValue.categoriaId, nome: '' },
-        imagemUrl: ''
-      };
+    const formValue = this.produtoForm.value;
+    const dadosProduto: Partial<Produto> = {
+      nome: formValue.nome,
+      descricao: formValue.descricao,
+      estoque: formValue.estoque,
+      preco: formValue.preco,
+      peso: formValue.peso,
+      altura: formValue.altura,
+      largura: formValue.largura,
+      categoria: { id: formValue.categoriaId } as Categoria,
+    };
 
-      
-      // 1️⃣ Salva o produto
-      this.produtoService.criar(novoProduto as Produto).subscribe({
+    if (this.modoEdicao && this.produtoId) {
+  
+      dadosProduto.id = this.produtoId;
+
+      this.produtoService.atualizar(this.produtoId, dadosProduto as Produto).subscribe({
+        next: (produtoAtualizado) => {
+          console.log('Produto atualizado com sucesso!', produtoAtualizado);
+          this.uploadDeImagens(produtoAtualizado.id, 'Produto atualizado');
+        },
+        error: (erro) => console.error('Erro ao atualizar produto:', erro)
+      });
+    } else {
+   
+      this.produtoService.criar(dadosProduto as Produto).subscribe({
         next: (produtoSalvo) => {
           console.log('Produto cadastrado com sucesso!', produtoSalvo);
+          this.uploadDeImagens(produtoSalvo.id, 'Produto cadastrado');
+        },
+        error: (erro) => console.error('Erro ao cadastrar produto:', erro)
+      });
+    }
+  }
 
-          // 2️⃣ Faz o upload da imagem (se tiver)
-          if (this.imagemSelecionada) {
-            this.produtoService.uploadImagem(produtoSalvo.id, this.imagemSelecionada).subscribe({
-              next: (evento) => {
-                if (evento.type === HttpEventType.UploadProgress && evento.total) {
-                  this.uploadProgresso = Math.round(100 * (evento.loaded / evento.total));
-                } else if (evento.type === HttpEventType.Response) {
-                  console.log('Imagem enviada com sucesso!', evento.body);
-                  alert('Produto e imagem cadastrados com sucesso!');
-                  this.produtoForm.reset();
-                  this.uploadProgresso = 0;
-                }
-              },
-              error: (erro) => {
-                console.error('Erro ao enviar imagem:', erro);
-                alert('Produto cadastrado, mas houve erro no envio da imagem.');
-              }
-            });
-          } else {
-            alert('Produto cadastrado com sucesso!');
-            this.produtoForm.reset();
+  uploadDeImagens(produtoId: number, mensagemBase: string): void {
+    if (this.imagensSelecionadas.length > 0) {
+      this.produtoService.uploadImagens(produtoId, this.imagensSelecionadas).subscribe({
+        next: (evento) => {
+          if (evento.type === HttpEventType.UploadProgress && evento.total) {
+            this.uploadProgresso = Math.round(100 * (evento.loaded / evento.total));
+          } else if (evento.type === HttpEventType.Response) {
+            this.resetarFormulario(mensagemBase + ' e imagens enviadas com sucesso!');
           }
         },
         error: (erro) => {
-          console.error('Erro ao cadastrar produto:', erro);
-          alert('Erro ao cadastrar produto. Verifique os dados.');
+          console.error('Erro ao enviar imagens:', erro);
+          alert(mensagemBase + ', mas houve erro no envio das imagens.');
         }
       });
     } else {
-      alert('Preencha todos os campos obrigatórios corretamente.');
+      this.resetarFormulario(mensagemBase + ' com sucesso!');
     }
   }
+
+  resetarFormulario(mensagem: string): void {
+    alert(mensagem);
+    this.router.navigate(['/categorias']);
+  }
+
+  abrirModalCategoria(): void {
+    this.mostrarModalCategoria = true;
+  }
+
+  fecharModalCategoria(): void {
+    this.mostrarModalCategoria = false;
+    this.novaCategoriaForm.reset();
+  }
+
+
+
+
+  salvarNovaCategoria(): void {
+    if (this.novaCategoriaForm.invalid) return;
+
+    const novaCategoria: Partial<Categoria> = {
+      nome: this.novaCategoriaForm.value.nome
+    };
+
+    this.categoriaService.criar(novaCategoria as Categoria).subscribe({
+      next: (categoriaSalva) => {
+        alert('Nova categoria cadastrada!');
+        this.carregarCategorias();
+        this.produtoForm.patchValue({ categoriaId: categoriaSalva.id });
+        this.fecharModalCategoria();
+      },
+      error: (err) => {
+        console.error("Erro ao salvar categoria:", err);
+        alert("Não foi possível salvar a nova categoria.");
+      }
+    });
+  }
 }
-      
-      
-
-    //   this.produtoService.criar(novoProduto as Produto).subscribe({
-    //     next: (produtoSalvo) => {
-    //       console.log('Produto cadastrado com sucesso!', produtoSalvo);
-    //       this.produtoForm.reset();
-    //     },
-    //     error: (erro) => {
-    //       console.error('Erro ao cadastrar produto:', erro);
-    //     }
-    //   });
-
-    // } else {
-    //   alert('Preencha todos os campos obrigatórios corretamente.');
-    // }
-//   }
-// }

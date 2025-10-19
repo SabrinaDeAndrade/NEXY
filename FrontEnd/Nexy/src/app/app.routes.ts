@@ -11,6 +11,8 @@ import { Checkout } from './pages/checkout/checkout';
 import { PedidoSucesso } from './pages/pedido-sucesso/pedido-sucesso';
 import { MeusPedidos } from './pages/meus-pedidos/meus-pedidos';
 import { PedidoDetalhes } from './pages/pedido-detalhes/pedido-detalhes';
+import { GerenciarCategorias } from './pages/gerenciar-categorias/gerenciar-categorias';
+import { GerenciarProdutos } from './pages/gerenciar-produtos/gerenciar-produtos';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -18,14 +20,18 @@ export const routes: Routes = [
   { path: 'login', component: Login },
   { path: 'sobre', component: Sobre },
   { path: 'categorias', component: BuscaCategorias },
+  { path: 'categorias/:id', component: BuscaCategorias },
   { path: 'carrinho', component: Carrinho },
-  { path: 'cadastroProduto', component: ProdutoForm },
+  { path: 'admin/produtos', component: GerenciarProdutos },
+   { path: 'admin/produto/novo', component: ProdutoForm },
+   { path: 'admin/produto/editar/:id', component: ProdutoForm },
   { path: 'produto/:id', component: ProdutoDetalhes },
   { path: 'registro', component: Registro },
   { path: 'login', component: Login},
   { path: 'checkout', component: Checkout },
   { path: 'pedido-sucesso/:id', component: PedidoSucesso },
   { path: 'meus-pedidos', component: MeusPedidos},
-  { path: 'pedido-detalhes/:id',component: PedidoDetalhes,},
+  { path: 'pedido-detalhes/:id',component: PedidoDetalhes},
+  { path: 'admin/categorias', component: GerenciarCategorias },
   { path: '**', redirectTo: 'home' }
 ];

@@ -10,6 +10,7 @@ export class ProdutoService {
 
   private baseUrl = 'http://localhost:8080/produtos'; 
 
+
   constructor(private http: HttpClient) { }
 
   listarTodos(): Observable<Produto[]> {
@@ -32,16 +33,26 @@ export class ProdutoService {
     return this.http.delete<void>(`${this.baseUrl}/${id}`);
   }
 
-  uploadImagem(id: number, arquivo: File): Observable<HttpEvent<any>> {
+   uploadImagens(id: number, arquivos: File[]): Observable<HttpEvent<any>> {
     const formData: FormData = new FormData();
-    formData.append('imagem', arquivo);
 
-    const req = new HttpRequest('POST', `${this.baseUrl}/${id}/upload-imagem`, formData, {
+    // Adiciona cada arquivo ao FormData
+    for (let i = 0; i < arquivos.length; i++) {
+        formData.append('imagens', arquivos[i]);
+    }
+
+    // Cria a requisição com o FormData contendo múltiplos arquivos
+    const req = new HttpRequest('POST', `${this.baseUrl}/${id}/upload-imagens`, formData, {
       reportProgress: true,
       responseType: 'json'
     });
 
     return this.http.request(req);
+  }
+
+  public deletarImagem(imagemId: number): Observable<void> {
+    const urlDelecao = `http://localhost:8080/produtos/imagens/${imagemId}`;
+    return this.http.delete<void>(urlDelecao);
   }
 
   getProductsByCategoryId(categoryId: number): Observable<Produto[]> {

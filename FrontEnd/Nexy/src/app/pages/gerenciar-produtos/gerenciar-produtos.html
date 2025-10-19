@@ -1,0 +1,43 @@
+<div class="gerenciar-container">
+  
+  <div class="header-container">
+    <h2>Gerenciar Produtos</h2>
+    <a routerLink="/admin/produto/novo" class="btn-novo">Cadastrar Novo Produto</a>
+  </div>
+
+  <hr>
+
+  <div class="lista-container">
+    <div *ngIf="carregando">Carregando lista de produtos...</div>
+
+    <table *ngIf="!carregando && produtos.length > 0" class="tabela-categorias">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Nome</th>
+          <th>Preço</th>
+          <th>Estoque</th>
+          <th>Categoria</th>
+          <th>Ações</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let prod of produtos">
+          <td>{{ prod.id }}</td>
+          <td>{{ prod.nome }}</td>
+          <td>{{ prod.preco | currency:'BRL' }}</td>
+          <td>{{ prod.estoque }}</td>
+          <td>{{ prod.categoria?.nome }}</td>
+          <td class="acoes">
+            <a [routerLink]="['/admin/produto/editar', prod.id]" class="btn-editar">Editar</a>
+            <button (click)="removerProduto(prod.id)" class="btn-remover">Remover</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div *ngIf="!carregando && produtos.length === 0">
+      <p>Nenhum produto cadastrado.</p>
+    </div>
+  </div>
+</div>

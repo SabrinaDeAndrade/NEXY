@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -61,27 +62,29 @@ public class ProdutoController {
         return ResponseEntity.noContent().build();
     }
 
-    @PostMapping("/{id}/upload-imagem")
-    public ResponseEntity<?> uploadImagem(@PathVariable Long id,
-                                          @RequestParam("imagem") MultipartFile imagem) {
+    @PostMapping("/{id}/upload-imagens")
+    public ResponseEntity<List<String>> uploadImagens(@PathVariable Long id,
+                                                      @RequestParam("imagens") MultipartFile[] imagens) {
         try {
-            String url = produtoService.salvarImagem(id, imagem);
-
-            // Retorna um JSON com a URL da imagem
-            return ResponseEntity.ok().body(Map.of(
-                    "mensagem", "Imagem enviada com sucesso!",
-                    "url", url
-            ));
-
-        } catch (RuntimeException e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Map.of(
-                    "erro", e.getMessage()
-            ));
-
+            // 2. CONVERTA O ARRAY 'imagens' EM UMA LISTA ANTES DE CHAMAR O SERVIÇO
+            List<String> urls = produtoService.salvarImagens(id, Arrays.asList(imagens));
+            return ResponseEntity.ok(urls);
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Map.of(
-                    "erro", "Erro ao enviar imagem: " + e.getMessage()
-            ));
+            // Adiciona um log do erro para facilitar a depuração
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(null);
+        }
+    }
+
+    @DeleteMapping("/imagens/{id}")
+    public ResponseEntity<Void> deleteImagem(@PathVariable Long id) {
+        try {
+            produtoService.deleteImagem(id);
+            return ResponseEntity.noContent().build(); // HTTP 204 (Sucesso, sem conteúdo)
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
 

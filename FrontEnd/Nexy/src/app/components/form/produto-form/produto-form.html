@@ -1,9 +1,10 @@
 <div class="produto-form-container">
-    <h2>Cadastro de Novo Produto</h2>
+    <h2>{{ modoEdicao ? 'Editar Produto' : 'Cadastro de Novo Produto' }}</h2>
 
     <form [formGroup]="produtoForm" (ngSubmit)="onSubmit()">
 
-        <div class="form-group">
+
+        <div class="form-group full-width">
             <label for="nome">Nome do Produto:</label>
             <input id="nome" type="text" formControlName="nome" required>
             <div *ngIf="produtoForm.get('nome')?.invalid && produtoForm.get('nome')?.touched" class="error-message">
@@ -11,7 +12,7 @@
             </div>
         </div>
 
-        <div class="form-group">
+        <div class="form-group full-width">
             <label for="descricao">Descrição:</label>
             <textarea id="descricao" formControlName="descricao" required></textarea>
         </div>
@@ -28,47 +29,91 @@
             </div>
         </div>
 
-        <div class="row">
+        <div class="row full-width">
             <div class="form-group">
-                <label for="peso">Peso:</label>
+                <label for="peso">Peso (kg):</label>
                 <input id="peso" type="number" formControlName="peso" required min="0" step="0.01">
             </div>
 
             <div class="form-group">
-                <label for="altura">Altura:</label>
+                <label for="altura">Altura (cm):</label>
                 <input id="altura" type="number" formControlName="altura" required min="0" step="0.01">
             </div>
 
             <div class="form-group">
-                <label for="largura">Largura:</label>
+                <label for="largura">Largura (cm):</label>
                 <input id="largura" type="number" formControlName="largura" required min="0" step="0.01">
             </div>
         </div>
-        <div class="form-group">
-            <label for="categoria">Categoria:</label>
-            <select id="categoria" formControlName="categoriaId" required>
-                <option value="" disabled>-- Selecione uma Categoria --</option>
+        <div class="row">
+            <div class="form-group">
+                <label for="categoria">Categoria:</label>
+                <div class="categoria-input-group">
+                    <select id="categoria" formControlName="categoriaId" required>
+                        <option value="" disabled>-- Selecione uma Categoria --</option>
+                        <option *ngFor="let cat of categorias" [value]="cat.id">
+                            {{ cat.nome }}
+                        </option>
+                    </select>
+                    <!-- Botão para abrir a modal -->
+                    <button type="button" (click)="abrirModalCategoria()" class="btn-add-category">+</button>
+                </div>
+                <div *ngIf="produtoForm.get('categoriaId')?.invalid && produtoForm.get('categoriaId')?.touched"
+                    class="error-message">
+                    A categoria é obrigatória.
+                </div>
+            </div>
 
-                <option *ngFor="let cat of categorias" [value]="cat.id">
-                    {{ cat.nome }}
-                </option>
-            </select>
-            <div *ngIf="produtoForm.get('categoriaId')?.invalid && produtoForm.get('categoriaId')?.touched"
-                class="error-message">
-                A categoria é obrigatória.
+            <div class="form-group">
+                <label for="imagens">Imagens do Produto:</label>
+                <input id="imagens" type="file" (change)="onFileSelected($event)" accept="image/*" multiple />
             </div>
         </div>
 
-        <div class="form-group">
-            <label for="imagem">Imagem do Produto:</label>
-            <input id="imagem" type="file" (change)="onFileSelected($event)" accept="image/*" />
+
+        <div *ngIf="previewUrls.length > 0" class="image-preview-gallery">
+            <h4>Pré-visualização (Novas Imagens):</h4>
+            <div class="preview-grid">
+                <div *ngFor="let url of previewUrls; let i = index" class="preview-item">
+                    <img [src]="url" alt="Pré-visualização">
+                    <button type="button" class="btn-remove-preview" (click)="removerImagemPreview(i)">&times;</button>
+                </div>
+            </div>
         </div>
-        
-        <div *ngIf="uploadProgresso > 0" class="progress-container">
+
+        <div *ngIf="modoEdicao && imagensExistentes.length > 0" class="image-preview-gallery">
+            <h4>Imagens Atuais:</h4>
+            <div class="preview-grid">
+                <div *ngFor="let imagem of imagensExistentes" class="preview-item">
+                    <img [src]="'http://localhost:8080' + imagem.url" [alt]="'Imagem ' + imagem.id">
+                    <button type="button" class="btn-remove-preview" (click)="removerImagemExistente(imagem.id)">
+                        &times; </button>
+                </div>
+            </div>
+        </div>
+
+        <div *ngIf="uploadProgresso > 0" class="progress-container full-width">
             <div class="progress-bar" [style.width.%]="uploadProgresso"></div>
         </div>
 
-
-        <button type="submit" [disabled]="produtoForm.invalid">Cadastrar Produto</button>
+        <button type="submit" [disabled]="produtoForm.invalid">{{ modoEdicao ? 'Salvar Alterações' : 'Cadastrar Produto'
+            }}</button>
     </form>
+</div>
+
+
+<div *ngIf="mostrarModalCategoria" class="modal-overlay" (click)="fecharModalCategoria()">
+    <div class="modal-content" (click)="$event.stopPropagation()">
+        <h3>Cadastrar Nova Categoria</h3>
+        <form [formGroup]="novaCategoriaForm" (ngSubmit)="salvarNovaCategoria()">
+            <div class="form-group">
+                <label for="novaCategoriaNome">Nome da Categoria:</label>
+                <input id="novaCategoriaNome" type="text" formControlName="nome" required>
+            </div>
+            <div class="modal-actions">
+                <button type="button" (click)="fecharModalCategoria()" class="btn-cancelar">Cancelar</button>
+                <button type="submit" [disabled]="novaCategoriaForm.invalid" class="btn-salvar">Salvar</button>
+            </div>
+        </form>
+    </div>
 </div>

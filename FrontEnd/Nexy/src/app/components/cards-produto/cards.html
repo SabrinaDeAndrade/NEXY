@@ -1,8 +1,8 @@
 <div class="card" [routerLink]="['/produto', produto.id]">
-  <img [src]="'http://localhost:8080' + produto.imagemUrl" 
-       class="card-img-top" 
-       [alt]="produto.nome" 
-       *ngIf="produto.imagemUrl; else semImagem">
+ <img [src]="'http://localhost:8080' + produto.imagens[0]?.url" 
+          class="card-img-top" 
+          [alt]="produto.nome" 
+          *ngIf="produto.imagens && produto.imagens.length > 0; else semImagem">
 
   <ng-template #semImagem>
     <img src="/img/sem-imagem.png" class="card-img-top" alt="Sem imagem">

@@ -20,7 +20,10 @@
       <tbody>
         <tr *ngFor="let item of (itens$ | async)">
           <td class="coluna-imagem">
-            <img [src]="item.produto.imagemUrl" [alt]="item.produto.nome">
+            <img [src]="'http://localhost:8080' + item.produto.imagens[0]?.url" [alt]="item.produto.nome" *ngIf="item.produto.imagens && item.produto.imagens.length > 0; else semImagemCarrinho">
+         <ng-template #semImagemCarrinho>
+            <img src="/assets/img/sem-imagem.png" alt="Sem imagem">
+         </ng-template>
           </td>
           <td class="coluna-nome">
             {{ item.produto.nome }}

@@ -1,0 +1,62 @@
+<div class="gerenciar-container">
+  
+  <div class="form-container">
+    
+    <h2 *ngIf="categoriaEmEdicao">Editando: {{ categoriaEmEdicao?.nome }}</h2>
+    <h2 *ngIf="!categoriaEmEdicao">Criar Nova Categoria</h2>
+
+    <form (ngSubmit)="salvarCategoria()">
+      <div class="form-group">
+        <label for="nomeCategoria">Nome:</label>
+        <input type="text" 
+               id="nomeCategoria" 
+               [(ngModel)]="nomeCategoriaInput" 
+               name="nomeCategoria"
+               required>
+      </div>
+
+      <div class="form-actions">
+        <button type="submit" class="btn-salvar">Salvar</button>
+        <button type="button" 
+                *ngIf="categoriaEmEdicao" 
+                (click)="resetarFormulario()" 
+                class="btn-cancelar">
+          Cancelar Edição
+        </button>
+      </div>
+    </form>
+  </div>
+
+  <hr>
+
+  <div class="lista-container">
+    <h2>Categorias Cadastradas</h2>
+    
+    <div *ngIf="carregando">Carregando lista...</div>
+
+    <table *ngIf="!carregando && categorias.length > 0" class="tabela-categorias">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Nome</th>
+          <th>Ações</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let cat of categorias">
+          <td>{{ cat.id }}</td>
+          <td>{{ cat.nome }}</td>
+          <td class="acoes">
+            <button (click)="iniciarEdicao(cat)" class="btn-editar">Editar</button>
+            <button (click)="removerCategoria(cat.id)" class="btn-remover">Remover</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div *ngIf="!carregando && categorias.length === 0">
+      <p>Nenhuma categoria cadastrada.</p>
+    </div>
+
+  </div>
+</div>

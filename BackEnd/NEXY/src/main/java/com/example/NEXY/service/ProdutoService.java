@@ -1,6 +1,10 @@
 package com.example.NEXY.service;
 
+import com.example.NEXY.model.Categoria;
+import com.example.NEXY.model.ImagemProduto;
 import com.example.NEXY.model.Produto;
+import com.example.NEXY.repository.CategoriaRepository;
+import com.example.NEXY.repository.ImagemProdutoRepository;
 import com.example.NEXY.repository.ProdutoRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,36 +16,45 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
 @Service
 public class ProdutoService {
+
     private final ProdutoRepository produtoRepository;
-    private final CategoriaService categoriaService;
+    private final ImagemProdutoRepository imagemProdutoRepository;
+    private final CategoriaRepository categoriaRepository;
 
-    private static final String UPLOAD_DIR = "uploads/";
-
-    public ProdutoService(ProdutoRepository produtoRepository, CategoriaService categoriaService) {
+    public ProdutoService(ProdutoRepository produtoRepository,
+                          ImagemProdutoRepository imagemProdutoRepository,
+                          CategoriaRepository categoriaRepository) {
         this.produtoRepository = produtoRepository;
-        this.categoriaService = categoriaService;
+        this.imagemProdutoRepository = imagemProdutoRepository;
+        this.categoriaRepository = categoriaRepository;
     }
-
 
     @Transactional
     public Produto save(Produto produto) {
+        Long categoriaId = produto.getCategoria().getId();
+        Categoria categoriaReal = categoriaRepository.findById(categoriaId)
+                .orElseThrow(() -> new RuntimeException("Categoria não encontrada com id " + categoriaId));
+
         if (produto.getId() == null || produto.getId() == 0) {
-            // Produto novo
+
+            produto.setCategoria(categoriaReal);
             return produtoRepository.save(produto);
+
         } else {
-            // Atualização de produto existente
             Optional<Produto> produtoExistenteOpt = produtoRepository.findById(produto.getId());
             if (produtoExistenteOpt.isEmpty()) {
                 throw new RuntimeException("Produto não encontrado com id " + produto.getId());
             }
 
             Produto produtoExistente = produtoExistenteOpt.get();
+
             produtoExistente.setNome(produto.getNome());
             produtoExistente.setDescricao(produto.getDescricao());
             produtoExistente.setPreco(produto.getPreco());
@@ -49,9 +62,7 @@ public class ProdutoService {
             produtoExistente.setPeso(produto.getPeso());
             produtoExistente.setAltura(produto.getAltura());
             produtoExistente.setLargura(produto.getLargura());
-            produtoExistente.setCategoria(produto.getCategoria());
-            produtoExistente.setImagemUrl(produto.getImagemUrl());
-
+            produtoExistente.setCategoria(categoriaReal);
             return produtoRepository.save(produtoExistente);
         }
     }
@@ -68,45 +79,80 @@ public class ProdutoService {
     }
 
 
-
     public void delete(Long id) {
         produtoRepository.deleteById(id);
     }
 
-    @Transactional
-    public String salvarImagem(Long id, MultipartFile imagem) throws IOException {
-        Produto produto = produtoRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Produto não encontrado com ID: " + id));
+    public List<String> salvarImagens(Long id, List<MultipartFile> imagens) throws IOException {
+        Produto produto = this.findById(id);
 
-        try {
-            // Cria pasta se não existir
-            File diretorio = new File(UPLOAD_DIR);
-            if (!diretorio.exists()) {
-                diretorio.mkdirs();
+        List<String> urls = new ArrayList<>();
+        String pastaUpload = "uploads/";
+        File diretorio = new File(pastaUpload);
+        if (!diretorio.exists()) {
+            diretorio.mkdirs();
+        }
+
+        for (MultipartFile imagem : imagens) {
+            if (imagem.isEmpty()) {
+                continue;
             }
 
-            // Gera nome único para a imagem
-            String nomeArquivo = UUID.randomUUID() + "_" + imagem.getOriginalFilename();
-
-            // Caminho completo para salvar
-            Path caminhoArquivo = Paths.get(UPLOAD_DIR + nomeArquivo);
-
-            // Salva o arquivo fisicamente
+            String nomeArquivo = System.currentTimeMillis() + "_" + imagem.getOriginalFilename();
+            Path caminhoArquivo = Paths.get(pastaUpload + nomeArquivo);
             Files.write(caminhoArquivo, imagem.getBytes());
 
-            // Atualiza o produto com a URL da imagem (pode ser um caminho relativo)
-            produto.setImagemUrl("/uploads/" + nomeArquivo);
-            produtoRepository.save(produto);
+            ImagemProduto novaImagem = new ImagemProduto();
+            String urlImagem = "/uploads/" + nomeArquivo;
+            novaImagem.setUrl(urlImagem);
+            novaImagem.setProduto(produto);
 
-            return produto.getImagemUrl();
-
-        } catch (IOException e) {
-            throw new RuntimeException("Erro ao salvar imagem: " + e.getMessage());
+            if (produto.getImagens() == null) {
+                produto.setImagens(new ArrayList<>());
+            }
+            produto.getImagens().add(novaImagem);
+            urls.add(urlImagem);
         }
+
+        produtoRepository.save(produto);
+        return urls;
     }
 
     public List<Produto> getProductsByCategoryId(Long categoriaId) {
         return produtoRepository.findByCategoriaId(categoriaId);
+    }
 
+    @Transactional
+    public void deleteImagem(Long imagemId) throws IOException {
+
+        ImagemProduto imagem = imagemProdutoRepository.findById(imagemId)
+                .orElseThrow(() -> new RuntimeException("Imagem não encontrada com id " + imagemId));
+
+        String caminhoArquivoStr = imagem.getUrl().substring(1);
+
+
+        Path caminhoArquivo = Paths.get(caminhoArquivoStr);
+
+
+        try {
+            // Usa a variável que acabamos de definir
+            Files.deleteIfExists(caminhoArquivo);
+
+        } catch (IOException e) {
+            // Loga o erro, mas continua para deletar do banco
+            System.err.println("Falha ao deletar arquivo do disco: " + caminhoArquivoStr);
+            e.printStackTrace();
+        }
+
+
+        Produto produto = imagem.getProduto();
+        if (produto != null && produto.getImagens() != null) {
+            // Isso atualiza a relação antes de deletar, evitando erros do JPA
+            produto.getImagens().remove(imagem);
+        }
+
+        // 5. Deleta a imagem do banco de dados
+        imagemProdutoRepository.delete(imagem);
     }
 }
+

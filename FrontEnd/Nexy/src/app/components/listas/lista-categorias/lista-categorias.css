@@ -1,22 +1,27 @@
-
 h4 {
-  
+
   font-size: 28px;
   margin-top: auto;
   margin-left: 16px;
   margin-bottom: 10px;
 }
+
 .list-group-item {
   font-size: 24px;
   display: block;
-  width: 170px;
+  width: 230px;
   padding: 12px 15px;
   color: #cccccc;
   background-color: transparent;
-  border-radius: 6px; 
+  border-radius: 6px;
   cursor: pointer;
   transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
+  text-decoration: none;
+  white-space: normal;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
 }
+
 .list-group-item:hover {
   background-color: #f0f0f0;
   color: #333333;

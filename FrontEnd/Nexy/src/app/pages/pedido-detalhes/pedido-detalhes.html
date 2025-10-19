@@ -37,7 +37,10 @@
     <h3>Itens Comprados</h3>
     <div class="lista-itens">
       <div *ngFor="let item of pedido.itens" class="item-pedido">
-        <img [src]="'http://localhost:8080' + item.produto.imagemUrl" [alt]="item.produto.nome">
+        <img [src]="'http://localhost:8080' + item.produto.imagens[0]?.url" [alt]="item.produto.nome" *ngIf="item.produto.imagens && item.produto.imagens.length > 0; else semImagem">
+        <ng-template #semImagem>
+            <img src="/assets/img/sem-imagem.png" alt="Sem imagem disponível">
+        </ng-template>
         <div class="info-item">
           <h4>{{ item.produto.nome }}</h4>
           <p>Quantidade: {{ item.quantidade }}</p>

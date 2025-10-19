@@ -61,10 +61,10 @@ export class CarrinhoStateService {
     // Usamos take(1) para pegar o status de login apenas uma vez e evitar múltiplas execuções
     this.authService.isLoggedIn$.pipe(take(1)).subscribe(logado => {
       if (logado) {
-        // --- LÓGICA PARA USUÁRIO LOGADO ---
+      
         this.adicionarItemApi(produto, quantidade);
       } else {
-        // --- LÓGICA PARA USUÁRIO ANÔNIMO ---
+    
         this.carrinhoLocalStorage.adicionarItem(produto, quantidade);
         this.itensSubject.next(this.carrinhoLocalStorage.getItens());
         alert(`"${produto.nome}" adicionado ao carrinho local!`);
@@ -92,7 +92,7 @@ export class CarrinhoStateService {
     this.carrinhoItemService.criar(novoItem as CarrinhoItem).subscribe(() => {
       const clienteId = this.authService.getClienteId();
       if (clienteId) this.garantirCarrinhoEcarregarItens(clienteId);
-      alert(`"${produto.nome}" adicionado ao carrinho no banco de dados!`);
+      
     });
   }
 

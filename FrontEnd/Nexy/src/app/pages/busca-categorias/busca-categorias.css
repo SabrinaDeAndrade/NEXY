@@ -1,16 +1,17 @@
 .busca-categorias-container {
   display: flex;
-  align-items: flex-start;
+  flex-wrap: nowrap;
   gap: 20px;
+  
 }
 
 .categorias {
-
-  width: 200px;
   font-size: 24px;
   top: 20px;
-  height: calc(100vh - 40px);
   overflow-y: auto;
   border-right: 1px solid #ddd;
+  flex-basis: 230px;
+  flex-shrink: 0;
+  overflow-x: hidden; 
 }
 
