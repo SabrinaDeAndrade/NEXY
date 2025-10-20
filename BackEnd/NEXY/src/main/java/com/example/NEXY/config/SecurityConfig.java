@@ -25,18 +25,21 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authorize -> authorize
-                        // --- Endpoints Públicos (não precisam de login) ---
+
                         .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+
+                        // --- Endpoints Públicos (não precisam de login) ---
                         .requestMatchers(HttpMethod.POST, "/auth/login").permitAll()
                         .requestMatchers(HttpMethod.POST, "/auth/register").permitAll()
                         .requestMatchers(HttpMethod.GET, "/produtos/**").permitAll()
-                        // CORREÇÃO: O GET para listar categorias deve usar o caminho da API
-                        .requestMatchers(HttpMethod.GET, "/api/categorias").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/produtos").permitAll()
+                        .requestMatchers("/uploads/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/categorias").permitAll()
+                        .requestMatchers("/uploads").permitAll()
 
                         // --- Endpoints de ADMIN (exigem permissão de ADMIN) ---
                         .requestMatchers(HttpMethod.POST, "/auth/admin/register").hasRole("ADMIN")
                         .requestMatchers("/auth/admins/**").hasRole("ADMIN")
-                        // CORREÇÃO: As regras de admin para categorias devem usar o caminho da API
                         .requestMatchers("/api/categorias/**").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.POST, "/produtos").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.PUT, "/produtos/**").hasRole("ADMIN")
