@@ -6,25 +6,27 @@ import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-gerenciar-categorias',
- standalone: true,
+  standalone: true,
   imports: [CommonModule, FormsModule],
   templateUrl: './gerenciar-categorias.html',
   styleUrl: './gerenciar-categorias.css'
 })
-export class GerenciarCategorias implements OnInit{
+export class GerenciarCategorias implements OnInit {
 
   public categorias: Categoria[] = [];
   public categoriaEmEdicao: Categoria | null = null;
   public nomeCategoriaInput = '';
   public carregando = true;
 
-  constructor(private categoriaService: CategoriaService) {}
+  public mostrarModal = false;
+
+  constructor(private categoriaService: CategoriaService) { }
 
   ngOnInit(): void {
     this.carregarCategorias();
   }
 
- public carregarCategorias(): void {
+  public carregarCategorias(): void {
     this.carregando = true;
     this.categoriaService.listarTodas().subscribe(dados => {
       this.categorias = dados;
@@ -32,7 +34,23 @@ export class GerenciarCategorias implements OnInit{
     });
   }
 
-   public salvarCategoria(): void {
+  public iniciarCadastro(): void {
+    this.resetarFormulario();
+    this.mostrarModal = true;
+  }
+
+  public iniciarEdicao(categoria: Categoria): void {
+    this.categoriaEmEdicao = { ...categoria }; // Cria uma cópia para evitar alterações diretas
+    this.nomeCategoriaInput = categoria.nome;
+    this.mostrarModal = true;
+  }
+
+  public fecharModal(): void {
+    this.mostrarModal = false;
+    this.resetarFormulario();
+  }
+
+  public salvarCategoria(): void {
     if (!this.nomeCategoriaInput.trim()) {
       alert('O nome da categoria não pode estar vazio.');
       return;
@@ -43,10 +61,11 @@ export class GerenciarCategorias implements OnInit{
         id: this.categoriaEmEdicao.id,
         nome: this.nomeCategoriaInput
       };
-      
+
       this.categoriaService.atualizar(this.categoriaEmEdicao.id, categoriaAtualizada).subscribe(() => {
         this.resetarFormulario();
         this.carregarCategorias();
+        this.fecharModal();
       });
 
     } else {
@@ -57,22 +76,18 @@ export class GerenciarCategorias implements OnInit{
       this.categoriaService.criar(novaCategoria).subscribe(() => {
         this.resetarFormulario();
         this.carregarCategorias();
+        this.fecharModal();
       });
     }
   }
 
-   public iniciarEdicao(categoria: Categoria): void {
-    this.categoriaEmEdicao = categoria;
-    this.nomeCategoriaInput = categoria.nome;
-    window.scrollTo(0, 0); // Rola a página para o topo, onde está o formulário
-  }
 
   public resetarFormulario(): void {
     this.categoriaEmEdicao = null;
     this.nomeCategoriaInput = '';
   }
 
-   public removerCategoria(id: number): void {
+  public removerCategoria(id: number): void {
     // Pede confirmação
     if (confirm('Tem certeza que deseja remover esta categoria? Esta ação não pode ser desfeita.')) {
       this.categoriaService.deletar(id).subscribe({

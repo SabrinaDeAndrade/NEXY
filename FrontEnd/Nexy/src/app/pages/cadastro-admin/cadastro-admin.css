@@ -4,7 +4,6 @@
   margin: 30px auto;
   padding: 30px;
   color: #f0f0f0;
-
 }
 
 h2 {
@@ -16,6 +15,9 @@ h2 {
 }
 
 .header-container, .header-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   margin-bottom: 20px;
 }
 
@@ -53,7 +55,11 @@ h2 {
 
 /* ========= FORMULÁRIOS DE CRIAÇÃO E EDIÇÃO ========= */
 .edit-form {
+  background-color: #2c2c2e;
   padding: 25px;
+  border-radius: 8px;
+  margin-top: 20px;
+  border: 1px solid #3a3a3c;
 }
 
 .edit-form h3 {
@@ -92,7 +98,6 @@ h2 {
 
 .form-actions {
   display: flex;
-  flex-wrap: wrap;
   gap: 10px;
   margin-top: 20px;
 }
@@ -153,42 +158,4 @@ button, .btn-novo, a.btn-editar {
 }
 .btn-remover:hover, .btn-excluir:hover {
   background-color: #c82333;
-}
-
-/* ========= ESTILOS DO MODAL ========= */
-/* Adicione este código ao seu ficheiro CSS unificado */
-
-.modal-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.7); /* Fundo escuro semi-transparente */
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 1000;
-  backdrop-filter: blur(5px); /* Efeito de desfoque no fundo */
-}
-
-.modal-content {
-  background-color: #2c2c2e;
-  padding: 30px;
-  border-radius: 8px;
-  border: 1px solid #3a3a3c;
-  width: 100%;
-  max-width: 500px; /* Largura máxima do modal */
-  box-shadow: 0 5px 25px rgba(0,0,0,0.5);
-}
-
-.modal-content h3 {
-  color: #00bfff;
-  margin-top: 0;
-  margin-bottom: 20px;
-}
-
-/* Garante que os botões no modal fiquem alinhados à direita */
-.modal-content .form-actions {
-  justify-content: flex-end; 
 }

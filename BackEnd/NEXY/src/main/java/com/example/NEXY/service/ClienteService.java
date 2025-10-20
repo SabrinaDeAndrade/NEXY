@@ -1,8 +1,11 @@
 package com.example.NEXY.service;
 
+import com.example.NEXY.model.Carrinho;
 import com.example.NEXY.model.Cliente;
+import com.example.NEXY.repository.CarrinhoRepository;
 import com.example.NEXY.repository.ClienteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -12,10 +15,12 @@ import java.util.Optional;
 public class ClienteService {
     private final ClienteRepository clienteRepository;
     private final PasswordEncoder passwordEncoder;
+    private final CarrinhoRepository carrinhoRepository;
 
     @Autowired
-    public ClienteService(ClienteRepository clienteRepository, PasswordEncoder passwordEncoder) {
+    public ClienteService(ClienteRepository clienteRepository, CarrinhoRepository carrinhoRepository, @Lazy PasswordEncoder passwordEncoder) {
         this.clienteRepository = clienteRepository;
+        this.carrinhoRepository = carrinhoRepository;
         this.passwordEncoder = passwordEncoder;
     }
 
@@ -25,8 +30,9 @@ public class ClienteService {
             throw new RuntimeException("Email já cadastrado.");
         }
 
-        // Criptografa a senha antes de salvar
-        cliente.setSenha(passwordEncoder.encode(cliente.getSenha()));
+        String senhaEncriptada = passwordEncoder.encode(cliente.getSenha());
+        cliente.setSenha(senhaEncriptada);
+
         return clienteRepository.save(cliente);
     }
 
@@ -34,21 +40,13 @@ public class ClienteService {
         return clienteRepository.findByEmail(email);
     }
 
-    // LOGIN do cliente
-    public Cliente login(String email, String senha) {
-        Cliente cliente = clienteRepository.findByEmail(email)
-                .orElseThrow(() -> new RuntimeException("Credenciais inválidas."));
-
-        // Compara senha digitada com senha criptografada
-        if (passwordEncoder.matches(senha, cliente.getSenha())) {
-            return cliente;
-        } else {
-            throw new RuntimeException("Credenciais inválidas.");
-        }
-    }
 
     public List<Cliente> findAll() {
         return clienteRepository.findAll();
+    }
+
+    public List<Cliente> findAllAdmins() {
+        return clienteRepository.findByTipoUsuario("ADMIN");
     }
 
     public Optional<Cliente> findById(Long id) {
@@ -56,17 +54,34 @@ public class ClienteService {
     }
 
     public Cliente update(Long id, Cliente clienteAtualizado) {
-        return clienteRepository.findById(id).map(cliente -> {
-            cliente.setNome(clienteAtualizado.getNome());
-            cliente.setEmail(clienteAtualizado.getEmail());
-            cliente.setCpf(clienteAtualizado.getCpf());
-            cliente.setTelefone(clienteAtualizado.getTelefone());
-            cliente.setTipoUsuario(clienteAtualizado.getTipoUsuario());
-            return clienteRepository.save(cliente);
-        }).orElseThrow(() -> new RuntimeException("Cliente não encontrado com ID: " + id));
+        Cliente clienteExistente = findById(id)
+                .orElseThrow(() -> new RuntimeException("Cliente não encontrado com id: " + id));
+
+        clienteExistente.setNome(clienteAtualizado.getNome());
+        clienteExistente.setEmail(clienteAtualizado.getEmail());
+        clienteExistente.setCpf(clienteAtualizado.getCpf());
+        clienteExistente.setTelefone(clienteAtualizado.getTelefone());
+
+        if (clienteAtualizado.getSenha() != null && !clienteAtualizado.getSenha().isEmpty()) {
+            String senhaNovaEncriptada = passwordEncoder.encode(clienteAtualizado.getSenha());
+            clienteExistente.setSenha(senhaNovaEncriptada);
+        }
+
+        return clienteRepository.save(clienteExistente);
     }
 
+
     public void delete(Long id) {
+
+        Cliente clienteParaExcluir = clienteRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Cliente não encontrado com id: " + id));
+
+        if (!"ADMIN".equalsIgnoreCase(clienteParaExcluir.getTipoUsuario())) {
+            throw new RuntimeException("Apenas administradores podem ser excluídos através desta função.");
+        }
+
+        Optional<Carrinho> carrinhoOptional = carrinhoRepository.findByClienteId(id);
+        carrinhoOptional.ifPresent(carrinho -> carrinhoRepository.deleteById(carrinho.getId()));
         clienteRepository.deleteById(id);
     }
 }

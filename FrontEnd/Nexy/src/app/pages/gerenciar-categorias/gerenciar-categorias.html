@@ -1,38 +1,16 @@
-<div class="gerenciar-container">
-  
-  <div class="form-container">
-    
-    <h2 *ngIf="categoriaEmEdicao">Editando: {{ categoriaEmEdicao?.nome }}</h2>
-    <h2 *ngIf="!categoriaEmEdicao">Criar Nova Categoria</h2>
+<h2>Gerenciar Categorias</h2>
+<div class="header-actions">
 
-    <form (ngSubmit)="salvarCategoria()">
-      <div class="form-group">
-        <label for="nomeCategoria">Nome:</label>
-        <input type="text" 
-               id="nomeCategoria" 
-               [(ngModel)]="nomeCategoriaInput" 
-               name="nomeCategoria"
-               required>
-      </div>
-
-      <div class="form-actions">
-        <button type="submit" class="btn-salvar">Salvar</button>
-        <button type="button" 
-                *ngIf="categoriaEmEdicao" 
-                (click)="resetarFormulario()" 
-                class="btn-cancelar">
-          Cancelar Edição
-        </button>
-      </div>
-    </form>
+  <div class="edit-form">
+    <button (click)="iniciarCadastro()" class="btn-novo">+ Cadastrar Nova Categoria</button>
   </div>
 
-  <hr>
 
+  <!-- Lista de Categorias -->
   <div class="lista-container">
     <h2>Categorias Cadastradas</h2>
-    
-    <div *ngIf="carregando">Carregando lista...</div>
+
+    <div *ngIf="carregando">A carregar lista...</div>
 
     <table *ngIf="!carregando && categorias.length > 0" class="tabela-categorias">
       <thead>
@@ -54,9 +32,33 @@
       </tbody>
     </table>
 
-    <div *ngIf="!carregando && categorias.length === 0">
-      <p>Nenhuma categoria cadastrada.</p>
-    </div>
+    <p *ngIf="!carregando && categorias.length === 0">Nenhuma categoria cadastrada.</p>
 
   </div>
-</div>
+    <!-- ESTRUTURA DO MODAL (fica no final do ficheiro) -->
+  <div *ngIf="mostrarModal" class="modal-overlay" (click)="fecharModal()">
+    <div class="modal-content" (click)="$event.stopPropagation()">
+      
+      <h3 *ngIf="categoriaEmEdicao">Editando Categoria: {{ categoriaEmEdicao.nome }}</h3>
+      <h3 *ngIf="!categoriaEmEdicao">Criar Nova Categoria</h3>
+
+      <form (ngSubmit)="salvarCategoria()">
+        <div class="form-group">
+          <label for="nomeCategoria">Nome da Categoria</label>
+          <input type="text" 
+                 id="nomeCategoria" 
+                 [(ngModel)]="nomeCategoriaInput" 
+                 name="nomeCategoria"
+                 required>
+        </div>
+
+        <div class="form-actions">
+          <button type="button" (click)="fecharModal()" class="btn-cancelar">
+            Cancelar
+          </button>
+          <button type="submit" class="btn-salvar">Salvar</button>
+        </div>
+      </form>
+
+    </div>
+  </div>

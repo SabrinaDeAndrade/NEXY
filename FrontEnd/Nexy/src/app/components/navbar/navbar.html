@@ -7,8 +7,9 @@
       <li><a routerLink="/home">Home</a></li>
       <li><a routerLink="/categorias">Produtos</a></li>
       <li><a routerLink="/sobre">Sobre</a></li>
-      <li><a routerLink="admin/produtos">Grenciar Produtos</a></li>
+      <li><a routerLink="/admin/produtos">Grenciar Produtos</a></li>
       <li><a routerLink="/admin/categorias">Gerenciar Categorias</a></li>
+      <li><a routerLink="/admin/gerenciarAdmin">Gerenciar Admin</a></li>
           <li *ngIf="isLoggedIn$ | async" class="nav-item">
         <a class="nav-link" routerLink="/meus-pedidos">Meus Pedidos</a>
       </li>

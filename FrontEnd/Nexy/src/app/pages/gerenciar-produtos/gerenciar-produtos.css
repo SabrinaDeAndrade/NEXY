@@ -1,17 +1,76 @@
+/* ========= CONTAINER PRINCIPAL ========= */
+/* Aplica a todos os containers principais das páginas de gestão */
 .gerenciar-container {
-  max-width: 900px;
-  margin: 20px auto;
-  padding: 20px;
-  background-color: #2a2a2a; /* Cor de fundo escura */
-  border-radius: 8px;
-  color: #f0f0f0; /* Texto claro */
+  max-width: 1100px; /* Aumentado para dar mais espaço */
+  margin: 30px auto;
+  padding: 30px;
+  background-color: #1c1c1e; /* Um pouco mais suave que o preto total */
+  border-radius: 12px;
+  color: #f0f0f0;
+  border: 1px solid #3a3a3c;
 }
 
-/* --- Estilos do Formulário --- */
-.form-container h2 {
-  color: #00bfff; /* Um azul vibrante para o título */
+/* ========= CABEÇALHOS E TÍTULOS ========= */
+h2 {
+  color: #f0f0f0;
   border-bottom: 2px solid #00bfff;
-  padding-bottom: 10px;
+  padding-bottom: 15px;
+  margin-bottom: 25px;
+  font-size: 1.8rem;
+}
+
+.header-container, .header-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+/* ========= TABELAS DE DADOS ========= */
+.tabela-categorias {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+.tabela-categorias th,
+.tabela-categorias td {
+  border-bottom: 1px solid #3a3a3c;
+  padding: 15px;
+  text-align: left;
+  vertical-align: middle;
+}
+
+.tabela-categorias th {
+  background-color: #2c2c2e;
+  color: #00bfff;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+}
+
+.tabela-categorias tr:last-child td {
+  border-bottom: none;
+}
+
+.tabela-categorias td.acoes {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-start;
+}
+
+/* ========= FORMULÁRIOS DE CRIAÇÃO E EDIÇÃO ========= */
+.edit-form {
+  background-color: #2c2c2e;
+  padding: 25px;
+  border-radius: 8px;
+  margin-top: 20px;
+  border: 1px solid #3a3a3c;
+}
+
+.edit-form h3 {
+  color: #00bfff;
+  margin-top: 0;
+  margin-bottom: 20px;
 }
 
 .form-group {
@@ -20,111 +79,88 @@
 
 .form-group label {
   display: block;
-  margin-bottom: 5px;
+  margin-bottom: 8px;
   font-weight: bold;
+  font-size: 0.9rem;
+  color: #aaa;
 }
 
-.form-group input[type="text"] {
+.edit-form input[type="text"],
+.edit-form input[type="email"],
+.edit-form input[type="password"],
+.form-group input,
+.form-group textarea,
+.form-group select {
   width: 100%;
-  padding: 10px;
-  border-radius: 4px;
+  padding: 12px;
+  border-radius: 6px;
   border: 1px solid #555;
-  background-color: #333;
+  background-color: #3a3a3c;
   color: #f0f0f0;
-  box-sizing: border-box; /* Garante que o padding não estoure a largura */
+  box-sizing: border-box;
+  font-size: 1rem;
 }
 
 .form-actions {
   display: flex;
   gap: 10px;
-}
-
-/* --- Estilos da Tabela --- */
-.lista-container h2 {
-  color: #f0f0f0;
-}
-
-.tabela-categorias {
-  width: 100%;
-  border-collapse: collapse; /* Tira espaço entre bordas */
   margin-top: 20px;
 }
 
-.tabela-categorias th,
-.tabela-categorias td {
-  border: 1px solid #555;
-  padding: 12px;
-  text-align: left;
-}
-
-.tabela-categorias th {
-  background-color: #333;
-  color: #00bfff;
-}
-
-.tabela-categorias td.acoes {
-  display: flex;
-  gap: 10px;
-  justify-content: center;
-}
-
-/* --- Estilos dos Botões --- */
-button {
-  padding: 8px 12px;
+/* ========= BOTÕES (ESTILO GERAL) ========= */
+button, .btn-novo, a.btn-editar {
+  padding: 10px 18px;
   border: none;
-  border-radius: 4px;
+  border-radius: 6px;
   cursor: pointer;
   font-weight: bold;
+  text-decoration: none;
+  display: inline-block;
+  text-align: center;
   transition: all 0.2s ease;
 }
 
-.btn-salvar {
-  background-color: #28a745; /* Verde */
+/* Botão de Cadastrar Novo */
+.btn-novo, .header-actions button {
+  background-color: #007bff;
   color: white;
 }
-.btn-salvar:hover {
+.btn-novo:hover, .header-actions button:hover {
+  background-color: #0056b3;
+}
+
+/* Botão Salvar */
+.btn-salvar, .edit-form button[type="submit"] {
+  background-color: #28a745;
+  color: white;
+}
+.btn-salvar:hover, .edit-form button[type="submit"]:hover {
   background-color: #218838;
 }
 
+/* Botão Cancelar */
 .btn-cancelar {
-  background-color: #f0f0f0;
-  color: #333;
+  background-color: #6c757d;
+  color: white;
 }
 .btn-cancelar:hover {
-  background-color: #ddd;
+  background-color: #5a6268;
 }
 
+/* Botão Editar */
 .btn-editar {
-  background-color: #ffc107; /* Amarelo */
-  color: #333;
+  background-color: #ffc107;
+  color: #212529;
 }
 .btn-editar:hover {
   background-color: #e0a800;
 }
 
-.btn-remover {
-  background-color: #dc3545; /* Vermelho */
+/* Botão Remover/Excluir */
+.btn-remover, .btn-excluir {
+  background-color: #dc3545;
   color: white;
 }
-.btn-remover:hover {
+.btn-remover:hover, .btn-excluir:hover {
   background-color: #c82333;
-}
-.header-container {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 10px;
-}
-
-.btn-novo {
-  background-color: #007bff; /* Azul */
-  color: white;
-  padding: 10px 15px;
-  border-radius: 4px;
-  text-decoration: none;
-  font-weight: bold;
-  transition: all 0.2s ease;
-}
-.btn-novo:hover {
-  background-color: #0056b3;
 }

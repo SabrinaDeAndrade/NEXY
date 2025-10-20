@@ -1,16 +1,24 @@
 package com.example.NEXY.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
+import java.util.Collection;
 import java.util.List;
 
 @Entity
-@Data
-public class Cliente {
+@Table(name = "cliente")
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@EqualsAndHashCode(of = "id")
+public class Cliente implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -30,6 +38,7 @@ public class Cliente {
     @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ClienteCartao> cartoes;
 
+
     public Cliente() {
     }
 
@@ -42,6 +51,43 @@ public class Cliente {
         this.telefone = telefone;
         this.tipoUsuario = tipoUsuario;
     }
+
+    @Override
+    @JsonIgnore
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        if ("ADMIN".equalsIgnoreCase(this.tipoUsuario)) {
+            return List.of(new SimpleGrantedAuthority("ROLE_ADMIN"), new SimpleGrantedAuthority("ROLE_CLIENTE"));
+        } else {
+            return List.of(new SimpleGrantedAuthority("ROLE_CLIENTE"));
+        }
+    }
+
+    @Override
+    public String getPassword() {
+        return this.senha;
+    }
+
+    @Override
+    public String getUsername() {
+        return this.email;
+    }
+
+    @Override
+    @JsonIgnore
+    public boolean isAccountNonExpired() { return true; }
+
+    @Override
+    @JsonIgnore
+    public boolean isAccountNonLocked() { return true; }
+
+    @Override
+    @JsonIgnore
+    public boolean isCredentialsNonExpired() { return true; }
+
+    @Override
+    @JsonIgnore
+    public boolean isEnabled() { return true; }
+
 
     public Long getId() {
         return id;
@@ -98,5 +144,22 @@ public class Cliente {
     public void setTipoUsuario(String tipoUsuario) {
         this.tipoUsuario = tipoUsuario;
     }
+
+    public List<Endereco> getEnderecos() {
+        return enderecos;
+    }
+
+    public void setEnderecos(List<Endereco> enderecos) {
+        this.enderecos = enderecos;
+    }
+
+    public List<ClienteCartao> getCartoes() {
+        return cartoes;
+    }
+
+    public void setCartoes(List<ClienteCartao> cartoes) {
+        this.cartoes = cartoes;
+    }
 }
+
 

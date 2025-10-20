@@ -35,8 +35,14 @@ export class Login {
         next: (resposta: LoginResponseDTO) => {
           console.log('Login bem-sucedido!', resposta);
           alert('Login realizado com sucesso!');
-          this.carrinhoStateService.sincronizarCarrinhoAoLogar(resposta.clienteId);
-          this.router.navigate(['/']);
+
+          // 🧩 Verifica o tipo de usuário e redireciona
+          if (resposta.tipoUsuario === 'ADMIN') {
+            this.router.navigate(['/admin/dashboard']);
+          } else {
+            this.carrinhoStateService.sincronizarCarrinhoAoLogar(resposta.clienteId);
+            this.router.navigate(['/']);
+          }
         },
         error: (err: HttpErrorResponse) => {
           console.error('Erro no login:', err);
