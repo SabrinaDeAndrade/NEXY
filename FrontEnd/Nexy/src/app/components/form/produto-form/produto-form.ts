@@ -192,7 +192,7 @@ export class ProdutoForm implements OnInit {
 
   resetarFormulario(mensagem: string): void {
     alert(mensagem);
-    this.router.navigate(['/categorias']);
+    this.router.navigate(['/admin/produtos']);
   }
 
   abrirModalCategoria(): void {

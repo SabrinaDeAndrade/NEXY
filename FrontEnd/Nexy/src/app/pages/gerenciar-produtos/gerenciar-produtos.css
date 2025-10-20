@@ -1,16 +1,12 @@
-/* ========= CONTAINER PRINCIPAL ========= */
-/* Aplica a todos os containers principais das páginas de gestão */
+
 .gerenciar-container {
-  max-width: 1100px; /* Aumentado para dar mais espaço */
+  max-width: 1100px; 
   margin: 30px auto;
   padding: 30px;
-  background-color: #1c1c1e; /* Um pouco mais suave que o preto total */
-  border-radius: 12px;
   color: #f0f0f0;
-  border: 1px solid #3a3a3c;
 }
 
-/* ========= CABEÇALHOS E TÍTULOS ========= */
+
 h2 {
   color: #f0f0f0;
   border-bottom: 2px solid #00bfff;
@@ -20,9 +16,6 @@ h2 {
 }
 
 .header-container, .header-actions {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
   margin-bottom: 20px;
 }
 
