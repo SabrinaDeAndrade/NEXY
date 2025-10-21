@@ -1,12 +1,24 @@
 <div class="card" [routerLink]="['/produto', produto.id]">
- <img [src]="'http://localhost:8080' + produto.imagens[0]?.url" 
-          class="card-img-top" 
-          [alt]="produto.nome" 
-          *ngIf="produto.imagens && produto.imagens.length > 0; else semImagem">
+  <div id="carousel-{{ produto.id }}" class="carousel slide" data-bs-ride="carousel">
+    <div class="carousel-inner">
+      <div *ngFor="let img of produto.imagens; let i = index" class="carousel-item" [class.active]="i === 0">
+        <img [src]="'http://localhost:8080' + img" class="d-block w-100 card-img-top" [alt]="produto.nome" />
+      </div>
 
-  <ng-template #semImagem>
-    <img src="/img/sem-imagem.png" class="card-img-top" alt="Sem imagem">
-  </ng-template>
+      <div class="carousel-item active" *ngIf="!produto.imagens || produto.imagens.length === 0">
+        <img src="/img/sem-imagem.png" class="d-block w-100 card-img-top" alt="Sem imagem" />
+      </div>
+    </div>
+
+    <button class="carousel-control-prev" type="button" [attr.data-bs-target]="'#carousel-' + produto.id"
+      data-bs-slide="prev">
+      <span class="carousel-control-prev-icon"></span>
+    </button>
+    <button class="carousel-control-next" type="button" [attr.data-bs-target]="'#carousel-' + produto.id"
+      data-bs-slide="next">
+      <span class="carousel-control-next-icon"></span>
+    </button>
+  </div>
 
   <div class="card-body">
     <h5 class="card-title">{{ produto.nome }}</h5>
