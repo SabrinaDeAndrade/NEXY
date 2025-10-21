@@ -24,11 +24,6 @@ public class CarrinhoItemController {
         return ResponseEntity.status(HttpStatus.CREATED).body(itemSalvo);
     }
 
-//    @PostMapping
-//    public CarrinhoItem save(@RequestBody CarrinhoItem item) {
-//        return carrinhoItemService.save(item);
-//    }
-
     @GetMapping
     public List<CarrinhoItem> findAll() {
         return carrinhoItemService.findAll();

@@ -1,11 +1,40 @@
-<div class="list-group">
-  <h4>Categorias</h4>
-  <a routerLink="/categorias" class="list-group-item list-group-item-action" routerLinkActive="active"
-    [routerLinkActiveOptions]="{exact: true}">
-    Todas
-  </a>
-  <a *ngFor="let categoria of categorias" [routerLink]="['/categorias', categoria.id]"
-    class="list-group-item list-group-item-action" routerLinkActive="active">
-    {{ categoria.nome }}
-  </a>
+<div class="list-group sidebar-container">
+
+  <div *ngIf="authService.getTipoUsuario() !== 'ADMIN'">
+    <h4>Categorias</h4>
+    <a routerLink="/categorias" 
+       class="list-group-item list-group-item-action" 
+       routerLinkActive="active"
+       [routerLinkActiveOptions]="{exact: true}">
+      Todas
+    </a>
+    <a *ngFor="let categoria of categorias" 
+       [routerLink]="['/categorias', categoria.id]"
+       class="list-group-item list-group-item-action" 
+       routerLinkActive="active">
+      {{ categoria.nome }}
+    </a>
+  </div>
+
+  <div *ngIf="authService.getTipoUsuario() === 'ADMIN'" class="admin-section">
+    
+    <h4 class="admin-title">Administração</h4>
+    
+    <a routerLink="/admin/gerenciar-produtos" 
+       class="list-group-item list-group-item-action admin-link" 
+       routerLinkActive="active">
+      Gerenciar Produtos
+    </a>
+    <a routerLink="/admin/gerenciar-categorias" 
+       class="list-group-item list-group-item-action admin-link" 
+       routerLinkActive="active">
+      Gerenciar Categorias
+    </a>
+    <a routerLink="/admin/gerenciar-admins" 
+       class="list-group-item list-group-item-action admin-link" 
+       routerLinkActive="active">
+      Gerenciar Admins
+    </a>
+  </div>
+
 </div>
