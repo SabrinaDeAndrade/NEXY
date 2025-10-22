@@ -19,6 +19,7 @@ h4 {
   white-space: normal;
   word-wrap: break-word;
   overflow-wrap: break-word;
+  border: none;
 }
 
 .list-group-item:hover {

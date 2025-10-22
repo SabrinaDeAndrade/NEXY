@@ -1,19 +1,19 @@
-<nav class="list-group sidebar-container">
+<nav class="list-group">
     <h4>Gerenciamento</h4>
   <ul>
   
     <li>
-      <a (click)="selectView('produtos')" class="list-group-item list-group-item-action" [class.active]="activeView == 'produtos'">
+      <a (click)="selectView('produtos')" class="list-group-item " [class.active]="activeView == 'produtos'">
         Gerenciar Produtos
       </a>
     </li>
     <li>
-      <a (click)="selectView('categorias')" class="list-group-item list-group-item-action"[class.active]="activeView == 'categorias'">
+      <a (click)="selectView('categorias')" class="list-group-item"[class.active]="activeView == 'categorias'">
         Gerenciar Categorias
       </a>
     </li>
     <li>
-      <a (click)="selectView('admins')" class="list-group-item list-group-item-action" [class.active]="activeView == 'admins'">
+      <a (click)="selectView('admins')" class="list-group-item" [class.active]="activeView == 'admins'">
         Gerenciar Admins
       </a>
     </li>
