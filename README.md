@@ -54,7 +54,10 @@ A NEXY existe para tornar a tecnologia **acessível, sustentável e significativ
 - Design dos produtos e organização de tarefas (Ruthe e Ana Clara)
 
 ### 🔵 Semana 3
-*(Adicionar atividades realizadas nesta semana)*
+- Conexão ao banco de dados e funcionalidades cruciais (CRUD de produtos e autenticação) no sistema do funcionário (Jaine)
+- Refatoração do front-end do sistema e iniciaram a construção da interface do cliente, seguindo os padrões definidos (Sabrina e Maria)
+- Gerenciamento da integração via branchs no repositório e manteve o tracking de progresso no Trello (Ruthe)
+- Criação de imagens e conteúdo para os cards de produtos, atualização do README.md, listagem das funcionalidades e adequação da documentação (Ana)
 
 ### 🟣 Semana 4
 *(Adicionar atividades realizadas nesta semana)*
@@ -83,3 +86,4 @@ ng serve
 ### 📚 Recursos Adicionais
 
 Para mais informações sobre o Angular CLI e seus comandos, acesse a [documentação oficial do Angular CLI](https://angular.dev/tools/cli).
+
