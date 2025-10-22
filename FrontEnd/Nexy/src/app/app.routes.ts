@@ -14,6 +14,7 @@ import { PedidoDetalhes } from './pages/pedido-detalhes/pedido-detalhes';
 import { GerenciarCategorias } from './pages/gerenciar-categorias/gerenciar-categorias';
 import { GerenciarProdutos } from './pages/gerenciar-produtos/gerenciar-produtos';
 import { CadastroAdmin } from './pages/cadastro-admin/cadastro-admin';
+import { Gerenciamento } from './pages/gerenciamento/gerenciamento';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -35,5 +36,6 @@ export const routes: Routes = [
   { path: 'pedido-detalhes/:id', component: PedidoDetalhes },
   { path: 'admin/categorias', component: GerenciarCategorias },
   { path: 'admin/gerenciarAdmin', component: CadastroAdmin },
+  { path: 'admin/gereciar', component: Gerenciamento },
   { path: '**', redirectTo: 'home' }
 ];

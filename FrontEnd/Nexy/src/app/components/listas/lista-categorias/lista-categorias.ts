@@ -3,9 +3,6 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Categoria } from '../../../interfaces/Categorias';
 import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { CategoriaService } from '../../../services/categoriaService';
-import { AuthService } from '../../../services/auth-service';
-
-
 
 
 @Component({
@@ -22,11 +19,10 @@ export class ListaCategorias  implements OnInit{
 
   // Injete o CategoriaService
   constructor(
-    private categoriaService: CategoriaService,
-  public authService: AuthService) { }
+  private categoriaService: CategoriaService,
+  ) { }
 
   ngOnInit(): void {
-    // Carregue suas categorias aqui
     this.categoriaService.listarTodas().subscribe(dados => {
       this.categorias = dados;
     });

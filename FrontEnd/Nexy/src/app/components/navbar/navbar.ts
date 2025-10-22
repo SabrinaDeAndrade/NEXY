@@ -18,7 +18,7 @@ export class Navbar implements OnInit {
   quantidadeItensCarrinho = 0;
 
   constructor(
-    private authService: AuthService,
+    public authService: AuthService,
     private carrinhoStateService: CarrinhoStateService,
     private router: Router
   ) {

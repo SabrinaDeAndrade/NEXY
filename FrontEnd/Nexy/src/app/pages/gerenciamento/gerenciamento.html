@@ -1,0 +1,12 @@
+<div class="busca-categorias-container">
+  <div class="categorias">
+  <app-lista-gerenciamento (viewSelected)="onViewChange($event)"></app-lista-gerenciamento>
+  </div>
+  <div class="produtos">
+    <app-gerenciar-produtos *ngIf="currentView === 'produtos'"></app-gerenciar-produtos>
+    <app-gerenciar-categorias *ngIf="currentView === 'categorias'"></app-gerenciar-categorias>
+    <app-cadastro-admin *ngIf="currentView === 'admins'"></app-cadastro-admin>
+  </div>
+
+</div>
+
