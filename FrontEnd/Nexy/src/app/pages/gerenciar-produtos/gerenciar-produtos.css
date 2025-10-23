@@ -12,12 +12,13 @@ h2 {
   border-bottom: 2px solid #00bfff;
   padding-bottom: 15px;
   margin-bottom: 25px;
-  font-size: 1.8rem;
+  
 }
 
 .header-container, .header-actions {
   margin-bottom: 20px;
 }
+
 
 /* ========= TABELAS DE DADOS ========= */
 .tabela-categorias {
@@ -53,18 +54,16 @@ h2 {
 
 /* ========= FORMULÁRIOS DE CRIAÇÃO E EDIÇÃO ========= */
 .edit-form {
-  background-color: #2c2c2e;
-  padding: 25px;
-  border-radius: 8px;
-  margin-top: 20px;
-  border: 1px solid #3a3a3c;
+  padding: 20px;
+  margin-bottom: 16px;
 }
 
 .edit-form h3 {
   color: #00bfff;
   margin-top: 0;
-  margin-bottom: 20px;
+  margin-bottom: 25px;
 }
+
 
 .form-group {
   margin-bottom: 15px;
@@ -122,38 +121,6 @@ button, .btn-novo, a.btn-editar {
   background-color: #0056b3;
 }
 
-/* Botão Salvar */
-.btn-salvar, .edit-form button[type="submit"] {
-  background-color: #28a745;
-  color: white;
-}
-.btn-salvar:hover, .edit-form button[type="submit"]:hover {
-  background-color: #218838;
-}
 
-/* Botão Cancelar */
-.btn-cancelar {
-  background-color: #6c757d;
-  color: white;
-}
-.btn-cancelar:hover {
-  background-color: #5a6268;
-}
 
-/* Botão Editar */
-.btn-editar {
-  background-color: #ffc107;
-  color: #212529;
-}
-.btn-editar:hover {
-  background-color: #e0a800;
-}
 
-/* Botão Remover/Excluir */
-.btn-remover, .btn-excluir {
-  background-color: #dc3545;
-  color: white;
-}
-.btn-remover:hover, .btn-excluir:hover {
-  background-color: #c82333;
-}

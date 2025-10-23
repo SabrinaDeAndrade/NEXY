@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, SimpleChanges } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Categoria } from '../../../interfaces/Categorias';
 import { CommonModule } from '@angular/common';
@@ -33,6 +33,9 @@ export class ProdutoForm implements OnInit {
 
   mostrarModalCategoria = false;
   novaCategoriaForm: FormGroup;
+
+  @Input() productId: number | null = null;
+  @Output() formClosed = new EventEmitter<void>();
 
   constructor(
     private fb: FormBuilder,
@@ -92,6 +95,12 @@ export class ProdutoForm implements OnInit {
       next: (dados) => { this.categorias = dados; },
       error: (erro) => { console.error('Erro ao carregar categorias:', erro); }
     });
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['productId']) { // This logic relies on the @Input
+      this.verificarModoEdicao();
+    }
   }
 
   onFileSelected(event: any): void {

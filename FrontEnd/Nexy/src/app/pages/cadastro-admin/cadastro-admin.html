@@ -1,70 +1,76 @@
 <h2>Gerenciar Administradores</h2>
 
-<!-- Botão para iniciar o cadastro -->
 <div class="header-actions">
-  <button (click)="iniciarCadastro()">+ Cadastrar Novo Admin</button>
-</div>
+  <div class="edit-form">
+    <button (click)="iniciarCadastro()">+ Cadastrar Novo Admin</button>
+  </div>
 
-<!-- Formulário de CADASTRO (só aparece quando novoAdmin não é nulo) -->
-<div *ngIf="novoAdmin" class="edit-form">
-  <h3>Cadastrar Novo Administrador</h3>
-  <form (ngSubmit)="salvarNovoAdmin()">
-    <input type="text" [(ngModel)]="novoAdmin.nome" name="novoNome" placeholder="Nome" required />
-    <input type="email" [(ngModel)]="novoAdmin.email" name="novoEmail" placeholder="Email" required />
-    <input type="text" [(ngModel)]="novoAdmin.cpf" name="novoCpf" placeholder="CPF" />
-    <input type="text" [(ngModel)]="novoAdmin.telefone" name="novoTelefone" placeholder="Telefone" />
-    <input type="password" [(ngModel)]="novoAdmin.senha" name="novoSenha" placeholder="Senha" required />
-    <input type="password" [(ngModel)]="confirmarSenhaNovo" name="confirmarNovaSenha" placeholder="Confirmar Senha" required />
-    
-    <div class="form-actions">
-      <!-- CORREÇÃO AQUI: </button> -->
-      <button type="submit">Salvar Novo Admin</button>
-      <button type="button" (click)="cancelarCadastro()">Cancelar</button>
-    </div>
-  </form>
-</div>
+    <h2>Admins Cadastrados</h2>
 
-<hr *ngIf="novoAdmin"> <!-- Linha divisória -->
+  <!-- Formulário de CADASTRO (só aparece quando novoAdmin não é nulo) -->
+  <div *ngIf="novoAdmin" class="edit-form">
+    <h3>Cadastrar Novo Administrador</h3>
+    <form (ngSubmit)="salvarNovoAdmin()">
+      <input type="text" [(ngModel)]="novoAdmin.nome" name="novoNome" placeholder="Nome" required />
+      <input type="email" [(ngModel)]="novoAdmin.email" name="novoEmail" placeholder="Email" required />
+      <input type="text" [(ngModel)]="novoAdmin.cpf" name="novoCpf" placeholder="CPF" />
+      <input type="text" [(ngModel)]="novoAdmin.telefone" name="novoTelefone" placeholder="Telefone" />
+      <input type="password" [(ngModel)]="novoAdmin.senha" name="novoSenha" placeholder="Senha" required />
+      <input type="password" [(ngModel)]="confirmarSenhaNovo" name="confirmarNovaSenha" placeholder="Confirmar Senha"
+        required />
 
-<!-- Tabela com a LISTA de Admins -->
-<table *ngIf="admins.length > 0" class="tabela-categorias">
-  <thead>
-    <tr>
-      <th>ID</th>
-      <th>Nome</th>
-      <th>Email</th>
-      <th>Ações</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr *ngFor="let admin of admins">
-      <td>{{ admin.id }}</td>
-      <td>{{ admin.nome }}</td>
-      <td>{{ admin.email }}</td>
-      <td class="acoes">
-        <button (click)="editarAdmin(admin)" class="btn-editar">Editar</button>
-        <button (click)="excluirAdmin(admin.id)" class="btn-remover">Excluir</button>
-      </td>
-    </tr>
-  </tbody>
-</table>
-<p *ngIf="admins.length === 0">Nenhum administrador encontrado.</p>
+      <div class="form-actions">
+        <!-- CORREÇÃO AQUI: </button> -->
+        <button type="submit">Salvar Novo Admin</button>
+        <button type="button" (click)="cancelarCadastro()">Cancelar</button>
+      </div>
+    </form>
+  </div>
 
-<!-- Formulário de EDIÇÃO (só aparece quando adminEditando não é nulo) -->
-<div *ngIf="adminEditando" class="edit-form">
-  <h3>Editar Administrador: {{ adminEditando.nome }}</h3>
-  <form (ngSubmit)="salvarEdicao()">
-    <input type="text" [(ngModel)]="adminEditando.nome" name="nome" placeholder="Nome" required />
-    <input type="email" [(ngModel)]="adminEditando.email" name="email" placeholder="Email" required />
-    <input type="text" [(ngModel)]="adminEditando.cpf" name="cpf" placeholder="CPF" />
-    <input type="text" [(ngModel)]="adminEditando.telefone" name="telefone" placeholder="Telefone" />
-    
-    <input type="password" [(ngModel)]="adminEditando.senha" name="senha" placeholder="Nova Senha (deixe vazio para manter)" />
-    <input type="password" [(ngModel)]="confirmarSenhaEdicao" name="confirmarSenha" placeholder="Confirmar Nova Senha" />
-    
-    <div class="form-actions">
-      <button type="submit" class="btn-salvar">Salvar Alterações</button>
-      <button type="button" (click)="cancelarEdicao()" class="btn-cancelar">Cancelar</button>
-    </div>
-  </form>
+  <hr *ngIf="novoAdmin"> <!-- Linha divisória -->
+
+  <!-- Tabela com a LISTA de Admins -->
+  <table *ngIf="admins.length > 0" class="tabela-categorias">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Nome</th>
+        <th>Email</th>
+        <th>Ações</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let admin of admins">
+        <td>{{ admin.id }}</td>
+        <td>{{ admin.nome }}</td>
+        <td>{{ admin.email }}</td>
+        <td class="acoes">
+          <button (click)="editarAdmin(admin)" class="btn-editar">Editar</button>
+          <button (click)="excluirAdmin(admin.id)" class="btn-remover">Excluir</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <p *ngIf="admins.length === 0">Nenhum administrador encontrado.</p>
+
+  <!-- Formulário de EDIÇÃO (só aparece quando adminEditando não é nulo) -->
+  <div *ngIf="adminEditando" class="edit-form">
+    <h3>Editar Administrador: {{ adminEditando.nome }}</h3>
+    <form (ngSubmit)="salvarEdicao()">
+      <input type="text" [(ngModel)]="adminEditando.nome" name="nome" placeholder="Nome" required />
+      <input type="email" [(ngModel)]="adminEditando.email" name="email" placeholder="Email" required />
+      <input type="text" [(ngModel)]="adminEditando.cpf" name="cpf" placeholder="CPF" />
+      <input type="text" [(ngModel)]="adminEditando.telefone" name="telefone" placeholder="Telefone" />
+
+      <input type="password" [(ngModel)]="adminEditando.senha" name="senha"
+        placeholder="Nova Senha (deixe vazio para manter)" />
+      <input type="password" [(ngModel)]="confirmarSenhaEdicao" name="confirmarSenha"
+        placeholder="Confirmar Nova Senha" />
+
+      <div class="form-actions">
+        <button type="submit" class="btn-salvar">Salvar Alterações</button>
+        <button type="button" (click)="cancelarEdicao()" class="btn-cancelar">Cancelar</button>
+      </div>
+    </form>
+  </div>
 </div>

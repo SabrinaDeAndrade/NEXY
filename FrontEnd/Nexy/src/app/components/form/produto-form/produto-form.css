@@ -1,17 +1,14 @@
 .produto-form-container {
-  max-width: 800px;
   margin: 40px auto;
   padding: 30px;
-  background-color: #1c1c1c;
-  border-radius: 8px;
   color: #f0f0f0;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
-  box-sizing: border-box;
 }
 
 .produto-form-container h2 {
   text-align: center;
   margin-bottom: 30px;
+  padding-bottom: 15px;
+  border-bottom: 2px solid #00bfff;
 }
 
 form {
@@ -19,6 +16,7 @@ form {
   flex-direction: column;
   gap: 25px;
 }
+
 .full-width {
   grid-column: 1 / -1;
 }

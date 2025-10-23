@@ -6,20 +6,19 @@
   color: #f0f0f0;
 }
 
+
 h2 {
   color: #f0f0f0;
   border-bottom: 2px solid #00bfff;
   padding-bottom: 15px;
   margin-bottom: 25px;
-  font-size: 1.8rem;
+  
 }
 
 .header-container, .header-actions {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
   margin-bottom: 20px;
 }
+
 
 /* ========= TABELAS DE DADOS ========= */
 .tabela-categorias {
@@ -55,17 +54,14 @@ h2 {
 
 /* ========= FORMULÁRIOS DE CRIAÇÃO E EDIÇÃO ========= */
 .edit-form {
-  background-color: #2c2c2e;
-  padding: 25px;
-  border-radius: 8px;
-  margin-top: 20px;
-  border: 1px solid #3a3a3c;
+  padding: 20px;
+  margin-bottom: 16px;
 }
 
 .edit-form h3 {
   color: #00bfff;
   margin-top: 0;
-  margin-bottom: 20px;
+  margin-bottom: 25px;
 }
 
 .form-group {

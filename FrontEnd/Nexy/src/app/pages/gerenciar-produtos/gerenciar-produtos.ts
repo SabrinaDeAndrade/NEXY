@@ -1,22 +1,25 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { Produto } from '../../interfaces/Produto';
 import { ProdutoService } from '../../services/produtoService';
 
 @Component({
   selector: 'app-gerenciar-produtos',
- standalone: true,
+  standalone: true,
   imports: [CommonModule, RouterLink],
   templateUrl: './gerenciar-produtos.html',
   styleUrl: './gerenciar-produtos.css'
 })
 export class GerenciarProdutos implements OnInit {
 
- public produtos: Produto[] = [];
+  public produtos: Produto[] = [];
   public carregando = true;
 
-  constructor(private produtoService: ProdutoService) {}
+ @Output() requestProdutoForm = new EventEmitter<{ view: string, id?: number }>();
+
+
+  constructor(private produtoService: ProdutoService) { }
 
   ngOnInit(): void {
     this.carregarProdutos();
@@ -30,12 +33,12 @@ export class GerenciarProdutos implements OnInit {
     });
   }
 
-public removerProduto(id: number): void {
+  public removerProduto(id: number): void {
     if (confirm('Tem certeza que deseja remover este produto? Esta ação não pode ser desfeita.')) {
       this.produtoService.deletar(id).subscribe({
         next: () => {
           alert('Produto removido com sucesso!');
-          this.carregarProdutos(); 
+          this.carregarProdutos();
         },
         error: (err) => {
           alert('Erro ao remover produto.');
@@ -43,5 +46,10 @@ public removerProduto(id: number): void {
         }
       });
     }
+  }
+
+  goToProdutoForm(productId?: number): void {
+    console.log('GerenciarProdutos: Emitindo requestProdutoForm com ID:', productId);
+    this.requestProdutoForm.emit({ view: 'produtoForm', id: productId });
   }
 }
