@@ -45,7 +45,7 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.PUT, "/produtos/**").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.DELETE, "/produtos/**").hasRole("ADMIN")
                         .requestMatchers("/produtos/imagens/**").hasRole("ADMIN")
-
+                        .requestMatchers("/api/admin/pedidos/**").hasRole("ADMIN")
                         // --- Outros Endpoints ---
                         // Qualquer outra requisição precisa que o utilizador esteja, no mínimo, autenticado
                         .anyRequest().authenticated()

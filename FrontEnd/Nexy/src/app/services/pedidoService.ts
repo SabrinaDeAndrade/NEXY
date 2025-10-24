@@ -2,6 +2,7 @@ import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 import { Pedido } from "../interfaces/Pedido";
+import { StatusPedido } from "../interfaces/StatusPedido";
 
 @Injectable({
   providedIn: 'root'
@@ -27,7 +28,6 @@ private baseUrl = 'http://localhost:8080/pedidos';
     return this.http.get<Pedido[]>(`${this.baseUrl}/cliente/${clienteId}`);
   }
 
-
   criar(pedido: Pedido): Observable<Pedido> {
     return this.http.post<Pedido>(this.baseUrl, pedido);
   }
@@ -39,4 +39,14 @@ private baseUrl = 'http://localhost:8080/pedidos';
   deletar(id: number): Observable<void> {
     return this.http.delete<void>(`${this.baseUrl}/${id}`);
   }
+
+  getPedidos(): Observable<Pedido[]> {
+    return this.http.get<Pedido[]>(this.baseUrl); 
+  }
+  atualizarStatusPedido(pedidoId: number, novoStatus: StatusPedido): Observable<Pedido> {
+    const url = `${this.baseUrl}/${pedidoId}/status`;
+    return this.http.put<Pedido>(url, { status: novoStatus }); 
+  }
+
+  
 }

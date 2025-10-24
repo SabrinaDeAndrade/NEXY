@@ -15,6 +15,7 @@ import { GerenciarCategorias } from './pages/gerenciar-categorias/gerenciar-cate
 import { GerenciarProdutos } from './pages/gerenciar-produtos/gerenciar-produtos';
 import { CadastroAdmin } from './pages/cadastro-admin/cadastro-admin';
 import { Gerenciamento } from './pages/gerenciamento/gerenciamento';
+import { GerenciarPedidos } from './pages/gerenciar-pedidos/gerenciar-pedidos';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -37,5 +38,6 @@ export const routes: Routes = [
   { path: 'admin/categorias', component: GerenciarCategorias },
   { path: 'admin/gerenciarAdmin', component: CadastroAdmin },
   { path: 'admin/gereciar', component: Gerenciamento },
+  {path: 'admin/gerenciarPedido', component: GerenciarPedidos},
   { path: '**', redirectTo: 'home' }
 ];

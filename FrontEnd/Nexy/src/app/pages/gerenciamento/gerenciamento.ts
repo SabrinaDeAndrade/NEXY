@@ -6,11 +6,21 @@ import { GerenciarCategorias } from '../gerenciar-categorias/gerenciar-categoria
 import { GerenciarProdutos } from '../gerenciar-produtos/gerenciar-produtos';
 import { CadastroAdmin } from '../cadastro-admin/cadastro-admin';
 import { ProdutoForm } from "../../components/form/produto-form/produto-form";
+import { GerenciarPedidos } from '../gerenciar-pedidos/gerenciar-pedidos';
 
 @Component({
   selector: 'app-gerenciamento',
   standalone: true,
-  imports: [CommonModule, ListaGerenciamento, GerenciarCategorias, GerenciarProdutos, CadastroAdmin, ProdutoForm, RouterOutlet,],
+  imports: [CommonModule, 
+    ListaGerenciamento, 
+    GerenciarCategorias, 
+    GerenciarProdutos, 
+    CadastroAdmin, 
+    ProdutoForm, 
+    RouterOutlet,
+    GerenciarPedidos,
+
+  ],
   templateUrl: './gerenciamento.html',
   styleUrl: './gerenciamento.css'
 })

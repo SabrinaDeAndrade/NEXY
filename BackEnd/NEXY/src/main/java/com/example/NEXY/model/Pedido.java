@@ -3,24 +3,31 @@ package com.example.NEXY.model;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 @Entity
 @Data
+@EqualsAndHashCode(of = "id")
 public class Pedido {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String status;
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private StatusPedido status;
+
     private Double valorTotal;
 
-    private Date dataPedido = new Date();
+    @Column(nullable = false)
+    private LocalDateTime dataPedido;
 
     @ManyToOne
     @JoinColumn(name = "cliente_id")
@@ -37,7 +44,7 @@ public class Pedido {
     public Pedido() {
     }
 
-    public Pedido(Long id, String status, Double valorTotal, Date dataPedido, Cliente cliente, Endereco endereco, List<PedidoItem> itens) {
+    public Pedido(Long id, StatusPedido status, Double valorTotal, LocalDateTime dataPedido, Cliente cliente, Endereco endereco, List<PedidoItem> itens) {
         this.id = id;
         this.status = status;
         this.valorTotal = valorTotal;
@@ -55,11 +62,11 @@ public class Pedido {
         this.id = id;
     }
 
-    public String getStatus() {
+    public StatusPedido getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(StatusPedido status) {
         this.status = status;
     }
 
@@ -71,11 +78,11 @@ public class Pedido {
         this.valorTotal = valorTotal;
     }
 
-    public Date getDataPedido() {
+    public LocalDateTime getDataPedido() {
         return dataPedido;
     }
 
-    public void setDataPedido(Date dataPedido) {
+    public void setDataPedido(LocalDateTime dataPedido) {
         this.dataPedido = dataPedido;
     }
 

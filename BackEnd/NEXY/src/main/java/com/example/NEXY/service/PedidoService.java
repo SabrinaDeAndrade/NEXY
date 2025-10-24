@@ -5,6 +5,7 @@ import com.example.NEXY.repository.*;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -51,8 +52,8 @@ public class PedidoService {
         Pedido novoPedido = new Pedido();
         novoPedido.setCliente(cliente);
         novoPedido.setEndereco(endereco);
-        novoPedido.setDataPedido(new Date());
-        novoPedido.setStatus("PAGAMENTO_APROVADO");
+        novoPedido.setDataPedido(LocalDateTime.now());
+        novoPedido.setStatus(StatusPedido.PROCESSANDO);
         novoPedido.setValorTotal(carrinho.getValorTotal());
 
 
@@ -86,8 +87,21 @@ public class PedidoService {
     }
 
 
-    public List<Pedido> findAll() {
-        return pedidoRepository.findAll();
+    public List<Pedido> listarTodosOrdenados() {
+        return pedidoRepository.findAllByOrderByDataPedidoDesc();
+    }
+
+    public Pedido atualizarStatus(Long pedidoId, StatusPedido novoStatus) {
+        Pedido pedido = pedidoRepository.findById(pedidoId)
+                .orElseThrow(() -> new RuntimeException("Pedido não encontrado com id: " + pedidoId));
+
+
+         if (novoStatus == StatusPedido.PROCESSANDO && pedido.getStatus() == StatusPedido.ENVIADO) {
+         throw new RuntimeException("Não é possível voltar o status de ENVIADO para PROCESSANDO.");
+         }
+
+        pedido.setStatus(novoStatus);
+        return pedidoRepository.save(pedido);
     }
 
     public Optional<Pedido> findById(Long id) {
