@@ -1,23 +1,19 @@
 .card {
   cursor: pointer;
   transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
-  overflow: hidden; /* Importante para o carrossel não sair do card */
+  overflow: hidden; 
   display: flex;
   flex-direction: column;
   text-align: center;
-  width: 250px; /* Largura do card */
-  /* A altura total do card pode precisar de ajuste ou ser removida */
-  /* height: 400px; */ 
-  margin-left: 16px; /* Pode remover se usar grid/flex gap */
+  width: 250px; 
+  margin-left: 16px; 
   background-color: #121212;
   color: white;
-  /* padding: 30px; */ /* Padding pode interferir com a imagem no topo */
   border-radius: 10px;
   box-shadow: 0 0 15px #007bff50;
-  position: relative; /* Para garantir que o link cubra tudo */
+  position: relative; 
 }
 
-/* Link que cobre o card */
 .card-link {
   display: block;
   text-decoration: none;

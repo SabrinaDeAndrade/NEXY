@@ -98,7 +98,7 @@ export class ProdutoForm implements OnInit {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes['productId']) { // This logic relies on the @Input
+    if (changes['productId']) { 
       this.verificarModoEdicao();
     }
   }
@@ -106,10 +106,10 @@ export class ProdutoForm implements OnInit {
   onFileSelected(event: any): void {
     const novosArquivos: File[] = Array.from(event.target.files);
 
-    // Adiciona os novos arquivos à lista existente
+
     this.imagensSelecionadas.push(...novosArquivos);
 
-    // Gera pré-visualizações para os novos arquivos
+
     novosArquivos.forEach((file: File) => {
       const reader = new FileReader();
       reader.onload = () => {

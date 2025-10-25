@@ -1,13 +1,10 @@
 <h2>Gerenciar Categorias</h2>
 <div class="header-actions">
-
   <div class="edit-form">
     <button (click)="iniciarCadastro()" class="btn-novo">+ Cadastrar Nova Categoria</button>
   </div>
 
-
-  <!-- Lista de Categorias -->
-  <div class="lista-container">
+  <div>
     <h2>Categorias Cadastradas</h2>
 
     <div *ngIf="carregando">A carregar lista...</div>

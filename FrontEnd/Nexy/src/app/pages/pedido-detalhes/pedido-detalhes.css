@@ -69,6 +69,13 @@
   color: #fff;
 }
 
+.status-pagamento_pendente { background-color: #ffc107; }
+.status-pagamento_aprovado { background-color: #198754; } 
+.status-processando { background-color: #0dcaf0; } 
+.status-enviado { background-color: #0d6efd; }
+.status-entregue { background-color: #198754; } 
+.status-cancelado { background-color: #dc3545; } 
+
 .lista-itens {
   background-color: #1c1c1c;
   border-radius: 8px;

@@ -1,12 +1,3 @@
-
-.gerenciar-container {
-  max-width: 1100px; 
-  margin: 30px auto;
-  padding: 30px;
-  color: #f0f0f0;
-}
-
-
 h2 {
   color: #f0f0f0;
   border-bottom: 2px solid #00bfff;
@@ -15,11 +6,9 @@ h2 {
   
 }
 
-.header-container, .header-actions {
+.header-actions {
   margin-bottom: 20px;
 }
-
-
 
 .tabela-categorias {
   width: 100%;
@@ -76,11 +65,7 @@ h2 {
 }
 
 .edit-form input[type="text"],
-.edit-form input[type="email"],
-.edit-form input[type="password"],
-.form-group input,
-.form-group textarea,
-.form-group select {
+.form-group input{
   width: 100%;
   padding: 12px;
   border-radius: 6px;
@@ -111,12 +96,12 @@ button, .btn-novo, a.btn-editar {
   transition: all 0.2s ease;
 }
 
-/* Botão de Cadastrar Novo */
-.btn-novo, .header-actions button {
+
+button {
   background-color: #007bff;
   color: white;
 }
-.btn-novo:hover, .header-actions button:hover {
+button:hover {
   background-color: #0056b3;
 }
 

@@ -1,15 +1,15 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input, OnInit } from '@angular/core';
+import { Component,  OnInit } from '@angular/core';
 import { Cards } from '../../cards-produto/cards';
 import { Produto } from '../../../interfaces/Produto';
-import { ActivatedRoute, ParamMap, RouterLink } from '@angular/router';
+import { ActivatedRoute, ParamMap} from '@angular/router';
 import { ProdutoService } from '../../../services/produtoService';
 import { switchMap } from 'rxjs';
 
 @Component({
   selector: 'app-lista-produtos',
   standalone: true,
-  imports: [CommonModule, Cards, RouterLink],
+  imports: [CommonModule, Cards],
   templateUrl: './lista-produtos.html',
   styleUrl: './lista-produtos.css'
 })

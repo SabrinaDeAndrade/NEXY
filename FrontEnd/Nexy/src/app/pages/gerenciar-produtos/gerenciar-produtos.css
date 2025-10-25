@@ -1,12 +1,4 @@
 
-.gerenciar-container {
-  max-width: 1100px; 
-  margin: 30px auto;
-  padding: 30px;
-  color: #f0f0f0;
-}
-
-
 h2 {
   color: #f0f0f0;
   border-bottom: 2px solid #00bfff;
@@ -15,12 +7,10 @@ h2 {
   
 }
 
-.header-container, .header-actions {
+.header-actions {
   margin-bottom: 20px;
 }
 
-
-/* ========= TABELAS DE DADOS ========= */
 .tabela-categorias {
   width: 100%;
   border-collapse: collapse;
@@ -52,7 +42,6 @@ h2 {
   justify-content: flex-start;
 }
 
-/* ========= FORMULÁRIOS DE CRIAÇÃO E EDIÇÃO ========= */
 .edit-form {
   padding: 20px;
   margin-bottom: 16px;
@@ -99,8 +88,7 @@ h2 {
   margin-top: 20px;
 }
 
-/* ========= BOTÕES (ESTILO GERAL) ========= */
-button, .btn-novo, a.btn-editar {
+button {
   padding: 10px 18px;
   border: none;
   border-radius: 6px;
@@ -110,14 +98,10 @@ button, .btn-novo, a.btn-editar {
   display: inline-block;
   text-align: center;
   transition: all 0.2s ease;
-}
-
-/* Botão de Cadastrar Novo */
-.btn-novo, .header-actions button {
   background-color: #007bff;
   color: white;
 }
-.btn-novo:hover, .header-actions button:hover {
+button:hover {
   background-color: #0056b3;
 }
 

@@ -17,7 +17,7 @@
   width: 100%;
   border-radius: 8px;
   border: 1px solid #333;
-  aspect-ratio: 1 / 1; /* Garante que a imagem seja sempre quadrada */
+  aspect-ratio: 1 / 1; 
   object-fit: cover;
 }
 
@@ -31,8 +31,7 @@
 .thumbnail-item {
   width: 80px;
   height: 80px;
-  border: 2px solid transparent; /* Borda padrão transparente */
-  border-radius: 6px;
+  border: 2px solid transparent; 
   cursor: pointer;
   overflow: hidden;
   transition: border-color 0.2s ease-in-out;
@@ -43,7 +42,7 @@
 }
 
 .thumbnail-item.ativa {
-  border-color: #007bff; /* Borda azul para a imagem ativa */
+  border-color: #007bff; 
 }
 
 .thumbnail-item img {
@@ -140,7 +139,7 @@ button:hover {
 
 .modal-content h4 {
   margin-top: 0;
-  color: #28a745; /* Verde sucesso */
+  color: #28a745;
   font-size: 1.5rem;
 }
 

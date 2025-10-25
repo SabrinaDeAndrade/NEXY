@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Produto } from '../../interfaces/Produto';
-import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { ActivatedRoute, Router} from '@angular/router';
 import { ProdutoService } from '../../services/produtoService';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
@@ -10,7 +10,7 @@ import { ImagemProduto } from '../../interfaces/ImagemProduto';
 @Component({
   selector: 'app-produto-detalhes',
   standalone: true,
-  imports: [FormsModule, RouterLink, CommonModule],
+  imports: [FormsModule, CommonModule],
   templateUrl: './produto-detalhes.html',
   styleUrl: './produto-detalhes.css'
 })

@@ -50,7 +50,6 @@
       <tbody>
         <tr *ngFor="let item of pedido.itens">
           <td>
-            <!-- Link opcional para a página do produto -->
             <a [routerLink]="['/produto', item.produto.id]" target="_blank"> 
               {{ item.produto?.nome || 'Produto não disponível' }}
             </a>

@@ -79,13 +79,11 @@ form {
   cursor: pointer;
 }
 
-/* Estilos para a galeria de pré-visualização */
 .image-preview-gallery {
   background-color: #2b2b2b;
   padding: 15px;
   border-radius: 6px;
   border: 1px solid #444;
-  /* CORREÇÃO: Força a galeria a ocupar 100% da largura da linha */
   flex-basis: 100%; 
 }
 
@@ -144,8 +142,6 @@ form {
   opacity: 1;
 }
 
-
-/* Barra de progresso do upload */
 .progress-container {
   width: 100%;
   background-color: #333;

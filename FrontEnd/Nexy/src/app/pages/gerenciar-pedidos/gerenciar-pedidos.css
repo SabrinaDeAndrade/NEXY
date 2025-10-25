@@ -1,21 +1,8 @@
-.gerenciar-container {
-  max-width: 1100px; 
-  margin:0px auto;
-  padding: 30px;
-  color: #f0f0f0;
-}
-
-
 h2 {
   color: #f0f0f0;
   border-bottom: 2px solid #00bfff;
   padding-bottom: 15px;
   margin-bottom: 25px;
-  
-}
-
-.header-container, .header-actions {
-  margin-bottom: 20px;
 }
 
 .tabela-categorias { 
@@ -49,10 +36,6 @@ h2 {
   justify-content: flex-start;
 }
 
-
-
-.edit-form input[type="text"],
-.form-group input,
 .form-group select, 
 .status-select { 
   width: 100%;
@@ -72,13 +55,6 @@ h2 {
 }
 
 
-.form-actions {
-  display: flex;
-  gap: 10px;
-  margin-top: 20px;
-}
-
-
 button{ 
   padding: 12px 18px;
   border: none;
@@ -93,14 +69,12 @@ button{
 
 
 .btn-detalhes {
-   background-color: #17a2b8; 
-   color: white;
+    background-color: #007bff;
+  color: white;
 }
 .btn-detalhes:hover {
-   background-color: #117a8b;
+ background-color: #0056b3;
 }
-
-
 
 
 .loading-message, .no-data-message {

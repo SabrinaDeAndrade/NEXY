@@ -28,7 +28,6 @@ etapa: 'endereco' | 'pagamento' | 'carregando' = 'carregando';
   enderecoForm: FormGroup;
   mostrarFormularioEndereco = false;
 
-  // Adicione um formulário para o cartão também
   cartaoForm: FormGroup;
   mostrarFormularioCartao = false;
 
@@ -40,7 +39,7 @@ etapa: 'endereco' | 'pagamento' | 'carregando' = 'carregando';
     private carrinhoStateService: CarrinhoStateService,
     private router: Router
   ) {
-    // Formulário de Endereço
+
     this.enderecoForm = this.fb.group({
       cep: ['', [Validators.required, Validators.pattern(/^\d{5}-?\d{3}$/)]],
       rua: ['', Validators.required],
@@ -51,7 +50,7 @@ etapa: 'endereco' | 'pagamento' | 'carregando' = 'carregando';
       estado: ['', Validators.required]
     });
 
-    // Formulário de Cartão
+
     this.cartaoForm = this.fb.group({
       nomeCompleto: ['', Validators.required],
       numeroCartao: ['', Validators.required],
@@ -155,7 +154,7 @@ etapa: 'endereco' | 'pagamento' | 'carregando' = 'carregando';
     const payload = {
       clienteId: clienteId,
       enderecoId: this.enderecoSelecionadoId,
-      cartaoToken: "TOKEN_GERADO_PELO_MERCADO_PAGO" // Este token é o que vai para o seu backend
+      cartaoToken: "TOKEN_GERADO_PELO_MERCADO_PAGO"
     };
 
     this.checkoutService.finalizarPedido(payload).subscribe(pedido => {
@@ -174,21 +173,17 @@ etapa: 'endereco' | 'pagamento' | 'carregando' = 'carregando';
 
     const clienteId = this.authService.getClienteId();
     if (clienteId) {
-      // Chama o serviço de checkout para salvar o novo cartão na API
+  
       this.checkoutService.salvarCartao(clienteId, this.cartaoForm.value).subscribe({
         next: (cartaoSalvo) => {
           console.log('Cartão salvo com sucesso!', cartaoSalvo);
-          
-          // Adiciona o novo cartão à lista para exibição imediata
+
           this.cartoesSalvos.push(cartaoSalvo);
-          
-          // Seleciona automaticamente o cartão recém-cadastrado
+
           this.cartaoSelecionadoId = cartaoSalvo.id;
-          
-          // Esconde o formulário de cadastro
+
           this.mostrarFormularioCartao = false;
-          
-          // Limpa o formulário para a próxima vez
+
           this.cartaoForm.reset();
 
           alert("Cartão cadastrado com sucesso!");

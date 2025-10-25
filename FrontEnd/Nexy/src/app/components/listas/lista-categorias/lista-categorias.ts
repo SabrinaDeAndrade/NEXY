@@ -17,7 +17,6 @@ export class ListaCategorias  implements OnInit{
   
   categorias: Categoria[] = [];
 
-  // Injete o CategoriaService
   constructor(
   private categoriaService: CategoriaService,
   ) { }

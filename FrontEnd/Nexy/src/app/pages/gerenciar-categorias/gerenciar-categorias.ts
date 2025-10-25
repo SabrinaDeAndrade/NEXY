@@ -40,7 +40,7 @@ export class GerenciarCategorias implements OnInit {
   }
 
   public iniciarEdicao(categoria: Categoria): void {
-    this.categoriaEmEdicao = { ...categoria }; // Cria uma cópia para evitar alterações diretas
+    this.categoriaEmEdicao = { ...categoria };
     this.nomeCategoriaInput = categoria.nome;
     this.mostrarModal = true;
   }
@@ -88,15 +88,14 @@ export class GerenciarCategorias implements OnInit {
   }
 
   public removerCategoria(id: number): void {
-    // Pede confirmação
     if (confirm('Tem certeza que deseja remover esta categoria? Esta ação não pode ser desfeita.')) {
       this.categoriaService.deletar(id).subscribe({
         next: () => {
-          // Se o item deletado era o que estava em edição, limpa o form
+      
           if (this.categoriaEmEdicao && this.categoriaEmEdicao.id === id) {
             this.resetarFormulario();
           }
-          this.carregarCategorias(); // Recarrega a lista
+          this.carregarCategorias(); 
         },
         error: (err) => {
           alert('Erro ao remover categoria. Verifique se ela não está sendo usada por um produto.');

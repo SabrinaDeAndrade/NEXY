@@ -30,10 +30,8 @@ export class Gerenciamento implements OnInit {
 currentView: string = 'produtos'; 
   editingProductId: number | null = null; 
 
-  // 2. Injete o AdminStateService
   constructor(private adminStateService: AdminStateService) {} 
 
-  // 3. No ngOnInit, leia o estado guardado no serviço
   ngOnInit(): void {
     console.log('Gerenciamento: ngOnInit INICIADO.');
     this.currentView = this.adminStateService.getActiveView();
@@ -42,28 +40,26 @@ currentView: string = 'produtos';
     console.log('Gerenciamento: ngOnInit FINALIZADO.');
   }
 
-  // 4. Quando a vista muda (via sidebar), atualize o serviço
   onViewChange(viewName: string): void {
     console.log(`Gerenciamento: onViewChange -> ${viewName}`); 
     this.currentView = viewName; 
-    this.adminStateService.setActiveView(viewName); // <<< Atualiza o serviço
+    this.adminStateService.setActiveView(viewName); 
     this.editingProductId = null; 
   }
 
-  // 5. Quando entra no formulário, atualize o serviço
+
   onRequestProdutoForm(event: { view: string, id?: number }): void { 
      console.log('Gerenciamento: Pedido form produto ->', event);
-     this.currentView = event.view; // 'produtoForm'
-     this.adminStateService.setActiveView(event.view); // <<< Atualiza o serviço
+     this.currentView = event.view; 
+     this.adminStateService.setActiveView(event.view); 
      this.editingProductId = event.id ?? null;
   }
 
-  // 6. Quando sai do formulário, atualize o serviço para a vista de lista
   onProdutoFormClosed(): void {
     console.log('Gerenciamento: Form produto fechado.');
     const previousView = this.adminStateService.getActiveView() === 'produtoForm' ? 'produtos' : this.adminStateService.getActiveView(); // Volta para a lista anterior ou produtos
     this.currentView = previousView; 
-    this.adminStateService.setActiveView(previousView); // <<< Atualiza o serviço
+    this.adminStateService.setActiveView(previousView);
     this.editingProductId = null;
   }
 }

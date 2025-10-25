@@ -28,18 +28,16 @@ export class GerenciarPedidos implements OnInit {
 
   carregarPedidos(): void {
     this.carregando = true;
-    // CORREÇÃO: Confirme que o nome do método no seu PedidoService é getPedidos
+
     this.pedidoService.getPedidos().subscribe({
-      // CORREÇÃO: Adicione o tipo Pedido[] para 'dados'
+
       next: (dados: Pedido[]) => { 
         this.pedidos = dados;
         this.carregando = false;
         console.log("Pedidos carregados:", this.pedidos);
       },
-      // CORREÇÃO: Adicione o tipo HttpErrorResponse (ou any) para 'err'
       error: (err: HttpErrorResponse) => { 
         console.error("Erro ao carregar pedidos:", err);
-        // Tenta mostrar uma mensagem mais útil do erro vindo do backend
         const errorMsg = err.error?.erro || err.error?.message || err.message || 'Erro desconhecido.';
         alert(`Erro ao carregar pedidos: ${errorMsg}`);
         this.carregando = false;

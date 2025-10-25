@@ -1,6 +1,5 @@
 <div class="detalhes-container">
 
-  <!-- Feedback para o usuário -->
   <div *ngIf="carregando" class="feedback-box">
     <p>Carregando detalhes do pedido...</p>
   </div>
@@ -9,7 +8,6 @@
     <p>Não foi possível carregar os detalhes deste pedido. Verifique o número ou tente novamente.</p>
   </div>
 
-  <!-- Conteúdo principal -->
   <div *ngIf="!carregando && pedido">
     <div class="cabecalho-pedido">
       <h2>Detalhes do Pedido #{{ pedido.id }}</h2>
@@ -17,14 +15,16 @@
     </div>
 
     <div class="info-grid">
-      <!-- Card de Status -->
+   
       <div class="info-card">
         <h3>Status do Pedido</h3>
-        <p class="status" [ngClass]="pedido.status">{{ pedido.status.replace('_', ' ') }}</p>
+        <span class="status" [ngClass]="'status-' + pedido.status.toLowerCase()">
+          {{ pedido.status.replace('_', ' ') }}
+        </span>
         <p>Realizado em: {{ pedido.dataPedido | date:'dd/MM/yyyy HH:mm' }}</p>
       </div>
 
-      <!-- Card de Endereço -->
+
       <div class="info-card">
         <h3>Endereço de Entrega</h3>
         <p>{{ pedido.endereco.rua }}, {{ pedido.endereco.numero }}</p>
@@ -33,7 +33,6 @@
       </div>
     </div>
 
-    <!-- Lista de Itens do Pedido -->
     <h3>Itens Comprados</h3>
     <div class="lista-itens">
       <div *ngFor="let item of pedido.itens" class="item-pedido">
@@ -52,7 +51,6 @@
       </div>
     </div>
 
-    <!-- Resumo Financeiro -->
     <div class="resumo-total">
       <h3>Resumo do Valor</h3>
       <div class="linha-total">

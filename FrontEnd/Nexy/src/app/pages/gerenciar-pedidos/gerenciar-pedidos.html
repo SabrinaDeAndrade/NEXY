@@ -1,43 +1,39 @@
- <h2>Gerenciar Pedidos</h2>
-<div class="gerenciar-container">
-  <div class="lista-container">
-    <div *ngIf="carregando" class="loading-message">A carregar lista de pedidos...</div>
+<h2>Gerenciar Pedidos</h2>
 
-    <table *ngIf="!carregando && pedidos.length > 0" class="tabela-categorias"> 
-      <thead>
-        <tr>
-          <th>ID</th>
-          <th>Data</th>
-          <th>Cliente</th>
-          <th>Valor Total</th>
-          <th>Status</th>
-          <th>Ações</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let pedido of pedidos">
-          <td>#{{ pedido.id }}</td>
-          <td>{{ pedido.dataPedido | date:'dd/MM/yyyy HH:mm' }}</td>
-          <td>{{ pedido.cliente?.nome || pedido.cliente?.email || 'N/A' }}</td> 
-          <td>{{ pedido.valorTotal | currency:'BRL' }}</td>
-          <td>
-         
-            <select class="status-select" 
-                    [(ngModel)]="pedido.status" 
-                    (ngModelChange)="onStatusChange(pedido)">
-        
-              <option *ngFor="let status of statusOptions" [value]="status">
-                {{ status }}
-              </option>
-            </select>
-          </td>
-          <td class="acoes"> 
-             <button class="btn-detalhes btn-editar" (click)="verDetalhes(pedido.id)">Detalhes</button> 
-          </td>
-        </tr>
-      </tbody>
-    </table>
-    <p *ngIf="!carregando && pedidos.length === 0" class="no-data-message">Nenhum pedido encontrado.</p> 
-  </div>
+<div class="lista-container">
+  <div *ngIf="carregando" class="loading-message">A carregar lista de pedidos...</div>
+
+  <table *ngIf="!carregando && pedidos.length > 0" class="tabela-categorias">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Data</th>
+        <th>Cliente</th>
+        <th>Valor Total</th>
+        <th>Status</th>
+        <th>Ações</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let pedido of pedidos">
+        <td>#{{ pedido.id }}</td>
+        <td>{{ pedido.dataPedido | date:'dd/MM/yyyy HH:mm' }}</td>
+        <td>{{ pedido.cliente?.nome || pedido.cliente?.email || 'N/A' }}</td>
+        <td>{{ pedido.valorTotal | currency:'BRL' }}</td>
+        <td>
+
+          <select class="status-select" [(ngModel)]="pedido.status" (ngModelChange)="onStatusChange(pedido)">
+
+            <option *ngFor="let status of statusOptions" [value]="status">
+              {{ status }}
+            </option>
+          </select>
+        </td>
+        <td class="acoes">
+          <button class="btn-detalhes btn-editar" (click)="verDetalhes(pedido.id)">Detalhes</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <p *ngIf="!carregando && pedidos.length === 0" class="no-data-message">Nenhum pedido encontrado.</p>
 </div>
-

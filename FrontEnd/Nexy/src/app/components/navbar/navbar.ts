@@ -26,7 +26,6 @@ export class Navbar implements OnInit {
   }
 
   ngOnInit(): void {
-    // Lógica para atualizar o contador do carrinho
     this.carrinhoStateService.itens$.subscribe(itens => {
       this.quantidadeItensCarrinho = itens.reduce((total, item) => total + item.quantidade, 0);
     });

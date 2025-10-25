@@ -23,11 +23,11 @@ export class PedidoDetalhes implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    // 1. Pega o ID do pedido a partir dos parâmetros da rota
+   
     const id = this.route.snapshot.paramMap.get('id');
     
     if (id) {
-      // 2. Chama o serviço para buscar o pedido específico na API
+
       this.pedidoService.buscarPorId(Number(id)).subscribe({
         next: (pedidoEncontrado) => {
           this.pedido = pedidoEncontrado;

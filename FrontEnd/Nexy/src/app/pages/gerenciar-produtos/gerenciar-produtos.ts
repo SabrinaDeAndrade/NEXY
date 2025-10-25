@@ -1,13 +1,12 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { RouterLink } from '@angular/router';
 import { Produto } from '../../interfaces/Produto';
 import { ProdutoService } from '../../services/produtoService';
 
 @Component({
   selector: 'app-gerenciar-produtos',
   standalone: true,
-  imports: [CommonModule, RouterLink],
+  imports: [CommonModule],
   templateUrl: './gerenciar-produtos.html',
   styleUrl: './gerenciar-produtos.css'
 })

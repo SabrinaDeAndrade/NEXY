@@ -21,7 +21,9 @@
           <h4>Pedido #{{ pedido.id }}</h4>
           <p>Realizado em: {{ pedido.dataPedido | date:'dd/MM/yyyy' }}</p>
         </div>
-        <span class="status" [ngClass]="pedido.status">{{ pedido.status.replace('_', ' ') }}</span>
+        <span class="status" [ngClass]="'status-' + pedido.status.toLowerCase()">
+          {{ pedido.status.replace('_', ' ') }}
+        </span>
       </div>
       <div class="card-body">
         <p><strong>Valor Total:</strong> {{ pedido.valorTotal | currency:'BRL' }}</p>

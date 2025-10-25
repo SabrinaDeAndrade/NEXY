@@ -49,13 +49,13 @@
   font-size: 0.8rem;
   text-transform: capitalize;
 }
-.status.PAGAMENTO_APROVADO {
-  background-color: #28a745;
-  color: #fff;
-}
 
-.status.ENVIADO { background-color: #17a2b8; color: #fff; }
-.status.CANCELADO { background-color: #dc3545; color: #fff; }
+.status-pagamento_pendente { background-color: #ffc107; }
+.status-pagamento_aprovado { background-color: #198754; } 
+.status-processando { background-color: #0dcaf0; } 
+.status-enviado { background-color: #0d6efd; }
+.status-entregue { background-color: #198754; } 
+.status-cancelado { background-color: #dc3545; } 
 
 .card-body {
   padding: 20px;

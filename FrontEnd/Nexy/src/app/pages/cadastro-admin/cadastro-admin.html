@@ -5,9 +5,9 @@
     <button (click)="iniciarCadastro()">+ Cadastrar Novo Admin</button>
   </div>
 
-    <h2>Admins Cadastrados</h2>
+  <h2>Admins Cadastrados</h2>
 
-  <!-- Formulário de CADASTRO (só aparece quando novoAdmin não é nulo) -->
+
   <div *ngIf="novoAdmin" class="edit-form">
     <h3>Cadastrar Novo Administrador</h3>
     <form (ngSubmit)="salvarNovoAdmin()">
@@ -20,16 +20,15 @@
         required />
 
       <div class="form-actions">
-        <!-- CORREÇÃO AQUI: </button> -->
+
         <button type="submit">Salvar Novo Admin</button>
         <button type="button" (click)="cancelarCadastro()">Cancelar</button>
       </div>
     </form>
   </div>
 
-  <hr *ngIf="novoAdmin"> <!-- Linha divisória -->
+  <hr *ngIf="novoAdmin">
 
-  <!-- Tabela com a LISTA de Admins -->
   <table *ngIf="admins.length > 0" class="tabela-categorias">
     <thead>
       <tr>
@@ -53,7 +52,6 @@
   </table>
   <p *ngIf="admins.length === 0">Nenhum administrador encontrado.</p>
 
-  <!-- Formulário de EDIÇÃO (só aparece quando adminEditando não é nulo) -->
   <div *ngIf="adminEditando" class="edit-form">
     <h3>Editar Administrador: {{ adminEditando.nome }}</h3>
     <form (ngSubmit)="salvarEdicao()">

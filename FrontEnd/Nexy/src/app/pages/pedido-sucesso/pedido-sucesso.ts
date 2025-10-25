@@ -18,16 +18,16 @@ export class PedidoSucesso implements OnInit {
   erro = false;
 
   constructor(
-    private route: ActivatedRoute, // Para ler os parâmetros da URL
-    private pedidoService: PedidoService // Para buscar os dados do pedido
+    private route: ActivatedRoute, 
+    private pedidoService: PedidoService 
   ) {}
 
   ngOnInit(): void {
-    // 1. Pega o 'id' da URL
+ 
     const id = this.route.snapshot.paramMap.get('id');
     
     if (id) {
-      // 2. Chama o serviço para buscar o pedido com esse ID
+
       this.pedidoService.buscarPorId(Number(id)).subscribe({
         next: (pedidoEncontrado) => {
           this.pedido = pedidoEncontrado;
@@ -40,7 +40,6 @@ export class PedidoSucesso implements OnInit {
         }
       });
     } else {
-      // Caso não encontre um ID na URL
       this.carregando = false;
       this.erro = true;
     }

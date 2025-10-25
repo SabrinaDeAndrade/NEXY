@@ -55,7 +55,6 @@
                             {{ cat.nome }}
                         </option>
                     </select>
-                    <!-- Botão para abrir a modal -->
                     <button type="button" (click)="abrirModalCategoria()" class="btn-add-category">+</button>
                 </div>
                 <div *ngIf="produtoForm.get('categoriaId')?.invalid && produtoForm.get('categoriaId')?.touched"

@@ -24,11 +24,9 @@ export class MeusPedidos implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    // 1. Pega o ID do cliente logado a partir do AuthService
     const clienteId = this.authService.getClienteId();
 
     if (clienteId) {
-      // 2. Se o ID existir, busca os pedidos na API
       this.pedidoService.buscarPorCliente(clienteId).subscribe({
         next: (pedidosEncontrados) => {
           this.pedidos = pedidosEncontrados;
@@ -41,7 +39,6 @@ export class MeusPedidos implements OnInit {
         }
       });
     } else {
-      // Este caso não deveria acontecer por causa do authGuard, mas é uma segurança extra
       console.error("Não foi possível obter o ID do cliente.");
       this.carregando = false;
       this.erro = true;
