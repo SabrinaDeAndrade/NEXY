@@ -21,9 +21,11 @@
 
     <app-gerenciar-pedidos *ngIf="currentView === 'pedidos'"></app-gerenciar-pedidos>
 
+    <app-gerenciar-pedidos-detalhes *ngIf="currentView === 'pedidos-detalhes'"></app-gerenciar-pedidos-detalhes>
     <div
-      *ngIf="currentView !== 'produtos' && currentView !== 'categorias' && currentView !== 'admins' && currentView !== 'produtoForm'">
+      *ngIf="currentView !== 'produtos' && currentView !== 'pedidos' && currentView !== 'pedidos-detalhes' && currentView !== 'categorias' && currentView !== 'admins' && currentView !== 'produtoForm'">
       Selecione uma opção no menu de gerenciamento.
     </div>
+
   </main>
 </div>

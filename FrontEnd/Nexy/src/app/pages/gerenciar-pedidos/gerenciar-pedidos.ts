@@ -5,6 +5,7 @@ import { Pedido } from '../../interfaces/Pedido';
 import { StatusPedido } from '../../interfaces/StatusPedido';
 import { PedidoService } from '../../services/pedidoService';
 import { HttpErrorResponse } from '@angular/common/http';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-gerenciar-pedidos',
@@ -19,7 +20,7 @@ export class GerenciarPedidos implements OnInit {
   public carregando = true;
   public statusOptions: string[] = Object.values(StatusPedido);
 
-  constructor(private pedidoService: PedidoService) {}
+  constructor(private pedidoService: PedidoService, private router: Router) {}
 
   ngOnInit(): void {
     this.carregarPedidos();
@@ -82,8 +83,8 @@ export class GerenciarPedidos implements OnInit {
     });
   }
 
-  verDetalhes(pedidoId: number): void {
-    alert(`Implementar navegação para detalhes do pedido ${pedidoId}`);
-    // Ex: this.router.navigate(['/admin/pedido-detalhes', pedidoId]); 
+ verDetalhes(pedidoId: number): void {
+    console.log("Navegando para detalhes do pedido:", pedidoId);
+    this.router.navigate(['admin/gerenciar-pedido-detalhes', pedidoId]);
   }
 }

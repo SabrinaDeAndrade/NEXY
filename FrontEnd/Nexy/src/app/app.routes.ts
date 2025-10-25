@@ -16,6 +16,8 @@ import { GerenciarProdutos } from './pages/gerenciar-produtos/gerenciar-produtos
 import { CadastroAdmin } from './pages/cadastro-admin/cadastro-admin';
 import { Gerenciamento } from './pages/gerenciamento/gerenciamento';
 import { GerenciarPedidos } from './pages/gerenciar-pedidos/gerenciar-pedidos';
+import { GerenciarPedidosDetalhes } from './pages/gerenciar-pedidos-detalhes/gerenciar-pedidos-detalhes';
+import { AdminTest } from './services/pages/admin-test/admin-test';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -39,5 +41,7 @@ export const routes: Routes = [
   { path: 'admin/gerenciarAdmin', component: CadastroAdmin },
   { path: 'admin/gereciar', component: Gerenciamento },
   {path: 'admin/gerenciarPedido', component: GerenciarPedidos},
-  { path: '**', redirectTo: 'home' }
+  { path: 'admin/gerenciar-pedido-detalhes/:id', component: GerenciarPedidosDetalhes },
+  { path: '**', redirectTo: 'home' },
+  { path: 'admin/test', component: AdminTest }
 ];
