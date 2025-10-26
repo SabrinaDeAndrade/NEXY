@@ -39,8 +39,9 @@ h2 {
 
 .tabela-categorias td.acoes {
   display: flex;
-  gap: 10px;
+  gap: 12px;
   justify-content: flex-start;
+  margin-top: 2px;
 }
 
 .edit-form {
