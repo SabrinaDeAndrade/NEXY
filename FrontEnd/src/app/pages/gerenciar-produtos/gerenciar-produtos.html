@@ -1,0 +1,43 @@
+
+<h2>Gerenciar Produtos</h2>
+<div class="header-actions">
+  
+  <div class="edit-form">
+    <button (click)="goToProdutoForm()" class="btn-novo">Cadastrar Novo Produto</button>
+  </div>
+
+  <h2>Produtos Cadastrados</h2>
+  <div class="lista-container">
+    <div *ngIf="carregando">Carregando lista de produtos...</div>
+
+    <table *ngIf="!carregando && produtos.length > 0" class="tabela-categorias">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Nome</th>
+          <th>Preço</th>
+          <th>Estoque</th>
+          <th>Categoria</th>
+          <th>Ações</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let prod of produtos">
+          <td>{{ prod.id }}</td>
+          <td>{{ prod.nome }}</td>
+          <td>{{ prod.preco | currency:'BRL' }}</td>
+          <td>{{ prod.estoque }}</td>
+          <td>{{ prod.categoria?.nome }}</td>
+          <td class="acoes">
+            <button (click)="goToProdutoForm(prod.id)" class="btn-editar">Editar</button>
+            <button (click)="removerProduto(prod.id)" class="btn-remover">Remover</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div *ngIf="!carregando && produtos.length === 0">
+      <p>Nenhum produto cadastrado.</p>
+    </div>
+  </div>
+</div>

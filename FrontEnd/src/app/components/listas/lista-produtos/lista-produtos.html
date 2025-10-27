@@ -1,0 +1,11 @@
+<div *ngIf="carregando" class="loading">
+  <p>Carregando produtos...</p>
+</div>
+
+<div *ngIf="!carregando && produtos.length > 0" class="product-grid">
+  <app-cards *ngFor="let p of produtos" [produto]="p"></app-cards>
+</div>
+
+<div *ngIf="!carregando && produtos.length === 0" class="no-products">
+  <p>Nenhum produto encontrado no momento.</p>
+</div>

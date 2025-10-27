@@ -1,0 +1,53 @@
+<div class="sucesso-container">
+
+  <div *ngIf="carregando" class="feedback-box">
+    <p>Carregando detalhes do seu pedido...</p>
+  </div>
+
+  <div *ngIf="erro" class="feedback-box erro">
+    <h2>Ops! Algo deu errado.</h2>
+    <p>Não foi possível encontrar os detalhes do seu pedido. Por favor, verifique sua área de "Meus Pedidos".</p>
+  </div>
+
+  <div *ngIf="!carregando && pedido">
+    <h2> Pedido Realizado com Sucesso!</h2>
+    <p class="subtitulo">Obrigado por comprar conosco, {{ pedido.cliente?.nome }}!</p>
+
+    <div class="resumo-pedido">
+      <h3>Resumo do Pedido</h3>
+      <p><strong>Nº do Pedido:</strong> #{{ pedido.id }}</p>
+      <p><strong>Data:</strong> {{ pedido.dataPedido | date:'dd/MM/yyyy HH:mm' }}</p>
+      <p><strong>Valor Total:</strong> {{ pedido.valorTotal | currency:'BRL' }}</p>
+      <p><strong>Status:</strong> {{ pedido.status }}</p>
+    </div>
+
+    <div class="resumo-entrega">
+        <h3>Endereço de Entrega</h3>
+        <p>{{ pedido.endereco.rua }}, {{ pedido.endereco.numero }} - {{ pedido.endereco.bairro }}</p>
+        <p>{{ pedido.endereco.cidade }} - {{ pedido.endereco.estado }}</p>
+    </div>
+
+    <div *ngIf="pedido.itens && pedido.itens.length > 0">
+        <h3>Itens Comprados:</h3>
+        <div class="lista-itens">
+            <div *ngFor="let item of pedido.itens" class="item-pedido">
+               
+               <img [src]="'http://localhost:8080' + item.produto.imagens[0]?.url" [alt]="item.produto.nome" *ngIf="item.produto.imagens && item.produto.imagens.length > 0; else semImagem">
+        <ng-template #semImagem>
+            <img src="/assets/img/sem-imagem.png" alt="Sem imagem disponível">
+        </ng-template>
+              
+                <div class="info">
+                    <span>{{ item.produto.nome }}</span>
+                    <span>Qtd: {{ item.quantidade }}</span>
+                </div>
+                <span class="preco-item">{{ (item.precoUnitario * item.quantidade) | currency:'BRL' }}</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="acoes">
+      <a routerLink="/meus-pedidos" class="btn-secundario">Ver Meus Pedidos</a>
+      <a routerLink="/" class="btn-principal">Continuar Comprando</a>
+    </div>
+  </div>

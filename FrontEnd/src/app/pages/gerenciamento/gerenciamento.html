@@ -1,0 +1,31 @@
+<div class="busca-categorias-container">
+
+  <div class="categorias">
+    <app-lista-gerenciamento (viewSelected)="onViewChange($event)"></app-lista-gerenciamento>
+  </div>
+
+  <main class="produtos">
+
+    <app-gerenciar-produtos *ngIf="currentView === 'produtos'" (requestProdutoForm)="onRequestProdutoForm($event)">
+    </app-gerenciar-produtos>
+
+    <app-gerenciar-categorias *ngIf="currentView === 'categorias'">
+    </app-gerenciar-categorias>
+
+    <app-cadastro-admin *ngIf="currentView === 'admins'">
+    </app-cadastro-admin>
+
+    <app-produto-form *ngIf="currentView === 'produtoForm'" [productId]="editingProductId"
+      (formClosed)="onProdutoFormClosed()">
+    </app-produto-form>
+
+    <app-gerenciar-pedidos *ngIf="currentView === 'pedidos'"></app-gerenciar-pedidos>
+
+    <app-gerenciar-pedidos-detalhes *ngIf="currentView === 'pedidos-detalhes'"></app-gerenciar-pedidos-detalhes>
+    <div
+      *ngIf="currentView !== 'produtos' && currentView !== 'pedidos' && currentView !== 'pedidos-detalhes' && currentView !== 'categorias' && currentView !== 'admins' && currentView !== 'produtoForm'">
+      Selecione uma opção no menu de gerenciamento.
+    </div>
+
+  </main>
+</div>

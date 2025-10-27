@@ -1,0 +1,70 @@
+<div class="detalhes-container">
+
+  <div *ngIf="carregando" class="feedback-box">
+    <p>Carregando detalhes do pedido...</p>
+  </div>
+  <div *ngIf="erro" class="feedback-box erro">
+    <h2>Ops! Pedido não encontrado.</h2>
+    <p>Não foi possível carregar os detalhes deste pedido. Verifique o número ou tente novamente.</p>
+  </div>
+
+  <div *ngIf="!carregando && pedido">
+    <div class="cabecalho-pedido">
+      <h2>Detalhes do Pedido #{{ pedido.id }}</h2>
+      <a routerLink="/meus-pedidos" class="btn-voltar">Voltar para Meus Pedidos</a>
+    </div>
+
+    <div class="info-grid">
+   
+      <div class="info-card">
+        <h3>Status do Pedido</h3>
+        <span class="status" [ngClass]="'status-' + pedido.status.toLowerCase()">
+          {{ pedido.status.replace('_', ' ') }}
+        </span>
+        <p>Realizado em: {{ pedido.dataPedido | date:'dd/MM/yyyy HH:mm' }}</p>
+      </div>
+
+
+      <div class="info-card">
+        <h3>Endereço de Entrega</h3>
+        <p>{{ pedido.endereco.rua }}, {{ pedido.endereco.numero }}</p>
+        <p>{{ pedido.endereco.bairro }}</p>
+        <p>{{ pedido.endereco.cidade }} - {{ pedido.endereco.estado }}, CEP: {{ pedido.endereco.cep }}</p>
+      </div>
+    </div>
+
+    <h3>Itens Comprados</h3>
+    <div class="lista-itens">
+      <div *ngFor="let item of pedido.itens" class="item-pedido">
+        <img [src]="'http://localhost:8080' + item.produto.imagens[0]?.url" [alt]="item.produto.nome" *ngIf="item.produto.imagens && item.produto.imagens.length > 0; else semImagem">
+        <ng-template #semImagem>
+            <img src="/assets/img/sem-imagem.png" alt="Sem imagem disponível">
+        </ng-template>
+        <div class="info-item">
+          <h4>{{ item.produto.nome }}</h4>
+          <p>Quantidade: {{ item.quantidade }}</p>
+          <p>Preço Unitário: {{ item.precoUnitario | currency:'BRL' }}</p>
+        </div>
+        <div class="subtotal-item">
+          <strong>{{ (item.precoUnitario * item.quantidade) | currency:'BRL' }}</strong>
+        </div>
+      </div>
+    </div>
+
+    <div class="resumo-total">
+      <h3>Resumo do Valor</h3>
+      <div class="linha-total">
+        <span>Subtotal:</span>
+        <span>{{ pedido.valorTotal | currency:'BRL' }}</span>
+      </div>
+      <div class="linha-total">
+        <span>Frete:</span>
+        <span>Grátis</span>
+      </div>
+      <div class="linha-total final">
+        <strong>Total:</strong>
+        <strong>{{ pedido.valorTotal | currency:'BRL' }}</strong>
+      </div>
+    </div>
+  </div>
+</div>

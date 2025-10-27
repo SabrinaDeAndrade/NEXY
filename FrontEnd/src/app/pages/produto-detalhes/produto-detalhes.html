@@ -1,0 +1,54 @@
+<div *ngIf="carregando" class="loading">Carregando...</div>
+
+<div *ngIf="!carregando && produto" class="produto-detalhes-container">
+
+  <div class="galeria-produto">
+
+    <div class="imagem-principal">
+      <img [src]="'http://localhost:8080' + imagemSelecionadaUrl" 
+           [alt]="produto.nome" 
+           *ngIf="imagemSelecionadaUrl; else semImagem">
+      <ng-template #semImagem>
+        <img src="/assets/img/sem-imagem.png" alt="Sem imagem disponível">
+      </ng-template>
+    </div>
+
+    <div *ngIf="produto.imagens && produto.imagens.length > 1" class="galeria-thumbnails">
+      <div *ngFor="let imagem of produto.imagens" 
+           class="thumbnail-item"
+           [class.ativa]="imagem.url === imagemSelecionadaUrl"
+           (click)="selecionarImagem(imagem)">
+        <img [src]="'http://localhost:8080' + imagem.url" [alt]="'Miniatura ' + produto.nome">
+      </div>
+    </div>
+  </div>
+
+  <div class="info-produto">
+    <h2>{{ produto.nome }}</h2>
+    <p class="descricao">{{ produto.descricao }}</p>
+
+    <p class="preco">
+      <strong>Preço:</strong> {{ produto.preco | currency:'BRL' }}
+    </p>
+    <p><strong>Estoque:</strong> {{ produto.estoque }}</p>
+    <p><strong>Categoria:</strong> {{ produto.categoria?.nome }}</p>
+
+    <div class="quantidade">
+      <label for="qtd">Quantidade:</label>
+      <input type="number" id="qtd" [(ngModel)]="quantidade" min="1" [max]="produto.estoque">
+    </div>
+
+    <button (click)="adicionarAoCarrinho()">Adicionar ao Carrinho</button>
+  </div>
+</div>
+
+<div *ngIf="mostrarModalConfirmacao" class="modal-overlay" (click)="fecharModal()">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    <h4>✅ Produto Adicionado com Sucesso!</h4>
+    <p>O que você gostaria de fazer agora?</p>
+    <div class="modal-actions">
+      <button (click)="continuarComprando()" class="btn-secundario">Continuar Comprando</button>
+      <button (click)="irParaCarrinho()" class="btn-principal">Ir para o Carrinho</button>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,37 @@
+<div class="meus-pedidos-container">
+  <h2>Meus Pedidos</h2>
+
+  <div *ngIf="carregando" class="feedback-box">
+    <p>Carregando seus pedidos...</p>
+  </div>
+
+  <div *ngIf="erro" class="feedback-box erro">
+    <p>Ops! Não foi possível carregar seus pedidos. Tente novamente mais tarde.</p>
+  </div>
+
+  <div *ngIf="!carregando && !erro && pedidos.length === 0" class="feedback-box">
+    <p>Você ainda não fez nenhum pedido.</p>
+    <a routerLink="/categorias" class="btn-principal">Começar a Comprar</a>
+  </div>
+
+  <div *ngIf="!carregando && !erro && pedidos.length > 0" class="lista-pedidos">
+    <div *ngFor="let pedido of pedidos" class="pedido-card">
+      <div class="card-header">
+        <div>
+          <h4>Pedido #{{ pedido.id }}</h4>
+          <p>Realizado em: {{ pedido.dataPedido | date:'dd/MM/yyyy' }}</p>
+        </div>
+        <span class="status" [ngClass]="'status-' + pedido.status.toLowerCase()">
+          {{ pedido.status.replace('_', ' ') }}
+        </span>
+      </div>
+      <div class="card-body">
+        <p><strong>Valor Total:</strong> {{ pedido.valorTotal | currency:'BRL' }}</p>
+        <p><strong>Entregar em:</strong> {{ pedido.endereco.rua }}, {{ pedido.endereco.numero }}</p>
+      </div>
+      <div class="card-footer">
+        <a [routerLink]="['/pedido-detalhes', pedido.id]" class="btn-detalhes">Ver Detalhes do Pedido</a>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,47 @@
+import { Routes } from '@angular/router';
+import { Home } from './pages/home/home';
+import { Login } from './pages/login/login';
+import { Sobre } from './pages/sobre/sobre';
+import { Carrinho } from './pages/carrinho/carrinho';
+import { ProdutoForm } from './components/form/produto-form/produto-form';
+import { BuscaCategorias } from './pages/busca-categorias/busca-categorias';
+import { Registro } from './pages/registro/registro';
+import { ProdutoDetalhes } from './pages/produto-detalhes/produto-detalhes';
+import { Checkout } from './pages/checkout/checkout';
+import { PedidoSucesso } from './pages/pedido-sucesso/pedido-sucesso';
+import { MeusPedidos } from './pages/meus-pedidos/meus-pedidos';
+import { PedidoDetalhes } from './pages/pedido-detalhes/pedido-detalhes';
+import { GerenciarCategorias } from './pages/gerenciar-categorias/gerenciar-categorias';
+import { GerenciarProdutos } from './pages/gerenciar-produtos/gerenciar-produtos';
+import { CadastroAdmin } from './pages/cadastro-admin/cadastro-admin';
+import { Gerenciamento } from './pages/gerenciamento/gerenciamento';
+import { GerenciarPedidos } from './pages/gerenciar-pedidos/gerenciar-pedidos';
+import { GerenciarPedidosDetalhes } from './pages/gerenciar-pedidos-detalhes/gerenciar-pedidos-detalhes';
+import { AdminTest } from './services/pages/admin-test/admin-test';
+
+export const routes: Routes = [
+  { path: '', redirectTo: 'home', pathMatch: 'full' },
+  { path: 'home', component: Home },
+  { path: 'login', component: Login },
+  { path: 'sobre', component: Sobre },
+  { path: 'categorias', component: BuscaCategorias },
+  { path: 'categorias/:id', component: BuscaCategorias },
+  { path: 'carrinho', component: Carrinho },
+  { path: 'admin/produtos', component: GerenciarProdutos },
+  { path: 'admin/produto/novo', component: ProdutoForm },
+  { path: 'admin/produto/editar/:id', component: ProdutoForm },
+  { path: 'produto/:id', component: ProdutoDetalhes },
+  { path: 'registro', component: Registro },
+  { path: 'login', component: Login },
+  { path: 'checkout', component: Checkout },
+  { path: 'pedido-sucesso/:id', component: PedidoSucesso },
+  { path: 'meus-pedidos', component: MeusPedidos },
+  { path: 'pedido-detalhes/:id', component: PedidoDetalhes },
+  { path: 'admin/categorias', component: GerenciarCategorias },
+  { path: 'admin/gerenciarAdmin', component: CadastroAdmin },
+  { path: 'admin/gereciar', component: Gerenciamento },
+  {path: 'admin/gerenciarPedido', component: GerenciarPedidos},
+  { path: 'admin/gerenciar-pedido-detalhes/:id', component: GerenciarPedidosDetalhes },
+  { path: '**', redirectTo: 'home' },
+  { path: 'admin/test', component: AdminTest }
+];

@@ -1,0 +1,116 @@
+<div class="checkout-container">
+  <h2>Finalizar Compra</h2>
+
+  <div *ngIf="etapa === 'endereco'">
+    <h3>1. Endereço de Entrega</h3>
+
+    <div *ngIf="enderecosSalvos.length > 0">
+      <p>Selecione um endereço salvo:</p>
+
+      <div *ngFor="let end of enderecosSalvos" class="endereco-salvo"
+        [class.selecionado]="end.id === enderecoSelecionadoId" (click)="enderecoSelecionadoId = end.id">
+
+        <p><strong>{{end.rua}}, {{end.numero}}</strong> - {{end.bairro}}</p>
+        <p>{{end.cidade}}, {{end.estado}} - CEP: {{end.cep}} - Complemento: {{end.complemento}}</p>
+
+      </div>
+    </div>
+
+    <button type="button" (click)="mostrarFormularioEndereco = !mostrarFormularioEndereco" class="btn-toggle-form">
+      {{ mostrarFormularioEndereco ? 'Cancelar Cadastro' : 'Cadastrar Novo Endereço' }}
+    </button>
+
+    <form *ngIf="mostrarFormularioEndereco" [formGroup]="enderecoForm" (ngSubmit)="salvarNovoEndereco()">
+      <h4>Novo Endereço</h4>
+      <div class="form-group">
+        <label for="cep">CEP:</label>
+        <input id="cep" formControlName="cep" placeholder="XXXXX-XXX" (blur)="buscarCep()">
+      </div>
+      <div class="form-group">
+        <label for="rua">Rua:</label>
+        <input id="rua" formControlName="rua" placeholder="Rua / Logradouro">
+      </div>
+      <div class="form-group">
+        <label for="bairro">Bairro</label>
+        <input id="bairro" formControlName="bairro" placeholder="Bairo">
+      </div>
+      <div class="form-group">
+        <label for="cidade">Cidade</label>
+        <input id="cidade" formControlName="cidade" placeholder="Cidade">
+      </div>
+      <div class="form-group">
+        <label for="estado">Estado</label>
+        <input id="estado" formControlName="estado" placeholder="Estado">
+      </div>
+      <div class="form-group">
+        <label for="complemento">Complemento</label>
+        <input id="complemento" formControlName="complemento" placeholder="complemento">
+      </div>
+      <div class="form-group">
+        <label for="numero">Número:</label>
+        <input id="numero" formControlName="numero" placeholder="Número">
+      </div>
+      <button type="submit" [disabled]="enderecoForm.invalid" class="btn-salvar">Salvar Endereço</button>
+    </form>
+
+    <button class="btn-prosseguir" (click)="prosseguirParaPagamento()">Prosseguir para Pagamento</button>
+  </div>
+
+<div *ngIf="etapa === 'pagamento'">
+  <h3>2. Método de Pagamento</h3>
+
+  <div *ngIf="cartoesSalvos.length > 0">
+    <p>Selecione um cartão salvo:</p>
+    
+    <div *ngFor="let cartao of cartoesSalvos" class="item-salvo"
+         [class.selecionado]="cartao.id === cartaoSelecionadoId"
+         (click)="cartaoSelecionadoId = cartao.id">
+      
+      <div class="info-cartao">
+        <span class="icone-cartao">💳</span>
+        <div>
+          <p><strong>Final •••• {{ cartao.numeroCartao.slice(-4) }}</strong></p>
+          <p class="nome-titular">{{ cartao.nomeCompleto }}</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+  
+  <button type="button" (click)="mostrarFormularioCartao = !mostrarFormularioCartao" class="btn-toggle-form">
+    {{ mostrarFormularioCartao ? 'Cancelar' : 'Adicionar Novo Cartão' }}
+  </button>
+
+  <div *ngIf="mostrarFormularioCartao">
+    <h4>Cadastrar Novo Cartão</h4>
+    
+    <form [formGroup]="cartaoForm" class="form-pagamento" (ngSubmit)="salvarNovoCartao()">
+      <div class="form-group">
+        <label for="nomeCompleto">Nome no Cartão</label>
+        <input id="nomeCompleto" formControlName="nomeCompleto">
+      </div>
+      <div class="form-group">
+        <label for="numeroCartao">Número do Cartão</label>
+        <input id="numeroCartao" formControlName="numeroCartao">
+      </div>
+      <div class="form-group">
+        <label for="dataVenc">Data de Vencimento (MM/AA)</label>
+        <input id="dataVenc" formControlName="dataVenc">
+      </div>
+      <div class="form-group">
+        <label for="cvv">CVV</label>
+        <input id="cvv" formControlName="cvv">
+      </div>
+      <div class="form-group">
+        <label for="cpfTitular">CPF do Titular</label>
+        <input id="cpfTitular" formControlName="cpfTitular">
+      </div>
+      
+      <button type="submit" [disabled]="cartaoForm.invalid" class="btn-salvar">
+        Salvar Cartão
+      </button>
+    </form>
+  </div> 
+
+  <button class="btn-finalizar" (click)="finalizarCompra()">Finalizar Compra e Pagar</button>
+</div>

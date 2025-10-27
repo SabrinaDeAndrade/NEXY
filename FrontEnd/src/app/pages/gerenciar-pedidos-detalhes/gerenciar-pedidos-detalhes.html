@@ -1,0 +1,70 @@
+<h2>Detalhes do Pedido</h2>
+<div class="gerenciar-container">
+
+  <div *ngIf="carregando" class="loading-message">A carregar detalhes do pedido...</div>
+
+  <div *ngIf="erro && !carregando" class="error-message">{{ erro }}</div>
+
+
+  <div *ngIf="pedido && !carregando && !erro">
+    <h2> #{{ pedido.id }}</h2>
+    
+
+    <div class="pedido-info">
+      <div class="info-section">
+        <h4>Cliente</h4>
+        <p><strong>Nome:</strong> {{ pedido.cliente?.nome || 'N/A' }}</p>
+        <p><strong>Email:</strong> {{ pedido.cliente?.email || 'N/A' }}</p>
+        <p><strong>Telefone:</strong> {{ pedido.cliente?.telefone || 'N/A' }}</p>
+        <p><strong>CPF:</strong> {{ pedido.cliente?.cpf || 'N/A' }}</p>
+      </div>
+
+      <div class="info-section">
+        <h4>Endereço de Entrega</h4>
+        <p>{{ pedido.endereco?.rua || 'N/A' }}, {{ pedido.endereco?.numero || 'N/A' }}</p>
+        <p>{{ pedido.endereco?.bairro || 'N/A' }} - {{ pedido.endereco?.cidade || 'N/A' }}/{{ pedido.endereco?.estado || 'N/A' }}</p>
+        <p><strong>CEP:</strong> {{ pedido.endereco?.cep || 'N/A' }}</p>
+        <p *ngIf="pedido.endereco?.complemento"><strong>Complemento:</strong> {{ pedido.endereco.complemento }}</p>
+      </div>
+
+      <div class="info-section">
+        <h4>Sumário do Pedido</h4>
+        <p><strong>Data:</strong> {{ pedido.dataPedido | date:'dd/MM/yyyy HH:mm' }}</p>
+        <p><strong>Status:</strong> <span class="status-badge status-{{pedido.status.toLowerCase()}}">{{ pedido.status }}</span></p>
+        <p><strong>Valor Total:</strong> {{ pedido.valorTotal | currency:'BRL' }}</p>
+      </div>
+    </div>
+
+    <hr>
+
+    <h4>Itens do Pedido</h4>
+    <table class="tabela-itens">
+      <thead>
+        <tr>
+          <th>Produto</th>
+          <th>Quantidade</th>
+          <th>Preço Unitário</th>
+          <th>Subtotal</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of pedido.itens">
+          <td>
+            <a [routerLink]="['/produto', item.produto.id]" target="_blank"> 
+              {{ item.produto?.nome || 'Produto não disponível' }}
+            </a>
+          </td>
+          <td>{{ item.quantidade }}</td>
+          <td>{{ item.precoUnitario | currency:'BRL' }}</td>
+          <td>{{ (item.quantidade * item.precoUnitario) | currency:'BRL' }}</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="actions-footer">
+     <button (click)="goBack()" class="btn-voltar">Voltar para a Lista</button>
+    </div>
+
+  </div> 
+
+</div>

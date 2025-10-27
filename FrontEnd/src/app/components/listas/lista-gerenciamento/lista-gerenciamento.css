@@ -1,0 +1,38 @@
+h4 {
+  margin-top: 24px;
+  font-size: 28px;
+  margin-left: 16px;
+  margin-bottom: 10px;
+}
+
+.list-group-item {
+  font-size: 24px;
+  display: block;
+  width: 270px;
+  padding: 12px 15px;
+  color: #cccccc;
+  background-color: transparent;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
+  text-decoration: none;
+  white-space: normal;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  border: none;
+}
+
+.list-group-item:hover {
+  background-color: #f0f0f0;
+  color: #333333;
+}
+ul {
+  list-style: none; 
+  padding: 0;    
+  margin: 0;     
+}
+
+li a {
+  display: block;
+  padding: 12px 20px; 
+}

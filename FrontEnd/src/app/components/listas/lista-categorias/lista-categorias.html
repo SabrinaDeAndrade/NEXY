@@ -1,0 +1,15 @@
+<div class="list-group">
+  <h4>Categorias</h4>
+  <a routerLink="/categorias"
+     class="list-group-item "
+     routerLinkActive="active"
+     [routerLinkActiveOptions]="{exact: true}">
+    Todas
+  </a>
+  <a *ngFor="let categoria of categorias"
+     [routerLink]="['/categorias', categoria.id]"
+     class="list-group-item "
+     routerLinkActive="active">
+    {{ categoria.nome }}
+  </a>
+</div>
