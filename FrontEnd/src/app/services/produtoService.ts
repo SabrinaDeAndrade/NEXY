@@ -34,7 +34,7 @@ export class ProdutoService {
   }
 
    uploadImagens(id: number, arquivos: File[]): Observable<HttpEvent<any>> {
-    const formData: FormData = new FormData();
+    const formData = new FormData();
 
     for (let i = 0; i < arquivos.length; i++) {
         formData.append('imagens', arquivos[i]);
