@@ -100,7 +100,6 @@ public class ProdutoService {
 
             String nomeArquivo = System.currentTimeMillis() + "_" + imagem.getOriginalFilename();
             Path caminhoArquivo = Paths.get(pastaUpload + nomeArquivo);
-
             System.out.println("Salvando imagem em: " + caminhoArquivo.toAbsolutePath());
 
             try {

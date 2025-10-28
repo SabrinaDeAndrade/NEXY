@@ -33,14 +33,19 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.POST, "/auth/register").permitAll()
                         .requestMatchers(HttpMethod.GET, "/produtos/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/produtos").permitAll()
+
                         .requestMatchers("/BackEnd/uploads/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/categorias").permitAll()
                         .requestMatchers("BackEnd/uploads").permitAll()
 
+                        .requestMatchers("/uploads/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/BackEnd/categorias").permitAll()
+                        .requestMatchers("/BackEnd/uploads").permitAll()
+
                         // --- Endpoints de ADMIN (exigem permissão de ADMIN) ---
                         .requestMatchers(HttpMethod.POST, "/auth/admin/register").hasRole("ADMIN")
                         .requestMatchers("/auth/admins/**").hasRole("ADMIN")
-                        .requestMatchers("/api/categorias/**").hasRole("ADMIN")
+                        .requestMatchers("/categorias/**").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.POST, "/produtos").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.PUT, "/produtos/**").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.DELETE, "/produtos/**").hasRole("ADMIN")
