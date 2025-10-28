@@ -87,7 +87,7 @@ public class ProdutoService {
         Produto produto = this.findById(id);
 
         List<String> urls = new ArrayList<>();
-        String pastaUpload = "uploads/";
+        String pastaUpload = "BackEnd/uploads/";
         File diretorio = new File(pastaUpload);
         if (!diretorio.exists()) {
             diretorio.mkdirs();
@@ -95,15 +95,22 @@ public class ProdutoService {
 
         for (MultipartFile imagem : imagens) {
             if (imagem.isEmpty()) {
-                continue;
+                return List.of();
             }
 
             String nomeArquivo = System.currentTimeMillis() + "_" + imagem.getOriginalFilename();
             Path caminhoArquivo = Paths.get(pastaUpload + nomeArquivo);
-            Files.write(caminhoArquivo, imagem.getBytes());
+
+            System.out.println("Salvando imagem em: " + caminhoArquivo.toAbsolutePath());
+
+            try {
+                Files.write(caminhoArquivo, imagem.getBytes());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
 
             ImagemProduto novaImagem = new ImagemProduto();
-            String urlImagem = "/uploads/" + nomeArquivo;
+            String urlImagem = "/BackEnd/uploads/" + nomeArquivo;
             novaImagem.setUrl(urlImagem);
             novaImagem.setProduto(produto);
 
