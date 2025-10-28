@@ -16,6 +16,8 @@ public class Produto {
     private Long id;
 
     private String nome;
+
+    @Column(length = 10000)
     private String descricao;
     private Integer estoque;
     private Double preco;
