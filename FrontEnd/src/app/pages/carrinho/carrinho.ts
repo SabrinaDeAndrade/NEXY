@@ -14,52 +14,57 @@ import { AuthService } from '../../services/auth-service';
   styleUrl: './carrinho.css'
 })
 export class Carrinho {
-
-  itens$: Observable<CarrinhoItem[]>;
-  valorTotal$: Observable<number>;
+  cartItems: CarrinhoItem[] = [];
 
   constructor(
     private carrinhoStateService: CarrinhoStateService,
     private authService: AuthService,
     private router: Router
   ) {
-    this.itens$ = this.carrinhoStateService.itens$;
+    // ✅ sincroniza automaticamente com o serviço
+    this.carrinhoStateService.itens$.subscribe(items => {
+      this.cartItems = items;
+    });
+  }
 
-    this.valorTotal$ = this.itens$.pipe(
-      map(itens =>
-        itens.reduce((total, item) => total + (item.precoUnitario * item.quantidade), 0)
-      )
+  /** ✅ Subtotal */
+  get subtotal(): number {
+    return this.cartItems.reduce(
+      (sum, item) => sum + item.precoUnitario * item.quantidade,
+      0
     );
   }
 
+  /** ✅ Frete */
+  get shipping(): number {
+    return this.subtotal > 500 ? 0 : 29.99;
+  }
 
-  removerItem(itemId: number): void {
+  /** ✅ Total */
+  get total(): number {
+    return this.subtotal + this.shipping;
+  }
+
+  /** ✅ Remover item */
+  removeItem(item: CarrinhoItem): void {
     if (confirm('Tem certeza que deseja remover este item do carrinho?')) {
-      this.carrinhoStateService.removerItem(itemId);
+      this.carrinhoStateService.removerItem(item.id);
     }
   }
 
-  atualizarQuantidade(itemId: number, event: any): void {
-    const novaQuantidade = Number((event.target as HTMLInputElement).value);
-    this.carrinhoStateService.atualizarQuantidade(itemId, novaQuantidade);
+  /** ✅ Botões + e - */
+  updateQuantity(item: CarrinhoItem, change: number): void {
+    const novaQuantidade = Math.max(1, item.quantidade + change);
+    this.carrinhoStateService.atualizarQuantidade(item.id, novaQuantidade);
   }
 
- irParaCheckout(): void {
-  this.itens$.subscribe(itens => {
-    const itemComEstoqueInsuficiente = itens.find(item => item.quantidade < item.quantidade);
-
-    if (itemComEstoqueInsuficiente) {
-      alert(`Estoque insuficiente para o produto: ${itemComEstoqueInsuficiente.produto.nome}`);
-      return; 
-    }
-
+  /** ✅ Ir para checkout */
+  irParaCheckout(): void {
     if (this.authService.isLoggedIn()) {
       this.router.navigate(['/checkout']);
     } else {
       alert('Você precisa fazer login para finalizar a compra.');
       this.router.navigate(['/login']);
     }
-  });
-}
-
+  }
 }

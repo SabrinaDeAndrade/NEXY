@@ -1,20 +1,25 @@
 <div class="auth-container">
   <form class="auth-form" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-    <h2>Login</h2>
-    
+    <h2 class="text-center">Login</h2>
+
     <div class="form-group">
       <label for="email">Email</label>
-      <input id="email" type="email" formControlName="email">
+      <input id="email" type="email" formControlName="email" placeholder="Digite seu email">
     </div>
+
     <div class="form-group">
       <label for="senha">Senha</label>
-      <input id="senha" type="password" formControlName="senha">
+      <input id="senha" type="password" formControlName="senha" placeholder="Digite sua senha">
     </div>
-    
-    <button type="submit" [disabled]="loginForm.invalid">Entrar</button>
 
-    <div class="form-link">
-      <p>Não tem uma conta? <a routerLink="/registro">Cadastre-se</a></p>
+    <button class="btn btn-primary" type="submit" [disabled]="loginForm.invalid">
+      Entrar
+    </button>
+
+    <div class="form-link text-center">
+      <p>Não tem conta?
+        <a routerLink="/registro">Cadastre-se</a>
+      </p>
     </div>
   </form>
 </div>

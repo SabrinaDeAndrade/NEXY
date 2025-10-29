@@ -1,0 +1,520 @@
+/* Importar fontes sofisticadas */
+@import url("https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Inter:wght@300;400;600;700&display=swap");
+
+/* Reset e configurações base */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.sobre-container {
+  font-family: "Inter", sans-serif;
+  background: linear-gradient(180deg, #0a0a0a 0%, #1a1a1a 50%, #0a0a0a 100%);
+  color: #f5f5f5;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* Hero Section Aprimorado */
+.nexy-hero {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 70vh;
+  background: linear-gradient(135deg, #2c57f1 0%, #1f3e94 50%, 44, 87, 241 100%);
+  overflow: hidden;
+  margin-bottom: 4rem;
+}
+
+.hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 20% 50%, rgba(44, 87, 241) 0%, transparent 50%),
+    radial-gradient(circle at 80% 50%, rgba(44, 87, 241) 0%, transparent 50%);
+  animation: pulse 8s ease-in-out infinite;
+}
+
+.hero-decoration {
+  position: absolute;
+  inset: 0;
+  background-image: linear-gradient(
+      45deg,
+      transparent 48%,
+      rgba(44, 87, 241) 49%,
+      rgba(44, 87, 241) 51%,
+      transparent 52%
+    ),
+    linear-gradient(
+      -45deg,
+      transparent 48%,
+      rgba(44, 87, 241) 49%,
+      rgba(44, 87, 241) 51%,
+      transparent 52%
+    );
+  background-size: 60px 60px;
+  opacity: 0.3;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 10;
+  text-align: center;
+  padding: 2rem;
+}
+
+.nexy-title {
+  font-family: "Playfair Display", serif;
+  font-size: clamp(3rem, 8vw, 5rem);
+  font-weight: 900;
+  color: #ffffff;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  margin-bottom: 1rem;
+  background: linear-gradient(135deg, #ffffff 0%, #6283f0 50%, #ffffff 100%);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: shimmer 3s linear infinite;
+  text-shadow: 0 0 40px rgba(93, 136, 255, 0.3);
+}
+
+.hero-subtitle {
+  font-size: clamp(1rem, 2vw, 1.5rem);
+  color: #6283f0;
+  font-weight: 300;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+}
+
+/* Animações */
+@keyframes shimmer {
+  to {
+    background-position: 200% center;
+  }
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in {
+  animation: fade-in 1s ease-out;
+}
+
+.animate-fade-in-delay {
+  animation: fade-in 1s ease-out 0.3s both;
+}
+
+/* Conteúdo Principal */
+.sobre-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2rem 4rem;
+}
+
+.sobre-section {
+  margin-bottom: 5rem;
+  animation: fade-in 0.8s ease-out;
+}
+
+.card-elevated {
+  background: linear-gradient(135deg, rgba(0, 0, 0, 0.5) 0%, rgba(0, 0, 0, 0.5) 100%);
+  border-radius: 24px;
+  padding: 3rem;
+  border: 1px solid rgba(38, 23, 255, 0.3);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(38, 23, 255, 0.3);
+  backdrop-filter: blur(10px);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card-elevated:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 30px 80px rgba(93, 136, 255, 0.3), inset 0 1px 0 rgba(38, 23, 255, 0.3);
+}
+
+/* Cabeçalhos de Seção */
+.section-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.section-icon {
+  font-size: 2.5rem;
+  filter: drop-shadow(0 0 10px rgba(38, 23, 255, 0.3));
+}
+
+.sobre-section h2 {
+  font-family: "Playfair Display", serif;
+  font-size: clamp(2rem, 4vw, 3rem);
+  color: #6283f0;
+  font-weight: 700;
+  position: relative;
+  display: inline-block;
+}
+
+.sobre-section h2::after {
+  content: "";
+  position: absolute;
+  bottom: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60%;
+  height: 3px;
+  background: linear-gradient(90deg, transparent, #6283f0, transparent);
+  border-radius: 2px;
+}
+
+.mv-values-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  gap: 3rem;
+  margin-bottom: 5rem;
+}
+
+.mv-card {
+  padding: 3rem;
+  border-radius: 24px;
+  border: 1px solid rgba(38, 23, 255, 0.3);
+  background: linear-gradient(135deg, rgba(0, 0, 0, 0.5) 0%, rgba(0, 0, 0, 0.5) 100%);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(38, 23, 255, 0.3);
+  backdrop-filter: blur(10px);
+  text-align: center;
+  animation: fade-in 0.8s ease-out;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.mv-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 30px 80px rgba(93, 136, 255, 0.3), inset 0 1px 0 rgba(38, 23, 255, 0.3);
+}
+
+.mv-card .section-header {
+  margin-bottom: 2rem;
+}
+
+.mv-card h2 {
+  font-family: "Playfair Display", serif;
+  font-size: clamp(2rem, 4vw, 3rem);
+  color: #6283f0;
+  font-weight: 700;
+  position: relative;
+}
+
+.mv-card h2::after {
+  content: "";
+  position: absolute;
+  bottom: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60%;
+  height: 3px;
+  background: linear-gradient(90deg, transparent, #6283f0, transparent);
+  border-radius: 2px;
+}
+
+.mv-card .text-large {
+  font-size: clamp(1.1rem, 2vw, 1.3rem);
+  line-height: 2;
+  color: #e0e0e0;
+  text-align: center;
+  font-weight: 300;
+}
+
+
+.text-large {
+  font-size: clamp(1.1rem, 2vw, 1.3rem);
+  line-height: 2;
+  color: #e0e0e0;
+  text-align: center;
+  font-weight: 300;
+}
+
+.section-intro {
+  text-align: center;
+  font-size: 1.1rem;
+  color: #b0b0b0;
+  margin-bottom: 3rem;
+  font-style: italic;
+}
+
+.decorative-line {
+  width: 100px;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, #6283f0, transparent);
+  margin: 2rem auto 0;
+}
+
+/* Grid de Valores */
+.values-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 2rem;
+  margin-top: 3rem;
+}
+
+.value-card {
+  background: linear-gradient(135deg, rgba(0, 0, 0, 0.5) 0%, rgba(0, 0, 0, 0.5) 100%);
+  border-radius: 20px;
+  padding: 2.5rem 2rem;
+  text-align: center;
+  border: 1px solid rgba(38, 23, 255, 0.3);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.value-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, #6283f0, #89a4f0);
+  transform: scaleX(0);
+  transition: transform 0.4s ease;
+}
+
+.value-card:hover {
+  transform: translateY(-10px);
+  border-color: rgba(38, 23, 255, 0.3);
+  box-shadow: 0 20px 40px rgba(93, 136, 255, 0.3);
+}
+
+.value-card:hover::before {
+  transform: scaleX(1);
+}
+
+.value-icon {
+  font-size: 3.5rem;
+  margin-bottom: 1.5rem;
+  filter: drop-shadow(0 0 15px rgba(93, 136, 255, 0.3));
+  transition: transform 0.3s ease;
+}
+
+.value-card:hover .value-icon {
+  transform: scale(1.1) rotate(5deg);
+}
+
+.value-title {
+  font-size: 1.5rem;
+  color: #6283f0;
+  margin-bottom: 1rem;
+  font-weight: 700;
+}
+
+.value-description {
+  color: #c0c0c0;
+  line-height: 1.6;
+  font-size: 1rem;
+}
+
+/* Substituir .team-grid por esta versão flexbox */
+.team-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 3rem;
+  margin-top: 3rem;
+  justify-content: center; /* centraliza todas as linhas */
+  align-items: flex-start;
+}
+
+/* controla largura dos cards / fotos sem quebrar layout */
+.team-member {
+  flex: 0 0 clamp(220px, 28%, 280px); /* tamanho responsivo e previsível */
+  max-width: 300px; /* evita esticar demais */
+  text-align: center;
+}
+
+.team-member:hover {
+  transform: translateY(-10px);
+}
+
+.team-photo-wrapper {
+  position: relative;
+  width: 180px;
+  height: 180px;
+  margin: 0 auto 1.5rem;
+}
+
+.team-photo {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 4px solid #6283f0;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), 0 0 0 8px rgba(93, 136, 255, 0.3);
+  transition: all 0.4s ease;
+  position: relative;
+  z-index: 2;
+}
+
+.photo-overlay {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: linear-gradient(135deg, rgba(93, 136, 255, 0.3), rgba(38, 23, 255, 0.3));
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  z-index: 3;
+  pointer-events: none;
+}
+
+.team-member:hover .team-photo {
+  transform: scale(1.05);
+  box-shadow: 0 15px 40px rgba(93, 136, 255, 0.3), 0 0 0 8px rgba(38, 23, 255, 0.3);
+}
+
+.team-member:hover .photo-overlay {
+  opacity: 1;
+}
+
+.team-name {
+  font-size: 1.4rem;
+  color: #ffffff;
+  margin-bottom: 0.5rem;
+  font-weight: 700;
+}
+
+.team-role {
+  color: #6283f0;
+  font-size: 1rem;
+  font-weight: 400;
+  letter-spacing: 1px;
+}
+
+/* Call to Action */
+.cta-section {
+  text-align: center;
+  margin-top: 5rem;
+  padding: 4rem 2rem;
+  background: linear-gradient(135deg, rgba(0, 0, 0, 0.5) 0%, rgba(0, 0, 0, 0.5) 100%);
+  border-radius: 24px;
+  border: 1px solid rgba(38, 23, 255, 0.3);
+}
+
+.cta-title {
+  font-family: "Playfair Display", serif;
+  font-size: clamp(1.8rem, 3vw, 2.5rem);
+  color: #ffffff;
+  margin-bottom: 2rem;
+  font-weight: 700;
+}
+
+.cta-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1.2rem 3rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #ffffff;
+  background: linear-gradient(135deg, #6283f0 0%, #89a4f0 100%);
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 10px 30px rgba(107, 98, 240, 0.3);
+  position: relative;
+  overflow: hidden;
+}
+
+.cta-button::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, #89a4f0 0%, #6283f0 100%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.cta-button:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 15px 40px rgba(107, 98, 240, 0.3);
+}
+
+.cta-button:hover::before {
+  opacity: 1;
+}
+
+.cta-button span,
+.button-arrow {
+  position: relative;
+  z-index: 1;
+}
+
+.button-arrow {
+  transition: transform 0.3s ease;
+}
+
+.cta-button:hover .button-arrow {
+  transform: translateX(5px);
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+  .nexy-hero {
+    height: 50vh;
+  }
+
+  .sobre-content {
+    padding: 0 1rem 3rem;
+  }
+
+  .card-elevated {
+    padding: 2rem 1.5rem;
+  }
+
+  .values-grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  .team-grid {
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+  }
+
+  .cta-section {
+    padding: 3rem 1.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .section-header {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .value-card {
+    padding: 2rem 1.5rem;
+  }
+
+  .team-photo-wrapper {
+    width: 150px;
+    height: 150px;
+  }
+}
