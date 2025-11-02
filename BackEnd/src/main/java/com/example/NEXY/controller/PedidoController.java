@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Map;
 
-record CheckoutRequestDTO(Long clienteId, Long enderecoId, String cartaoToken) {}
+record CheckoutRequestDTO(Long clienteId, Long enderecoId, Long cartaoId) {}
 
 @RestController
 @RequestMapping("/pedidos")
@@ -28,7 +28,7 @@ public class PedidoController {
         Pedido pedido = pedidoService.finalizarCompra(
                 checkoutRequest.clienteId(),
                 checkoutRequest.enderecoId(),
-                checkoutRequest.cartaoToken()
+                checkoutRequest.cartaoId()
         );
         return ResponseEntity.ok(pedido);
     }

@@ -20,11 +20,16 @@ public class Pedido {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(unique = true)
+    private String orderId;
+
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private StatusPedido status;
 
     private Double valorTotal;
+
+    private String paymentIntentId;
 
     @Column(nullable = false)
     private LocalDateTime dataPedido;
@@ -44,10 +49,12 @@ public class Pedido {
     public Pedido() {
     }
 
-    public Pedido(Long id, StatusPedido status, Double valorTotal, LocalDateTime dataPedido, Cliente cliente, Endereco endereco, List<PedidoItem> itens) {
+    public Pedido(Long id, String orderId, StatusPedido status, Double valorTotal, String paymentIntentId, LocalDateTime dataPedido, Cliente cliente, Endereco endereco, List<PedidoItem> itens) {
         this.id = id;
+        this.orderId = orderId;
         this.status = status;
         this.valorTotal = valorTotal;
+        this.paymentIntentId = paymentIntentId;
         this.dataPedido = dataPedido;
         this.cliente = cliente;
         this.endereco = endereco;
@@ -60,6 +67,14 @@ public class Pedido {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getOrderId() {
+        return orderId;
+    }
+
+    public void setOrderId(String orderId) {
+        this.orderId = orderId;
     }
 
     public StatusPedido getStatus() {
@@ -76,6 +91,14 @@ public class Pedido {
 
     public void setValorTotal(Double valorTotal) {
         this.valorTotal = valorTotal;
+    }
+
+    public String getPaymentIntentId() {
+        return paymentIntentId;
+    }
+
+    public void setPaymentIntentId(String paymentIntentId) {
+        this.paymentIntentId = paymentIntentId;
     }
 
     public LocalDateTime getDataPedido() {

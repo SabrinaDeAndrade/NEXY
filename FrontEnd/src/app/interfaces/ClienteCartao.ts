@@ -6,6 +6,7 @@ export interface ClienteCartao {
   numeroCartao: string;
   cvv: string;
   cpfTitular: string;
-  dataVenc: string;
+  anoVenc: string;
+  mesVenc: string;
   cliente: Cliente;
 }

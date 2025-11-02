@@ -17,7 +17,8 @@ public class ClienteCartao {
     private String numeroCartao;
     private String cvv;
     private String cpfTitular;
-    private String dataVenc;
+    private String mesVenc;
+    private String anoVenc;
 
     @JsonBackReference("cliente-cartoes")
     @ManyToOne
@@ -28,13 +29,14 @@ public class ClienteCartao {
 
     }
 
-    public ClienteCartao(Long id, String nomeCompleto, String numeroCartao, String cvv, String cpfTitular, String dataVenc, Cliente cliente) {
+    public ClienteCartao(Long id, String nomeCompleto, String numeroCartao, String cvv, String cpfTitular, String mesVenc, String anoVenc, Cliente cliente) {
         this.id = id;
         this.nomeCompleto = nomeCompleto;
         this.numeroCartao = numeroCartao;
         this.cvv = cvv;
         this.cpfTitular = cpfTitular;
-        this.dataVenc = dataVenc;
+        this.mesVenc = mesVenc;
+        this.anoVenc = anoVenc;
         this.cliente = cliente;
     }
 
@@ -78,12 +80,20 @@ public class ClienteCartao {
         this.cpfTitular = cpfTitular;
     }
 
-    public String getDataVenc() {
-        return dataVenc;
+    public String getMesVenc() {
+        return mesVenc;
     }
 
-    public void setDataVenc(String dataVenc) {
-        this.dataVenc = dataVenc;
+    public void setMesVenc(String mesVenc) {
+        this.mesVenc = mesVenc;
+    }
+
+    public String getAnoVenc() {
+        return anoVenc;
+    }
+
+    public void setAnoVenc(String anoVenc) {
+        this.anoVenc = anoVenc;
     }
 
     public Cliente getCliente() {

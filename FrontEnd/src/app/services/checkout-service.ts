@@ -32,7 +32,7 @@ export class CheckoutService {
   }
 
   // --- MÉTODO DE FINALIZAÇÃO ---
-  finalizarPedido(payload: { clienteId: number, enderecoId: number, cartaoToken: string }): Observable<Pedido> {
+  finalizarPedido(payload: { clienteId: number, enderecoId: number, cartaoId: number }): Observable<Pedido> {
     return this.http.post<Pedido>(`${this.baseUrl}/pedidos/finalizar`, payload);
   }
 

@@ -9,11 +9,13 @@ import org.springframework.stereotype.Repository;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface PedidoRepository extends JpaRepository<Pedido, Long> {
 
     List<Pedido> findByClienteId(Long clienteId);
     List<Pedido> findAllByOrderByDataPedidoDesc();
+    Optional<Pedido> findByOrderId(String  orderId);
 
 }

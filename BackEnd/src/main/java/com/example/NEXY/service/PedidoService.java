@@ -19,17 +19,24 @@ public class PedidoService {
     private final ClienteRepository clienteRepository;
     private final EnderecoRepository enderecoRepository;
     private final ProdutoRepository produtoRepository;
+    private final ClienteCartaoRepository clienteCartaoRepository;
+    private final TrustPayService trustPayService;
 
-    public PedidoService(PedidoRepository pedidoRepository, CarrinhoRepository carrinhoRepository, ClienteRepository clienteRepository, EnderecoRepository enderecoRepository, ProdutoRepository produtoRepository) {
+    public PedidoService(PedidoRepository pedidoRepository, CarrinhoRepository carrinhoRepository,
+                         ClienteRepository clienteRepository, EnderecoRepository enderecoRepository,
+                         ProdutoRepository produtoRepository, ClienteCartaoRepository clienteCartaoRepository,
+                         TrustPayService trustPayService) {
         this.pedidoRepository = pedidoRepository;
         this.carrinhoRepository = carrinhoRepository;
         this.clienteRepository = clienteRepository;
         this.enderecoRepository = enderecoRepository;
         this.produtoRepository = produtoRepository;
+        this.clienteCartaoRepository = clienteCartaoRepository;
+        this.trustPayService = trustPayService;
     }
 
     @Transactional
-    public Pedido finalizarCompra(Long clienteId, Long enderecoId, String cartaoToken) {
+    public Pedido finalizarCompra(Long clienteId, Long enderecoId, Long cartaoId) {
         Cliente cliente = clienteRepository.findById(clienteId)
                 .orElseThrow(() -> new RuntimeException("Cliente não encontrado."));
 
@@ -39,33 +46,64 @@ public class PedidoService {
         Carrinho carrinho = carrinhoRepository.findByClienteId(clienteId)
                 .orElseThrow(() -> new RuntimeException("Carrinho não encontrado ou vazio."));
 
+        ClienteCartao cartao = clienteCartaoRepository.findById(cartaoId)
+                .orElseThrow(() -> new RuntimeException("Cartão não encontrado."));
+
         if (carrinho.getItens() == null || carrinho.getItens().isEmpty()) {
             throw new RuntimeException("Seu carrinho está vazio.");
         }
 
-        // 2. Processar o pagamento com a API do Mercado Pago (aqui é uma simulação)
-        // boolean pagamentoAprovado = mercadoPagoService.processarPagamento(carrinho.getValorTotal(), cartaoToken);
-        // if (!pagamentoAprovado) {
-        //     throw new RuntimeException("Pagamento recusado.");
-        // }
+        for (CarrinhoItem itemCarrinho : carrinho.getItens()) {
+            Produto produto = itemCarrinho.getProduto();
+            if (produto.getEstoque() < itemCarrinho.getQuantidade()) {
+                throw new RuntimeException("Estoque insuficiente para o produto: " + produto.getNome());
+            }
+        }
+
+        String orderId = "PEDIDO-" + clienteId + "-" + System.currentTimeMillis();
+
+        int amountInCents = (int) (carrinho.getValorTotal() * 100);
+        String paymentIntentId = trustPayService.criarPaymentIntent(
+                orderId,
+                amountInCents,
+                "BRL",
+                cliente.getNome(),
+                cliente.getEmail()
+        );
+
+        String cardNumber = cartao.getNumeroCartao();
+        String cardHolderName = cartao.getNomeCompleto();
+        String expirationMonth = cartao.getMesVenc();
+        String expirationYear = cartao.getAnoVenc();
+        String cpfTitular = cartao.getCpfTitular();
+        String cvv = cartao.getCvv();
+
+        boolean pagamentoAprovado = trustPayService.capturarPagamento(
+                paymentIntentId,
+                cardNumber,
+                cardHolderName,
+                expirationMonth,
+                expirationYear,
+                cvv
+        );
+        if (!pagamentoAprovado) {
+            throw new RuntimeException("Pagamento recusado pelo TrustPay.");
+        }
 
         Pedido novoPedido = new Pedido();
         novoPedido.setCliente(cliente);
         novoPedido.setEndereco(endereco);
         novoPedido.setDataPedido(LocalDateTime.now());
-        novoPedido.setStatus(StatusPedido.PROCESSANDO);
+        novoPedido.setStatus(StatusPedido.PAGAMENTO_PENDENTE);
         novoPedido.setValorTotal(carrinho.getValorTotal());
-
+        novoPedido.setPaymentIntentId(paymentIntentId);
+        novoPedido.setOrderId(orderId);
 
         List<PedidoItem> itensDoPedido = new ArrayList<>();
         for (CarrinhoItem itemCarrinho : carrinho.getItens()) {
             Produto produto = itemCarrinho.getProduto();
 
-            if (produto.getEstoque() < itemCarrinho.getQuantidade()) {
-                throw new RuntimeException("Estoque insuficiente para o produto: " + produto.getNome());
-            }
             produto.setEstoque(produto.getEstoque() - itemCarrinho.getQuantidade());
-
             produtoRepository.save(produto);
 
             PedidoItem itemPedido = new PedidoItem();
@@ -86,7 +124,6 @@ public class PedidoService {
         return pedidoSalvo;
     }
 
-
     public List<Pedido> listarTodosOrdenados() {
         return pedidoRepository.findAllByOrderByDataPedidoDesc();
     }
@@ -95,17 +132,20 @@ public class PedidoService {
         Pedido pedido = pedidoRepository.findById(pedidoId)
                 .orElseThrow(() -> new RuntimeException("Pedido não encontrado com id: " + pedidoId));
 
-
-         if (novoStatus == StatusPedido.PROCESSANDO && pedido.getStatus() == StatusPedido.ENVIADO) {
-         throw new RuntimeException("Não é possível voltar o status de ENVIADO para PROCESSANDO.");
-         }
+        if (novoStatus == StatusPedido.PROCESSANDO && pedido.getStatus() == StatusPedido.ENVIADO) {
+            throw new RuntimeException("Não é possível voltar o status de ENVIADO para PROCESSANDO.");
+        }
 
         pedido.setStatus(novoStatus);
         return pedidoRepository.save(pedido);
     }
 
-    public Optional<Pedido> findById(Long id) {
+    public java.util.Optional<Pedido> findById(Long id) {
         return pedidoRepository.findById(id);
+    }
+
+    public Optional<Pedido> findByOrderId(String orderId) {
+        return pedidoRepository.findByOrderId(orderId);
     }
 
     public List<Pedido> findByClienteId(Long clienteId) {

@@ -46,7 +46,8 @@ public class ClienteCartaoService {
             cartao.setNumeroCartao(cartaoAtualizado.getNumeroCartao());
             cartao.setCvv(cartaoAtualizado.getCvv());
             cartao.setCpfTitular(cartaoAtualizado.getCpfTitular());
-            cartao.setDataVenc(cartaoAtualizado.getDataVenc());
+            cartao.setAnoVenc(cartaoAtualizado.getAnoVenc());
+            cartao.setMesVenc(cartaoAtualizado.getMesVenc());
             cartao.setCliente(cartaoAtualizado.getCliente());
             return clienteCartaoRepository.save(cartao);
         }).orElseThrow(() -> new RuntimeException("Cartão não encontrado com ID: " + id));

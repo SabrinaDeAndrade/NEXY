@@ -1,6 +1,10 @@
 <div class="checkout-container">
   <h2>Finalizar Compra</h2>
 
+  <div *ngIf="etapa === 'carregando'" class="carregando">
+    <p>Processando... Aguarde.</p>
+  </div>
+
   <div *ngIf="etapa === 'endereco'">
     <h3>1. Endereço de Entrega</h3>
 
@@ -8,7 +12,7 @@
       <p>Selecione um endereço salvo:</p>
 
       <div *ngFor="let end of enderecosSalvos" class="endereco-salvo"
-        [class.selecionado]="end.id === enderecoSelecionadoId" (click)="enderecoSelecionadoId = end.id">
+     [class.selecionado]="end.id === enderecoSelecionadoId" (click)="selecionarEndereco(end)">
 
         <p><strong>{{end.rua}}, {{end.numero}}</strong> - {{end.bairro}}</p>
         <p>{{end.cidade}}, {{end.estado}} - CEP: {{end.cep}} - Complemento: {{end.complemento}}</p>
@@ -62,9 +66,9 @@
   <div *ngIf="cartoesSalvos.length > 0">
     <p>Selecione um cartão salvo:</p>
     
-    <div *ngFor="let cartao of cartoesSalvos" class="item-salvo"
-         [class.selecionado]="cartao.id === cartaoSelecionadoId"
-         (click)="cartaoSelecionadoId = cartao.id">
+   <div *ngFor="let cartao of cartoesSalvos" class="item-salvo"
+     [class.selecionado]="cartao.id === cartaoSelecionadoId"
+     (click)="selecionarCartao(cartao)">
       
       <div class="info-cartao">
         <span class="icone-cartao">💳</span>
@@ -94,8 +98,12 @@
         <input id="numeroCartao" formControlName="numeroCartao">
       </div>
       <div class="form-group">
-        <label for="dataVenc">Data de Vencimento (MM/AA)</label>
-        <input id="dataVenc" formControlName="dataVenc">
+        <label for="mesVenc">Mês de Vencimento (MM)</label>
+        <input id="mesVenc" formControlName="mesVenc">
+      </div>
+      <div class="form-group">
+        <label for="anoVenc">Ano de Vencimento (MMMM)</label>
+        <input id="anoVenc" formControlName="anoVenc">
       </div>
       <div class="form-group">
         <label for="cvv">CVV</label>

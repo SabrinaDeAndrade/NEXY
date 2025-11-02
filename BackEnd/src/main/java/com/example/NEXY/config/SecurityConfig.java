@@ -1,4 +1,5 @@
 package com.example.NEXY.config;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -12,6 +13,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.client.RestTemplate;
 
 @Configuration
 @EnableWebSecurity
@@ -41,6 +43,8 @@ public class SecurityConfig {
                         .requestMatchers("/uploads/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/BackEnd/categorias").permitAll()
                         .requestMatchers("/BackEnd/uploads").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/webhooks/trustpay").permitAll()
+
 
                         // --- Endpoints de ADMIN (exigem permissão de ADMIN) ---
                         .requestMatchers(HttpMethod.POST, "/auth/admin/register").hasRole("ADMIN")
@@ -67,6 +71,15 @@ public class SecurityConfig {
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
+    }
+
+    @Bean
+    public RestTemplate restTemplate() {
+        return new RestTemplate();
+    }
+    @Bean
+    public ObjectMapper objectMapper() {
+        return new ObjectMapper();
     }
 }
 
