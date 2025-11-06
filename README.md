@@ -110,6 +110,46 @@ Para mais informações sobre o Angular CLI e sua documentação completa de com
 
 —
 
+# Funcionalidades do Projeto
+
+## Área Pública (Cliente)
+
+A interface do cliente permite ao usuário navegar pela loja, gerenciar seu carrinho e finalizar compras.
+
+* **Autenticação:** O cliente pode se cadastrar, fazer login e logout.
+    ![Tela de Login](screenshots/login.PNG)
+
+* **Home Page:** Apresenta os "Produtos em Destaque" da loja.
+    ![Tela Home](screenshots/home.jpg)
+
+* **Catálogo de Produtos:** Exibe todos os produtos disponíveis em grades, com sistema de categorias na lateral.
+    ![Página de Produtos](screenshots/produtos.jpg)
+
+* **Carrinho de Compras:** O usuário pode adicionar produtos ao carrinho, ajustar a quantidade e ver o "Resumo do Pedido".
+    ![Carrinho de Compras](screenshots/carrinho.PNG)
+
+* **Páginas Estáticas:** Seções informativas como "Sobre nós", "Nossa Missão" e "Nossa Visão".
+    ![Página Sobre](screenshots/Sobre.jpg)
+
+* **Histórico de Pedidos:** O cliente pode acessar a página "Meus Pedidos" para consultar o histórico de suas compras.
+    ![Página Meus Pedidos](screenshots/meus%20pedidos.PNG) 
+    
+
+* **Checkout Multi-etapas:** Um fluxo de finalização de compra claro:
+    1.  **Endereço de Entrega:** O cliente seleciona um endereço salvo ou cadastra um novo.
+        ![Checkout - Endereço](screenshots/finalizar%20compra%20-%20endereco.PNG)
+    2.  **Método de Pagamento:** O cliente seleciona um cartão salvo ou adiciona um novo.
+        ![Checkout - Pagamento](screenshots/finalizar%20compra%20-%20metodo%20de%20pagamento.PNG)
+
+## Área Administrativa (Gerenciamento)
+
+O painel de gerenciamento é uma área restrita para os administradores da loja gerenciarem o conteúdo e as operações do e-commerce.
+
+* **Gerenciamento de Produtos (CRUD):** O administrador pode cadastrar, visualizar, editar e remover produtos do catálogo.
+    ![Painel de Gerenciamento de Produtos](screenshots/admin%20-%20gerenciamento.PNG)
+
+—
+
 # Progresso do Projeto
 
 ## Semana 1 
@@ -180,3 +220,4 @@ Para mais informações sobre o Angular CLI e sua documentação completa de com
 
 
 * Revisão geral do projeto para entrega final (Ruthe, Ana Clara e Jaine)
+
